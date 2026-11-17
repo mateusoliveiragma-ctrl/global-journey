@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 </head>
 <body>
 <header class="header" id="inicio">
@@ -22,9 +22,9 @@
     <a href="#minha-viagem" data-route="viagem">Minha viagem</a>
     <a href="#seguranca" data-route="home">Segurança</a>
     <a href="#destinos" data-route="home">Destinos</a>
-    <a href="#minha-conta" data-route="conta" id="nav-account">Minha conta</a>
+    
   </nav>
-  <button class="btn btn-small header-account" id="account-btn">Minha conta</button>
+  <button class="btn btn-small header-account" id="account-btn" type="button">Entrar</button><button class="btn btn-small outline" id="register-btn" type="button">Registre-se</button>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo noturno" title="Modo noturno">🌙</button>
 </header>
 
@@ -95,43 +95,9 @@
     <div class="dash-main">
       <div class="dash-head"><div><small>MINHA BAGAGEM</small><h3>Mala Global Journey</h3><span class="bag-id">ID: GJ-2026-001</span></div><b class="online-status">● ONLINE</b></div>
       <div class="dash-grid">
-        <div class="dash-map" aria-label="Mapa ilustrativo da localização atual do chip AirFind da bagagem">
+        <div class="dash-map" aria-label="Mapa geográfico real com localização demonstrativa do chip AirFind">
           <div class="map-header-badge"><span>📡 AIRFIND</span><strong>LOCALIZAÇÃO DO CHIP</strong></div>
-          <svg class="map-illustration" viewBox="0 0 900 520" role="img" aria-labelledby="map-title map-desc" preserveAspectRatio="xMidYMid slice">
-            <title id="map-title">Mapa ilustrativo da localização do AirFind</title>
-            <desc id="map-desc">Rota da bagagem entre aeroportos com marcador azul indicando a última localização do chip AirFind.</desc>
-            <rect x="0" y="0" width="900" height="520" rx="24" fill="#dff2f4"/>
-            <path d="M40 120 C190 50 300 160 410 95 S650 35 850 145" fill="none" stroke="#c2e2e5" stroke-width="36" stroke-linecap="round"/>
-            <path d="M70 420 C200 300 290 430 410 355 S650 255 860 360" fill="none" stroke="#c7e5e8" stroke-width="42" stroke-linecap="round"/>
-            <path d="M120 40 C250 175 250 290 150 475" fill="none" stroke="#c8e7ea" stroke-width="26" stroke-linecap="round"/>
-            <path d="M710 30 C610 145 610 265 760 500" fill="none" stroke="#c1e1e5" stroke-width="24" stroke-linecap="round"/>
-            <path d="M138 386 C258 315 345 210 455 255 S655 350 772 174" fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round"/>
-            <path d="M138 386 C258 315 345 210 455 255 S655 350 772 174" fill="none" stroke="#075fc8" stroke-width="5" stroke-dasharray="12 11" stroke-linecap="round"/>
-            <g class="map-node">
-              <circle cx="138" cy="386" r="18" fill="#fff" stroke="#075fc8" stroke-width="5"/><circle cx="138" cy="386" r="7" fill="#075fc8"/>
-              <text x="138" y="425" text-anchor="middle">ORIGEM</text>
-            </g>
-            <g class="map-airport" id="map-node-lisboa">
-              <circle cx="455" cy="255" r="16" fill="#fff" stroke="#6d9caf" stroke-width="4"/><circle cx="455" cy="255" r="6" fill="#6d9caf"/>
-              <text x="455" y="292" text-anchor="middle">LISBOA</text>
-            </g>
-            <g class="map-airport" id="map-node-madrid">
-              <circle cx="595" cy="318" r="16" fill="#fff" stroke="#6d9caf" stroke-width="4"/><circle cx="595" cy="318" r="6" fill="#6d9caf"/>
-              <text x="595" y="355" text-anchor="middle">MADRID</text>
-            </g>
-            <g class="map-airport" id="map-node-paris">
-              <circle cx="772" cy="174" r="16" fill="#fff" stroke="#6d9caf" stroke-width="4"/><circle cx="772" cy="174" r="6" fill="#6d9caf"/>
-              <text x="772" y="211" text-anchor="middle">PARIS</text>
-            </g>
-            <g id="map-chip-marker" class="map-chip-marker">
-              <circle cx="455" cy="255" r="38" fill="#075fc8" opacity=".17"/>
-              <circle cx="455" cy="255" r="24" fill="#075fc8" stroke="#fff" stroke-width="7"/>
-              <path d="M455 245 L463 259 L455 266 L447 259 Z" fill="#fff"/>
-              <text x="455" y="213" text-anchor="middle" id="map-marker-caption">AIRFIND</text>
-            </g>
-            <text x="62" y="72" class="map-watermark">MAPA DE RASTREAMENTO</text>
-            <text x="838" y="475" text-anchor="end" class="map-live">● RASTREIO ILUSTRATIVO · ONLINE</text>
-          </svg>
+          <div id="real-map" role="region" aria-label="Mapa geográfico real com localização demonstrativa do AirFind"></div><span class="map-demo-notice">Mapa real · localização e bateria do chip simuladas</span>
           <div class="map-label"><small>CHIP AIRFIND</small><strong id="map-location-name">Aeroporto de Lisboa</strong><span id="map-location-meta">📍 Última localização registrada · agora</span></div>
         </div>
         <div class="dash-info"><div><small>STATUS</small><strong id="bag-status">Em trânsito</strong></div><div><small>LOCALIZAÇÃO</small><strong id="bag-location">Aeroporto de Lisboa</strong></div><div><small>ATUALIZAÇÃO</small><strong id="bag-updated">Agora</strong></div><div><small>BATERIA DO CHIP</small><strong id="bag-battery">92%</strong></div><div><small>CONEXÃO</small><strong id="bag-connection">Estável</strong></div><button class="refresh-bag" id="refresh-bag">Atualizar localização</button></div>
@@ -145,16 +111,16 @@
       <span class="eyebrow">AIRFIND · CHIP INTELIGENTE</span>
       <h2>Mais controle para sua bagagem.</h2>
       <p>O AirFind acompanha sua mala e mostra a localização pelo celular. O chip é vendido separadamente e os planos ativam o rastreamento durante a viagem.</p>
-      <div class="airfind-price"><small>CHIP AIRFIND</small><strong>R$ 149,90</strong><span>pagamento único · chip físico</span></div>
+      <div class="airfind-price"><small>CHIP AIRFIND</small><strong>R$ 59,90</strong><span>pagamento único · chip físico</span></div>
       <div class="airfind-plans" id="airfind-plans" aria-label="Planos mensais do AirFind">
-        <article class="airfind-plan-card" data-plan="Essencial" data-price="19.90" tabindex="0" role="button" aria-pressed="false">
-          <span>ESSENCIAL · MENSAL</span><strong>R$ 19,90</strong><small>Rastreamento básico por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
+        <article class="airfind-plan-card" data-plan="Essencial" data-price="9.90" tabindex="0" role="button" aria-pressed="false">
+          <span>ESSENCIAL · MENSAL</span><strong>R$ 9,90</strong><small>Rastreamento básico por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
         </article>
-        <article class="airfind-plan-card featured" data-plan="Plus" data-price="29.90" tabindex="0" role="button" aria-pressed="false">
-          <em>MAIS COMPLETO</em><span>PLUS · MENSAL</span><strong>R$ 29,90</strong><small>Mais atualizações durante a viagem</small><button type="button" class="plan-select">Selecionar plano</button>
+        <article class="airfind-plan-card featured" data-plan="Plus" data-price="14.90" tabindex="0" role="button" aria-pressed="false">
+          <em>MAIS COMPLETO</em><span>PLUS · MENSAL</span><strong>R$ 14,90</strong><small>Mais atualizações durante a viagem</small><button type="button" class="plan-select">Selecionar plano</button>
         </article>
-        <article class="airfind-plan-card" data-plan="Premium" data-price="39.90" tabindex="0" role="button" aria-pressed="false">
-          <span>PREMIUM · MENSAL</span><strong>R$ 39,90</strong><small>Rastreamento completo por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
+        <article class="airfind-plan-card" data-plan="Premium" data-price="19.90" tabindex="0" role="button" aria-pressed="false">
+          <span>PREMIUM · MENSAL</span><strong>R$ 19,90</strong><small>Rastreamento completo por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
         </article>
       </div>
       <div class="airfind-selected" id="airfind-selected" aria-live="polite">
@@ -271,14 +237,14 @@
     <button class="modal-close" id="close-modal" aria-label="Fechar">×</button>
     <span class="eyebrow">MINHA CONTA</span>
     <h2>Acesse sua jornada</h2>
-    <p>Use uma conta de demonstração para explorar o Global Journey durante a apresentação.</p>
+    <p>Entre com sua conta ou cadastre-se gratuitamente.</p>
     <form id="login-form">
-      <label>Nome<input id="login-name" type="text" placeholder="Seu nome" required></label>
-      <label>E-mail<input id="login-email" type="email" placeholder="voce@email.com" required></label>
-      <label>Senha<input id="login-password" type="password" placeholder="••••••••" required></label>
-      <button class="btn" type="submit">Entrar na conta</button>
+      <label id="login-name-row" hidden>Nome<input id="login-name" type="text" placeholder="Seu nome" autocomplete="name"></label>
+      <label>E-mail<input id="login-email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+      <label>Senha<input id="login-password" type="password" minlength="8" autocomplete="current-password" placeholder="••••••••" required></label>
+      <button class="btn" id="auth-submit" type="submit">Entrar na conta</button>
     </form>
-    <small id="login-status" class="login-status"></small><small class="email-note">Ao entrar, o Global Journey envia uma mensagem de boas-vindas para o e-mail informado quando o envio estiver configurado.</small>
+    <small id="login-status" class="login-status" role="status" aria-live="polite"></small><button type="button" id="reset-password" class="auth-link">Esqueci minha senha</button>
   </div>
 </div>
 
@@ -298,6 +264,6 @@
   <div class="social"><a href="#">◎</a><a href="#">in</a><a href="#">f</a></div>
   <div class="copyright">© 2026 Global Journey. Todos os direitos reservados.</div>
 </footer>
-<script src="script.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="supabase-config.js"></script><script src="script.js"></script><script src="auth.js"></script>
 </body>
 </html>
