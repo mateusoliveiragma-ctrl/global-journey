@@ -145,14 +145,35 @@
       <button class="btn" id="plan-trip" type="button">Montar minha viagem</button>
     </div>
     <div class="trip-summary" id="trip-summary"><small>ESTIMATIVA INICIAL</small><strong>Paris</strong><span>Passagem ida e volta estimada: <b>R$ 4.890 por viajante</b>. Selecione as datas e um hotel para calcular o total.</span></div>
-<div class="recommended-company-box" id="trip-company-box">
+<div class="recommended-company-box" id="trip-company-box" hidden>
   <div><span class="eyebrow">COMPANHIA PARA SUA VIAGEM</span><h3 id="trip-company-name">Air France</h3><p id="trip-company-reason">Sugestão demonstrativa baseada no destino selecionado.</p></div>
   <button type="button" class="btn btn-small" id="select-company">Selecionar empresa</button>
 </div>
   </div>
 
+  <section class="journey-result" id="journey-result" hidden aria-live="polite">
+    <div class="journey-result-header">
+      <div><span class="eyebrow">SEU ROTEIRO GLOBAL JOURNEY</span><h3 id="journey-title">Sua jornada personalizada</h3><p id="journey-dates">Escolha sua viagem para ver o roteiro.</p></div>
+      <span class="journey-demo-tag">Planejamento demonstrativo · sem reservas</span>
+    </div>
+    <div class="journey-steps">
+      <article><span>01</span><div><strong>Antes de embarcar</strong><p>Confira documentos, bagagem, horário e terminal diretamente com a companhia aérea.</p></div></article>
+      <article><span>02</span><div><strong>Embarque e voo</strong><p>Veja abaixo as etapas de aeroporto e a companhia brasileira sugerida para pesquisar passagens.</p></div></article>
+      <article><span>03</span><div><strong>Chegada e transporte</strong><p>Consulte Uber ou 99, conforme a disponibilidade no destino.</p></div></article>
+      <article><span>04</span><div><strong>Bagagem com AirFind</strong><p>Conheça o chip opcional de R$ 59,90 e os planos de rastreamento demonstrativo.</p><a class="journey-chip-link" href="#bagagem" data-route="bagagem" id="journey-airfind-link">Conhecer AirFind →</a></div></article>
+    </div>
+    <div class="journey-hotel-choice">
+      <div><span class="eyebrow">HOSPEDAGEM OPCIONAL</span><h3>Deseja incluir hospedagem?</h3><p>Você pode comparar hotéis sugeridos ou seguir sem hotel. Os valores são estimativas ilustrativas, não ofertas disponíveis para reserva.</p></div>
+      <div class="journey-hotel-actions">
+        <button class="btn btn-small" id="show-hotels" type="button">Ver hotéis sugeridos</button>
+        <button class="btn btn-small outline" id="skip-hotels" type="button">Continuar sem hotel</button>
+      </div>
+      <p id="hotel-choice-status" class="hotel-choice-status" role="status"></p>
+    </div>
+  </section>
+  <div id="journey-details" hidden>
   <div class="trip-columns">
-    <div class="trip-panel reveal">
+    <div class="trip-panel reveal" id="hotel-panel" hidden>
       <div class="panel-title"><div><span class="eyebrow">HOSPEDAGEM</span><h3>Hotéis sugeridos</h3></div><span class="panel-note">Opções para demonstração</span></div>
       <div class="hotel-list" id="hotel-list"></div>
     </div>
