@@ -396,3 +396,21 @@ body.dark-mode .nav a.nav-active{color:#7ec4ff;border-color:#7ec4ff}
 .header-auth-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .header-auth-actions .btn{width:112px;min-width:112px;height:42px;min-height:42px;padding:0 8px;font-size:12px;line-height:1.2;text-align:center;white-space:nowrap;box-sizing:border-box}
 @media(max-width:700px){.header-auth-actions .btn{width:90px;min-width:90px;height:38px;min-height:38px;padding:0 4px;font-size:10px}}
+
+/* Bagagem: dashboard sem barra lateral; evita coluna fantasma de 210px no desktop */
+#rastreamento .dashboard{display:block!important;width:100%;max-width:1100px}
+#rastreamento .dash-main{display:block!important;width:100%!important;min-width:0!important}
+#rastreamento .dash-grid{display:grid!important;grid-template-columns:minmax(0,1fr) 220px!important;gap:20px!important;width:100%!important;align-items:stretch}
+#rastreamento .dash-map{display:block!important;position:relative!important;width:100%!important;min-width:0!important;height:360px!important;min-height:360px!important;overflow:hidden!important}
+#rastreamento #real-map{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:360px!important;z-index:1!important}
+#rastreamento .dash-info{min-width:0!important;width:100%!important}
+#rastreamento .map-header-badge,#rastreamento .map-label{z-index:500!important}
+#rastreamento .map-demo-notice{z-index:500!important}
+#rastreamento .leaflet-container{background:#dcebf0}
+#rastreamento .map-unavailable{display:flex!important;align-items:center;justify-content:center;text-align:center;padding:25px;font-size:14px;color:#17445b}
+@media(max-width:760px){
+  #rastreamento .dash-grid{grid-template-columns:minmax(0,1fr)!important}
+  #rastreamento .dash-map,#rastreamento #real-map{height:300px!important;min-height:300px!important}
+  #rastreamento .dash-info{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:430px){#rastreamento .dash-info{grid-template-columns:minmax(0,1fr)!important}}
