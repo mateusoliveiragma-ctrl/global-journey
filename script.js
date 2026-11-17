@@ -88,18 +88,43 @@ loginModal?.addEventListener("click", e => { if(e.target === loginModal) hideMod
 
 const demoCoordinates = [[38.7742,-9.1342],[40.4936,-3.5668],[49.0097,2.5479]];
 let realMap, demoMarker;
+let currentDemoLocation = 'Aeroporto de Lisboa';
+let currentDemoIndex = 0;
 function updateBagMap(location, stateIndex) {
+  currentDemoLocation = location;
+  currentDemoIndex = stateIndex;
   if (mapLocationName) mapLocationName.textContent = location;
   if (mapLocationMeta) mapLocationMeta.textContent = '📍 Localização simulada · não é rastreamento real';
   const coordinates = demoCoordinates[stateIndex] || demoCoordinates[0];
-  if (realMap && demoMarker) { demoMarker.setLatLng(coordinates).bindPopup('AirFind — localização demonstrativa: ' + location); realMap.flyTo(coordinates, 10); }
+  if (realMap && demoMarker) {
+    demoMarker.setLatLng(coordinates).bindPopup('AirFind — localização demonstrativa: ' + location);
+    realMap.setView(coordinates, 10);
+  }
 }
-if (window.L && document.querySelector('#real-map')) {
-  realMap = L.map('real-map', {scrollWheelZoom:false}).setView(demoCoordinates[0], 10);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:19}).addTo(realMap);
-  demoMarker = L.marker(demoCoordinates[0]).addTo(realMap).bindPopup('AirFind — localização demonstrativa');
+function ensureBagMap() {
+  const el = document.getElementById('real-map');
+  if (!el || !el.getClientRects().length || !el.clientWidth || !el.clientHeight) return;
+  if (!window.L) {
+    el.textContent = 'Não foi possível carregar o mapa. Verifique sua conexão e atualize a página.';
+    el.classList.add('map-unavailable');
+    return;
+  }
+  if (!realMap) {
+    el.textContent = '';
+    el.classList.remove('map-unavailable');
+    realMap = L.map(el, {scrollWheelZoom:false}).setView(demoCoordinates[currentDemoIndex], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom:19
+    }).addTo(realMap);
+    demoMarker = L.marker(demoCoordinates[currentDemoIndex]).addTo(realMap);
+    updateBagMap(currentDemoLocation, currentDemoIndex);
+  }
+  realMap.invalidateSize({pan:false});
 }
 updateBagMap('Aeroporto de Lisboa', 0);
+window.addEventListener('resize', () => { if (realMap) realMap.invalidateSize({pan:false}); });
+
 
 refreshBag?.addEventListener('click', () => {
   const states = [
@@ -490,7 +515,7 @@ function showRoute(route = 'home', targetId = '') {
   }
   history.replaceState({route:valid}, '', valid === 'home' ? '#inicio' : `#${valid}`);
   document.querySelectorAll('.nav a[data-route]').forEach(a => { const active = a.dataset.route === valid && (valid !== 'home' || a.getAttribute('href') === '#' + (targetId || 'inicio')); a.classList.toggle('nav-active', active); if(active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  if(realMap && valid === 'bagagem') setTimeout(()=>realMap.invalidateSize(),150);
+  if (valid === 'bagagem') { requestAnimationFrame(ensureBagMap); setTimeout(ensureBagMap, 180); setTimeout(ensureBagMap, 600); }
 }
 
 function routeFromHash(){
