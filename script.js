@@ -126,12 +126,12 @@ notificationBox?.addEventListener('click', () => {
 
 
 const companyByDestination = {
-  Paris: { name:'Air France', reason:'Companhia francesa com ampla conectividade para Paris.' },
-  'Nova York': { name:'American Airlines', reason:'Opção demonstrativa para conexões com Nova York.' },
-  Londres: { name:'British Airways', reason:'Companhia britânica com forte presença em Londres.' },
-  Tóquio: { name:'Japan Airlines', reason:'Companhia japonesa para uma viagem com destino a Tóquio.' },
-  Dubai: { name:'Emirates', reason:'Companhia sediada em Dubai, adequada ao destino selecionado.' },
-  Roma: { name:'ITA Airways', reason:'Companhia italiana com conexão para Roma.' }
+  Paris: { name:'LATAM Airlines Brasil', reason:'Companhia brasileira para pesquisar alternativas de viagem a Paris; confira escalas e disponibilidade.' },
+  'Nova York': { name:'LATAM Airlines Brasil', reason:'Companhia brasileira para consultar opções de viagem a Nova York; rotas e conexões variam.' },
+  Londres: { name:'LATAM Airlines Brasil', reason:'Companhia brasileira para pesquisar passagens para Londres; confirme a operação da rota.' },
+  Tóquio: { name:'LATAM Airlines Brasil', reason:'Consulte itinerários internacionais com conexões ou parceiras; não há garantia de voo direto.' },
+  Dubai: { name:'GOL Linhas Aéreas', reason:'Pesquise possíveis itinerários com conexões ou parceiras; a GOL não opera necessariamente esse trecho.' },
+  Roma: { name:'Azul Linhas Aéreas', reason:'Pesquise alternativas com conexões ou parceiras; confirme rotas e disponibilidade antes de comprar.' }
 };
 
 function getCompanyHistory(){
