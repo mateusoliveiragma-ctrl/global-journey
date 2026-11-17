@@ -391,3 +391,8 @@ body.dark-mode .nav a.nav-active{color:#7ec4ff;border-color:#7ec4ff}
 .header-auth-actions .btn{margin:0;flex:0 0 auto}
 @media(max-width:1100px){.header{gap:12px;padding-left:3%;padding-right:3%}.nav{gap:12px}.header-auth-actions{gap:7px}}
 @media(max-width:700px){.header-auth-actions{gap:5px}.header-auth-actions .btn{font-size:10px;padding:9px 8px}}
+
+/* Ações de autenticação com dimensões iguais em todos os tamanhos */
+.header-auth-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.header-auth-actions .btn{width:112px;min-width:112px;height:42px;min-height:42px;padding:0 8px;font-size:12px;line-height:1.2;text-align:center;white-space:nowrap;box-sizing:border-box}
+@media(max-width:700px){.header-auth-actions .btn{width:90px;min-width:90px;height:38px;min-height:38px;padding:0 4px;font-size:10px}}
