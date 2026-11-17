@@ -309,6 +309,37 @@ const hotelList = document.querySelector('#hotel-list');
 const airportName = document.querySelector('#airport-name');
 const airportRoute = document.querySelector('#airport-route');
 const airportTip = document.querySelector('#airport-tip');
+const journeyResult = document.querySelector('#journey-result');
+const journeyDetails = document.querySelector('#journey-details');
+const hotelPanel = document.querySelector('#hotel-panel');
+const showHotels = document.querySelector('#show-hotels');
+const skipHotels = document.querySelector('#skip-hotels');
+const hotelChoiceStatus = document.querySelector('#hotel-choice-status');
+const tripCompanyBox = document.querySelector('#trip-company-box');
+let journeyPlanned = false;
+function clearHotelSelection() {
+  hotelList?.querySelectorAll('.hotel-button.selected').forEach(button => {
+    button.classList.remove('selected');
+    button.textContent = 'Selecionar';
+  });
+}
+function setHotelChoice(show) {
+  if (!journeyPlanned) return;
+  if (hotelPanel) hotelPanel.hidden = !show;
+  if (!show) clearHotelSelection();
+  if (hotelChoiceStatus) hotelChoiceStatus.textContent = show
+    ? 'Escolha um hotel sugerido abaixo, ou continue sem selecionar.'
+    : 'Sem hospedagem selecionada. Seu roteiro continua normalmente.';
+  refreshSelectedHotelTotal();
+  if (show) hotelPanel?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showHotels?.addEventListener('click', () => setHotelChoice(true));
+skipHotels?.addEventListener('click', () => setHotelChoice(false));
+document.querySelector('#journey-airfind-link')?.addEventListener('click', e => {
+  e.preventDefault();
+  showRoute('bagagem');
+  document.querySelector('.airfind-product')?.scrollIntoView({behavior:'smooth',block:'start'});
+});
 
 function renderTrip(destination) {
   const data = tripData[destination];
@@ -367,7 +398,7 @@ function renderTripSummary({mode='initial', destination='Paris', flightTotal=0, 
         <div><small>PASSAGEM · IDA E VOLTA</small><strong>${formatCurrency(flightPrice)}</strong></div>
         <span>por viajante</span>
       </div>
-      <span>Total das passagens para ${travelerCount} viajante${travelerCount === 1 ? '' : 's'}: <b>${formatCurrency(flightTotal || flightPrice * travelerCount)}</b>. Selecione um hotel para calcular o total.</span>`;
+      <span>Total das passagens para ${travelerCount} viajante${travelerCount === 1 ? '' : 's'}: <b>${formatCurrency(flightTotal || flightPrice * travelerCount)}</b>. Hospedagem opcional: veja sugestões após montar sua viagem.</span>`;
     return;
   }
   const total = flightTotal + hotelTotal;
@@ -407,6 +438,11 @@ function formatDate(value) {
 tripDestination?.addEventListener('change', () => {
   const destination = tripDestination.value;
   renderTrip(destination);
+  journeyPlanned = false;
+  if (journeyResult) journeyResult.hidden = true;
+  if (journeyDetails) journeyDetails.hidden = true;
+  if (tripCompanyBox) tripCompanyBox.hidden = true;
+  if (hotelPanel) hotelPanel.hidden = true;
   updateRecommendedCompany(destination);
   const data = tripData[destination];
   const travelersCount = Number((tripTravelers?.value || '1').match(/\d+/)?.[0] || 1);
@@ -415,17 +451,32 @@ tripDestination?.addEventListener('change', () => {
 planTrip?.addEventListener('click', () => {
   const destination = tripDestination?.value || 'Paris';
   const travelers = tripTravelers?.value || '1 viajante';
+  if (!tripStart?.value || !tripEnd?.value || tripEnd.value <= tripStart.value) {
+    alert('Selecione datas válidas: a volta precisa ser depois da ida.');
+    return;
+  }
   renderTrip(destination);
+  journeyPlanned = true;
+  if (journeyResult) journeyResult.hidden = false;
+  if (journeyDetails) journeyDetails.hidden = false;
+  if (tripCompanyBox) tripCompanyBox.hidden = false;
+  if (hotelPanel) hotelPanel.hidden = true;
+  if (hotelChoiceStatus) hotelChoiceStatus.textContent = 'A hospedagem é opcional. Escolha uma das opções acima.';
+  const title = document.querySelector('#journey-title');
+  const dates = document.querySelector('#journey-dates');
+  if (title) title.textContent = 'Sua viagem para ' + destination;
+  if (dates) dates.textContent = formatDate(tripStart.value) + ' → ' + formatDate(tripEnd.value) + ' · ' + travelers;
   if (tripSummary) {
     const data = tripData[destination];
     const travelersCount = Number(travelers.match(/\d+/)?.[0] || 1);
     const flightTotal = data.flightPrice * travelersCount;
     const nights = getTripNights();
     renderTripSummary({mode:'trip', destination, flightTotal, travelerCount:travelersCount});
-    tripSummary.querySelector('span:last-child')?.insertAdjacentHTML('beforeend', ` · ${formatDate(tripStart?.value)} → ${formatDate(tripEnd?.value)} · Hotel calculado após selecionar uma opção.`);
+    tripSummary.querySelector('span:last-child')?.insertAdjacentHTML('beforeend', ` · ${formatDate(tripStart?.value)} → ${formatDate(tripEnd?.value)} · Hospedagem opcional.`);
   }
   localStorage.setItem('gj_trip', JSON.stringify({ destination, start: tripStart?.value || '', end: tripEnd?.value || '', travelers }));
   updateRecommendedCompany(destination);
+  journeyResult?.scrollIntoView({behavior:'smooth',block:'start'});
 });
 tripStart?.addEventListener('change', refreshSelectedHotelTotal);
 tripEnd?.addEventListener('change', refreshSelectedHotelTotal);
@@ -596,7 +647,7 @@ const originalPlanTrip = planTrip;
 planTrip?.addEventListener('click', () => {
   setTimeout(() => {
     const saved = localStorage.getItem('gj_trip');
-    if (!saved) return;
+    if (!saved || !journeyPlanned) return;
     try {
       const trip = JSON.parse(saved);
       const hotel = document.querySelector('.hotel-button.selected')?.dataset.hotel || '';
