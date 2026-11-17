@@ -81,50 +81,24 @@ document.querySelectorAll('.reveal').forEach(e => observer.observe(e));
 function showModal(modal) { modal?.classList.add('show'); document.body.classList.add('modal-open'); }
 function hideModal(modal) { modal?.classList.remove('show'); if (!document.querySelector('.modal.show')) document.body.classList.remove('modal-open'); }
 
-accountBtn?.addEventListener('click', () => {
-  const saved = localStorage.getItem('gj_user');
-  if (saved) {
-    const user = JSON.parse(saved);
-    if (userName) userName.textContent = user.name;
-    accountPanel?.classList.add('logged');
-  }
-  showModal(loginModal);
-});
-closeModal?.addEventListener('click', () => hideModal(loginModal));
-loginModal?.addEventListener('click', e => { if (e.target === loginModal) hideModal(loginModal); });
+closeModal?.addEventListener("click", () => hideModal(loginModal));
+loginModal?.addEventListener("click", e => { if(e.target === loginModal) hideModal(loginModal); });
 
-loginForm?.addEventListener('submit', e => {
-  e.preventDefault();
-  const name = document.querySelector('#login-name').value.trim() || 'Viajante';
-  const email = document.querySelector('#login-email').value.trim();
-  if (!email) return;
-  const user = { name, email, lastLogin: new Date().toISOString() };
-  localStorage.setItem('gj_user', JSON.stringify(user));
-  if (userName) userName.textContent = name;
-  if (accountPanel) accountPanel.classList.add('logged');
-  updateProfile(user);
-  loginStatus.textContent = `Olá, ${name}! Sua conta de demonstração está ativa.`;
-  sendWelcomeEmail(user);
-  setTimeout(() => hideModal(loginModal), 900);
-});
+// A autenticação real é gerenciada em auth.js.
 
-logoutBtn?.addEventListener('click', () => {
-  localStorage.removeItem('gj_user');
-  accountPanel?.classList.remove('logged');
-  if (accountNameCard) accountNameCard.textContent = 'Viajante';
-  if (accountEmailCard) accountEmailCard.textContent = 'Faça login para visualizar seus dados.';
-  loginStatus.textContent = 'Você saiu da conta.';
-});
-
+const demoCoordinates = [[38.7742,-9.1342],[40.4936,-3.5668],[49.0097,2.5479]];
+let realMap, demoMarker;
 function updateBagMap(location, stateIndex) {
   if (mapLocationName) mapLocationName.textContent = location;
-  if (mapLocationMeta) mapLocationMeta.textContent = '📍 Última localização registrada · agora';
-  if (mapChipMarker) {
-    const transforms = ['translate(0 0)', 'translate(140 63)', 'translate(317 -81)'];
-    mapChipMarker.setAttribute('transform', transforms[stateIndex] || transforms[0]);
-  }
+  if (mapLocationMeta) mapLocationMeta.textContent = '📍 Localização simulada · não é rastreamento real';
+  const coordinates = demoCoordinates[stateIndex] || demoCoordinates[0];
+  if (realMap && demoMarker) { demoMarker.setLatLng(coordinates).bindPopup('AirFind — localização demonstrativa: ' + location); realMap.flyTo(coordinates, 10); }
 }
-
+if (window.L && document.querySelector('#real-map')) {
+  realMap = L.map('real-map', {scrollWheelZoom:false}).setView(demoCoordinates[0], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:19}).addTo(realMap);
+  demoMarker = L.marker(demoCoordinates[0]).addTo(realMap).bindPopup('AirFind — localização demonstrativa');
+}
 updateBagMap('Aeroporto de Lisboa', 0);
 
 refreshBag?.addEventListener('click', () => {
@@ -141,7 +115,7 @@ refreshBag?.addEventListener('click', () => {
   if (bagUpdated) bagUpdated.textContent = state[2];
   if (bagBattery) bagBattery.textContent = state[3];
   if (bagConnection) bagConnection.textContent = state[4];
-  refreshBag.textContent = '✓ Atualizado';
+  refreshBag.textContent = '✓ Simulação atualizada';
   setTimeout(() => refreshBag.textContent = 'Atualizar localização', 1500);
 });
 
@@ -486,11 +460,8 @@ if (savedTrip) {
 renderTrip(tripDestination?.value || 'Paris');
 if (tripDestination) { const initialDestination = tripDestination.value || 'Paris'; const initialData = tripData[initialDestination]; const initialTravelers = Number((tripTravelers?.value || '1').match(/\d+/)?.[0] || 1); renderTripSummary({mode:'initial', destination:initialDestination, flightTotal:initialData.flightPrice * initialTravelers, travelerCount:initialTravelers}); }
 
-const initialUser = localStorage.getItem('gj_user');
-if (initialUser) { try { updateProfile(JSON.parse(initialUser)); } catch (_) {} } else {
-  if (accountNameCard) accountNameCard.textContent = 'Viajante';
-  if (accountEmailCard) accountEmailCard.textContent = 'Faça login para visualizar seus dados.';
-}
+if (accountNameCard) accountNameCard.textContent = 'Viajante';
+if (accountEmailCard) accountEmailCard.textContent = 'Faça login para visualizar seus dados.';
 updateRecommendedCompany(tripDestination?.value || 'Paris');
 renderCompanyProfile();
 
@@ -518,6 +489,8 @@ function showRoute(route = 'home', targetId = '') {
     window.scrollTo({top:0, behavior:'smooth'});
   }
   history.replaceState({route:valid}, '', valid === 'home' ? '#inicio' : `#${valid}`);
+  document.querySelectorAll('.nav a[data-route]').forEach(a => { const active = a.dataset.route === valid && (valid !== 'home' || a.getAttribute('href') === '#' + (targetId || 'inicio')); a.classList.toggle('nav-active', active); if(active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  if(realMap && valid === 'bagagem') setTimeout(()=>realMap.invalidateSize(),150);
 }
 
 function routeFromHash(){
@@ -549,37 +522,7 @@ document.querySelectorAll('a[href="#rastreamento"]').forEach(a => a.addEventList
 document.querySelectorAll('a[href="#minha-viagem"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); showRoute('viagem'); }));
 document.querySelectorAll('a[href="#minha-conta"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); showRoute('conta'); }));
 
-// Ao entrar, o canto superior passa a identificar o usuário.
-function refreshHeaderAccount(){
-  const saved = localStorage.getItem('gj_user');
-  const btn = document.querySelector('#account-btn');
-  const navAccount = document.querySelector('#nav-account');
-  if (!btn) return;
-  if (saved) {
-    try {
-      const user = JSON.parse(saved);
-      btn.textContent = `Olá, ${user.name.split(' ')[0]}`;
-      btn.classList.add('logged-in');
-      navAccount.textContent = 'Minha conta';
-    } catch (_) {}
-  } else {
-    btn.textContent = 'Minha conta';
-    btn.classList.remove('logged-in');
-  }
-}
-
-accountBtn?.addEventListener('click', e => {
-  e.preventDefault();
-  if (localStorage.getItem('gj_user')) showRoute('conta');
-  else showModal(loginModal);
-});
-
-// Conta aberta pelo menu exige login; depois do login a página é exibida.
-document.querySelector('#nav-account')?.addEventListener('click', e => {
-  e.preventDefault();
-  if (localStorage.getItem('gj_user')) showRoute('conta');
-  else showModal(loginModal);
-});
+// O cabeçalho e o acesso à conta são controlados em auth.js.
 
 // Viagens: futuras e passadas, com avaliação/reclamação na versão de demonstração.
 function getTripHistory(){
@@ -637,7 +580,7 @@ planTrip?.addEventListener('click', () => {
   }, 50);
 });
 
-refreshHeaderAccount();
+
 renderSavedTrips();
 
 // A URL de cada aba pode ser compartilhada e abre diretamente na área correspondente.
