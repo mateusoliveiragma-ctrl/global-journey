@@ -68,7 +68,7 @@ function goHome(e) {
 document.querySelector('.brand')?.addEventListener('click', goHome);
 document.querySelector('.nav a[href="#inicio"]')?.addEventListener('click', goHome);
 document.querySelector('.footer-brand')?.addEventListener('click', goHome);
-accountSectionBtn?.addEventListener('click', () => showModal(loginModal));
+// Botão de conta controlado exclusivamente por auth.js.
 
 document.querySelectorAll('.reveal').forEach(el => {
   if (!('IntersectionObserver' in window)) { el.classList.add('visible'); return; }
