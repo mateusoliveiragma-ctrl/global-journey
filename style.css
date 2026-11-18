@@ -713,3 +713,26 @@ body.dark-mode .hero .tracking-float .online{color:#075fc8}
 body:not(.dark-mode) .hero .tracking-float{background:#fff}
 body:not(.dark-mode) .hero .tracking-float b{color:#092238!important}
 @media(max-width:980px){body:not(.dark-mode) .hero .tracking-float b{color:#092238!important}}
+
+/* Referência: cantos arredondados inclusive no topo esquerdo da foto.
+   A moldura inclina, mas foto e cartão AirFind permanecem retos. */
+@media(min-width:981px){
+  .hero-image{
+    clip-path:none!important;
+    transform:skewX(-5deg)!important;
+    transform-origin:center;
+    border-radius:34px!important;
+    overflow:hidden!important;
+    margin-left:24px;
+  }
+  .hero-photo{
+    inset:-7% -9%!important;
+    transform:skewX(5deg) scale(1.04)!important;
+    background-position:center center!important;
+  }
+  .hero .tracking-float{
+    transform:skewX(5deg)!important;
+    right:25px;
+    bottom:25px;
+  }
+}
