@@ -796,3 +796,15 @@ body.dark-mode .airfind-billing{background:#193a51;border-color:#355d78;color:#f
 .airfind-billing>strong{display:block;margin-bottom:2px}
 .airfind-billing>label{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;width:100%;margin:0!important;line-height:1.45}
 .airfind-billing>label input[type="radio"]{margin:0!important;flex:0 0 auto}
+
+/* Ação de saída ao final de Minha conta */
+.account-signout[hidden]{display:none!important}
+.account-signout{margin-top:26px;padding:24px 28px;border:1px solid #dce8ef;background:#fff;border-radius:18px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.account-signout strong{display:block;font-size:16px;color:#092238}
+.account-signout p{font-size:13px;color:#687e90;margin-top:5px}
+.account-signout .btn{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;cursor:pointer}
+.account-signout .btn svg{width:17px;height:17px}
+body.dark-mode .account-signout{background:#142b3f;border-color:#35536c}
+body.dark-mode .account-signout strong{color:#f1f7ff}
+body.dark-mode .account-signout p{color:#c3d5e4}
+@media(max-width:600px){.account-signout{flex-direction:column;align-items:stretch;padding:20px}.account-signout .btn{width:100%}}
