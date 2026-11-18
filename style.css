@@ -444,3 +444,14 @@ body.dark-mode .journey-hotel-choice{background:#173d36;border-color:#396a58}
 #login-modal[hidden]{display:none!important}
 body.dark-mode .pitch-note{background:#14364a;color:#d5ecfa;border-color:#2d566c}
 @media(max-width:760px){.pitch-note{font-size:10px;border-radius:12px}.header-auth-actions .pitch-header-action{width:96px;min-width:96px;min-height:38px;padding:0 5px;font-size:10px}}
+
+/* Conta ilustrativa do pitch */
+.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:112px;min-width:112px;min-height:42px;text-align:center}
+.header-auth-actions #register-btn[hidden],#login-name-row[hidden]{display:none!important}
+.demo-auth-disclaimer{margin:10px 0 16px;padding:10px 12px;background:#edf6ff;border:1px solid #d4e6f5;border-radius:10px;font-size:12px;color:#285576}
+.account-chip-demo{display:flex;align-items:center;gap:18px;padding:24px;margin:22px 0;border:1px solid #cfe4ef;border-radius:18px;background:linear-gradient(110deg,#eaf6ff,#f7fcff)}
+.account-chip-icon{font-size:34px}.account-chip-demo>div:nth-child(2){flex:1;min-width:0}
+.account-chip-demo h3{font-size:21px;margin:3px 0 6px}.account-chip-demo p{font-size:13px;color:#365d74}.account-chip-demo small{font-size:11px;color:#658395}
+body.dark-mode .account-chip-demo{background:#14344b;border-color:#2d586c}
+body.dark-mode .demo-auth-disclaimer{background:#17354b;color:#d4e8f6;border-color:#315a72}
+@media(max-width:760px){.account-chip-demo{flex-direction:column;align-items:flex-start}.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:96px;min-width:96px;min-height:38px}}
