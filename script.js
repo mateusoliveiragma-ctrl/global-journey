@@ -458,6 +458,8 @@ tripDestination?.addEventListener('change', () => {
   if (journeyResult) journeyResult.hidden = true;
   if (journeyDetails) journeyDetails.hidden = true;
   if (tripCompanyBox) tripCompanyBox.hidden = true;
+  const tripCheckoutFooter = document.querySelector('#trip-checkout-footer');
+  if (tripCheckoutFooter) tripCheckoutFooter.hidden = true;
   if (hotelPanel) hotelPanel.hidden = true;
   updateRecommendedCompany(destination);
   const data = tripData[destination];
@@ -479,6 +481,8 @@ planTrip?.addEventListener('click', () => {
   if (journeyResult) journeyResult.hidden = false;
   if (journeyDetails) journeyDetails.hidden = false;
   if (tripCompanyBox) tripCompanyBox.hidden = false;
+  const tripCheckoutFooter = document.querySelector('#trip-checkout-footer');
+  if (tripCheckoutFooter) tripCheckoutFooter.hidden = false;
   if (hotelPanel) hotelPanel.hidden = true;
   if (hotelChoiceStatus) hotelChoiceStatus.textContent = 'A hospedagem é opcional. Escolha uma das opções acima.';
   const title = document.querySelector('#journey-title');
@@ -525,11 +529,18 @@ function selectAirfindPlan(card){
     if (button) button.textContent = active ? '✓ Plano selecionado' : 'Selecionar plano';
   });
   selectedAirfindPlan = { name: card.dataset.plan, price: Number(card.dataset.price) };
-  airfindSelected.innerHTML = `<div><small>PLANO SELECIONADO</small><strong>AirFind ${selectedAirfindPlan.name}</strong></div><span><b>${formatCurrency(selectedAirfindPlan.price)}/mês</b> · valor demonstrativo</span>`;
+  updateAirfindBilling();
   const checkoutButton = document.querySelector('#airfind-checkout');
   if (checkoutButton) checkoutButton.disabled = false;
 }
 
+function updateAirfindBilling(){
+  if(!selectedAirfindPlan || !airfindSelected) return;
+  const annual = document.querySelector('input[name="airfind-billing"]:checked')?.value === 'annual';
+  const price = annual ? selectedAirfindPlan.price * 10 : selectedAirfindPlan.price;
+  airfindSelected.innerHTML = `<div><small>PLANO SELECIONADO</small><strong>AirFind ${selectedAirfindPlan.name}</strong></div><span><b>${formatCurrency(price)}</b> / ${annual ? 'ano (12 meses)' : 'mês'} · valor demonstrativo</span>`;
+}
+document.querySelectorAll('input[name="airfind-billing"]').forEach(input=>input.addEventListener('change',updateAirfindBilling));
 airfindPlans.forEach(card => {
   card.addEventListener('click', (event) => {
     if (event.target.closest('.plan-select')) event.preventDefault();
@@ -702,67 +713,28 @@ showRoute(firstRoute);
 // Renderiza ícones vetoriais somente quando a biblioteca estiver disponível.
 window.lucide?.createIcons();
 
-/* Checkout ilustrativo: sem gateway, sem cobrança e sem coleta de dados de cartão. */
+
+/* Encaminhamento para página própria de pagamento demonstrativo. */
 (() => {
-  const overlay = document.querySelector('#checkout-overlay');
-  const items = document.querySelector('#checkout-items');
-  const totalNode = document.querySelector('#checkout-total');
-  const feedback = document.querySelector('#checkout-feedback');
-  const methodNote = document.querySelector('#checkout-method-note');
-  const close = document.querySelector('#checkout-close');
-  let previousFocus = null;
-  function addItem(label, amount, details='') {
-    return '<div class="checkout-line"><div><strong>'+label+'</strong>'+(details?'<small>'+details+'</small>':'')+'</div><b>'+formatCurrency(amount)+'</b></div>';
-  }
-  function openCheckout(mode) {
-    if (!overlay || !items || !totalNode) return;
-    let sum = 0, html = '';
-    if (mode === 'trip') {
-      if (!journeyPlanned) { alert('Monte sua viagem e selecione as datas antes de continuar.'); return; }
-      const destination = tripDestination.value;
-      const travelers = Number((tripTravelers?.value || '1').match(/\d+/)?.[0] || 1);
-      const nights = getTripNights();
-      const flights = tripData[destination].flightPrice * travelers;
-      const hotel = document.querySelector('.hotel-button.selected');
-      const hotelAmount = hotel ? Number(hotel.dataset.price) * nights : 0;
-      html += addItem('Passagens de ida e volta', flights, travelers+' viajante(s) · '+destination);
-      html += addItem('Hospedagem', hotelAmount, hotel ? hotel.dataset.hotel+' · '+nights+' noite(s) · 1 quarto (estimativa)' : 'Não incluída');
-      sum += flights + hotelAmount;
+  function proceed(mode) {
+    const items=[];
+    if(mode==='trip'){
+      if(!journeyPlanned){alert('Monte sua viagem antes de ir para o pagamento.');return;}
+      const destination=tripDestination.value;
+      const travelers=Number((tripTravelers?.value||'1').match(/\d+/)?.[0]||1);
+      const nights=getTripNights();
+      items.push({label:'Passagens de ida e volta · '+destination,detail:travelers+' viajante(s)',amount:tripData[destination].flightPrice*travelers});
+      const hotel=document.querySelector('.hotel-button.selected');
+      items.push({label:'Hospedagem',detail:hotel?hotel.dataset.hotel+' · '+nights+' noites · 1 quarto (estimativa)':'Não incluída',amount:hotel?Number(hotel.dataset.price)*nights:0});
     }
-    if (selectedAirfindPlan) {
-      html += addItem('Chip físico AirFind', 59.90, 'Uma unidade · pagamento único · frete não incluído');
-      html += addItem('Plano AirFind '+selectedAirfindPlan.name, selectedAirfindPlan.price, 'Primeiros 30 dias · preço ilustrativo; sem assinatura ativa');
-      sum += 59.90 + selectedAirfindPlan.price;
-    } else if (mode === 'airfind') {
-      alert('Selecione um plano AirFind para continuar.'); return;
-    } else {
-      html += '<p class="checkout-empty">AirFind não incluído. Se desejar, selecione um plano na aba Bagagem.</p>';
-    }
-    items.innerHTML = html;
-    totalNode.textContent = formatCurrency(sum);
-    feedback.textContent = '';
-    overlay.hidden = false;
-    document.body.classList.add('checkout-active');
-    previousFocus = document.activeElement;
-    close?.focus();
+    if(selectedAirfindPlan){
+      const annual=document.querySelector('input[name="airfind-billing"]:checked')?.value==='annual';
+      items.push({label:'Chip físico AirFind',detail:'Uma unidade · frete não incluído',amount:59.90});
+      items.push({label:'Plano AirFind '+selectedAirfindPlan.name,detail:annual?'Assinatura anual ilustrativa · 12 meses pelo preço de 10':'Assinatura mensal ilustrativa · 1 mês',amount:Number((selectedAirfindPlan.price*(annual?10:1)).toFixed(2))});
+    }else if(mode==='airfind'){alert('Selecione um plano AirFind.');return;}
+    sessionStorage.setItem('gj_checkout',JSON.stringify({items,source:mode,createdAt:Date.now()}));
+    window.location.href='pagamento.html';
   }
-  document.querySelector('#trip-checkout')?.addEventListener('click', () => openCheckout('trip'));
-  document.querySelector('#airfind-checkout')?.addEventListener('click', () => openCheckout('airfind'));
-  function closeCheckout() {
-    overlay.hidden = true;
-    document.body.classList.remove('checkout-active');
-    previousFocus?.focus?.();
-  }
-  close?.addEventListener('click', closeCheckout);
-  overlay?.addEventListener('click', e => { if (e.target === overlay) closeCheckout(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay && !overlay.hidden) closeCheckout(); });
-  document.querySelectorAll('input[name="checkout-method"]').forEach(input => input.addEventListener('change', () => {
-    const method = document.querySelector('input[name="checkout-method"]:checked')?.value;
-    methodNote.textContent = method === 'Pix' ? 'Pix demonstrativo — nenhum QR Code ou chave será gerado.' : method+' demonstrativo — não solicitamos números, senhas ou dados do cartão.';
-    feedback.textContent = '';
-  }));
-  document.querySelector('#checkout-confirm')?.addEventListener('click', () => {
-    const method = document.querySelector('input[name="checkout-method"]:checked')?.value || 'Pix';
-    feedback.textContent = 'Simulação concluída com '+method+'. Nenhum valor foi cobrado e nenhuma reserva foi realizada.';
-  });
+  document.querySelector('#trip-checkout')?.addEventListener('click',()=>proceed('trip'));
+  document.querySelector('#airfind-checkout')?.addEventListener('click',()=>proceed('airfind'));
 })();
