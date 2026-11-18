@@ -466,3 +466,61 @@ body.dark-mode .demo-auth-disclaimer{background:#17354b;color:#d4e8f6;border-col
 .account-chip-icon svg{width:34px;height:34px;stroke-width:1.7}
 .account-data-card .profile-icon svg{width:24px;height:24px}
 .solution-card>span svg{width:29px;height:29px}
+
+/* Global Journey — acabamento clean aprovado para o pitch */
+:root{--gj-blue:#075fc8;--gj-ink:#092238;--gj-line:#e0ebf7}
+body{background:#f8fbff}
+.header{height:94px;background:rgba(255,255,255,.98);border-bottom:1px solid #e4edf8;box-shadow:0 3px 22px rgba(11,51,94,.025);gap:22px}
+.header .brand,.header .brand img{width:90px;height:82px}.header .brand{flex-basis:90px}
+.header .nav{gap:clamp(12px,1.7vw,26px)}
+.header .nav a{font-size:12px;color:#1c3857;font-weight:700;white-space:nowrap}
+.header .nav a:hover,.header .nav a.active{color:#075fc8}
+.header-auth-actions{display:flex;gap:10px;align-items:center}
+.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:112px;min-width:112px;min-height:44px;border-radius:11px;font-size:12px}
+.header-auth-actions #account-btn{order:2}.header-auth-actions #register-btn{order:1}
+.btn{border-radius:11px;box-shadow:0 12px 24px rgba(7,95,200,.16);transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover{box-shadow:0 16px 28px rgba(7,95,200,.21)}
+.btn.outline{box-shadow:none;background:#fff;border:1px solid #b5d3fb}
+.hero{min-height:625px;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:clamp(30px,4vw,70px);padding:56px 5% 46px;background:radial-gradient(ellipse at 72% 48%,#e5f3ff 0%,#f4f9ff 44%,#fff 80%)}
+.hero-copy{min-width:0}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;margin-bottom:24px}
+.hero h1{font-size:clamp(44px,4.5vw,76px);letter-spacing:-2.8px;line-height:1.05;color:#071f3d;margin-bottom:23px}
+.hero h1 span{color:#075fc8}
+.hero p{color:#3d5975;font-size:clamp(15px,1.15vw,18px);line-height:1.55;max-width:560px;margin-bottom:30px}
+.hero .actions{gap:12px}
+.hero .actions .btn{gap:10px;min-height:54px;padding:14px 20px;white-space:nowrap}
+.hero .actions svg{width:19px;height:19px;stroke-width:2}
+.hero-image{height:clamp(390px,35vw,535px);border-radius:30px;box-shadow:0 26px 58px rgba(21,68,123,.13)}
+.hero-photo{background:linear-gradient(90deg,rgba(5,31,67,.09),rgba(5,31,67,.02)),url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=90") center/cover}
+.hero .route-line{display:none}
+.hero .tracking-float{width:min(375px,80%);right:25px;bottom:25px;min-height:118px;padding:20px;display:flex;flex-direction:row;align-items:center;gap:16px;border-radius:21px;box-shadow:0 18px 45px rgba(7,37,78,.19)}
+.hero .tracking-copy{display:flex;flex-direction:column;flex:1;min-width:0}
+.hero .tracking-float .online{display:inline-block;align-self:flex-start;padding:4px 9px;background:#e4f0ff;border-radius:999px;color:#075fc8;font-size:9px;letter-spacing:.5px}
+.hero .tracking-float b{font-size:19px;line-height:1.3;margin:6px 0 2px;color:#092238}
+.hero .tracking-float small{font-size:11px;color:#47617c;line-height:1.45}
+.hero .tracking-icon{display:grid;place-items:center;flex:0 0 64px;width:64px;height:64px;background:#e5f1ff;border-radius:16px;color:#075fc8}
+.hero .tracking-icon svg{width:30px;height:30px;stroke-width:1.8}
+.hero .pitch-note{margin-top:18px;font-size:10px}
+.hero .stats{display:none}
+.pitch-feature-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:18px 4% 50px;background:linear-gradient(#f1f8ff,#f8fbff)}
+.pitch-feature{display:flex;gap:15px;align-items:flex-start;min-width:0;background:#fff;border:1px solid #e2edfa;border-radius:22px;padding:27px 22px;box-shadow:0 10px 26px rgba(17,74,139,.06);transition:transform .2s,box-shadow .2s}
+.pitch-feature:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(17,74,139,.11)}
+.pitch-feature-icon{flex:0 0 44px;color:#075fc8}
+.pitch-feature-icon svg{width:37px;height:37px;stroke-width:1.8}
+.pitch-feature h3{font-size:15px;line-height:1.35;color:#0a2546;margin:3px 0 10px;font-weight:800}
+.pitch-feature h3 small{display:inline-block;margin-left:4px;padding:3px 7px;border-radius:999px;background:#e5f0ff;color:#075fc8;font-size:9px;vertical-align:middle}
+.pitch-feature p{font-size:12px;line-height:1.55;color:#47617c}
+.image-strip{height:135px}
+.section .three-grid article,.section .solution-card{border-color:#e2ecf8;border-radius:20px;box-shadow:0 6px 20px rgba(16,65,113,.035)}
+body.dark-mode .pitch-feature-strip{background:#102b3d}
+body.dark-mode .pitch-feature{background:#17384d;border-color:#34566a}
+body.dark-mode .pitch-feature h3{color:#e9f5ff}
+body.dark-mode .pitch-feature p{color:#b6c9d7}
+body.dark-mode .hero{background:radial-gradient(ellipse at 70% 40%,#153b58,#0b263a 80%)}
+body.dark-mode .hero h1{color:#fff}
+body.dark-mode .hero p{color:#c2d3df}
+body.dark-mode .hero .tracking-float{background:#f9fcff}
+@media(max-width:1200px){.header{gap:13px;padding:0 3%}.header .nav{gap:11px}.header .nav a{font-size:11px}.hero{gap:30px}.pitch-feature{padding:20px 15px;gap:9px}.pitch-feature h3{font-size:13px}}
+@media(max-width:980px){.hero{grid-template-columns:1fr 1fr;gap:22px;padding:48px 4%}.hero h1{font-size:clamp(38px,4.7vw,55px)}.hero .actions .btn{font-size:11px;padding:11px 12px}.pitch-feature-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.header .nav a{font-size:10px}}
+@media(max-width:760px){.header{height:auto;min-height:75px}.header .brand,.header .brand img{width:73px;height:70px}.header .brand{flex-basis:73px}.hero{grid-template-columns:1fr;padding:52px 6% 32px;min-height:0}.hero h1{font-size:clamp(42px,10vw,62px)}.hero-image{height:380px}.hero .tracking-float{width:min(320px,88%);right:14px;bottom:14px;padding:14px;min-height:96px}.hero .tracking-icon{flex-basis:52px;width:52px;height:52px}.hero .tracking-icon svg{width:25px;height:25px}.pitch-feature-strip{padding:18px 5% 36px;gap:12px}.pitch-feature{padding:18px 14px}.pitch-feature-icon{flex-basis:30px}.pitch-feature-icon svg{width:28px;height:28px}.image-strip{height:100px}}
+@media(max-width:460px){.hero .actions .btn{width:100%;justify-content:center}.pitch-feature-strip{grid-template-columns:1fr}.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:87px;min-width:87px;font-size:10px}}
