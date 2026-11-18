@@ -743,3 +743,41 @@ body:not(.dark-mode) .hero .tracking-float b{color:#092238!important}
   .hero-photo{inset:0!important;transform:none!important}
   .hero .tracking-float{transform:none!important}
 }
+
+/* Checkout demonstrativo e comparativo dos planos */
+.plan-benefits{list-style:disc;padding-left:18px;margin:10px 0 14px;font-size:12px;line-height:1.65;color:#426078}
+.airfind-copy #airfind-checkout{margin:15px 0 8px;width:100%;max-width:340px}
+.checkout-open:disabled{opacity:.5;cursor:not-allowed}
+.trip-checkout-action{margin-top:22px;padding:22px;border:1px solid #cfe2f3;border-radius:18px;background:#eef6ff;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.trip-checkout-action p{font-size:13px;color:#496780;flex:1;min-width:200px}
+.checkout-overlay[hidden]{display:none!important}
+.checkout-overlay{position:fixed;inset:0;background:rgba(4,19,36,.72);z-index:99999;display:flex;justify-content:center;align-items:center;padding:18px;overflow:auto}
+body.checkout-active{overflow:hidden}
+.checkout-dialog{position:relative;width:min(100%,580px);max-height:calc(100vh - 36px);overflow:auto;background:#fff;color:#092238;border-radius:22px;padding:30px;box-shadow:0 20px 80px #0005}
+.checkout-dialog h2{font-size:26px;margin:8px 0 10px}
+.checkout-close{position:absolute;top:14px;right:17px;border:0;background:#eaf2fa;border-radius:50%;font-size:27px;width:38px;height:38px;cursor:pointer;color:#092238}
+.checkout-warning{font-size:13px;color:#7b4d1b;background:#fff4df;border:1px solid #f2d6a0;padding:12px;border-radius:12px;margin-bottom:16px}
+.checkout-items{display:grid;gap:10px}
+.checkout-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e2eaf2}
+.checkout-line strong{display:block;font-size:14px}
+.checkout-line small{display:block;color:#627b8f;font-size:12px}
+.checkout-line b{white-space:nowrap}
+.checkout-total{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px 0;padding:16px;background:#eaf4ff;border-radius:12px}
+.checkout-total strong{font-size:24px;color:#075fc8}
+.checkout-methods{border:1px solid #dce6ef;border-radius:14px;padding:14px;display:grid;gap:10px}
+.checkout-methods legend{font-weight:800;padding:0 6px}
+.checkout-methods label{display:flex;gap:9px;align-items:center;cursor:pointer}
+.checkout-method-note,.checkout-empty{font-size:12px;color:#526d83;margin:10px 0}
+#checkout-confirm{width:100%;margin-top:12px}
+#checkout-feedback{font-size:13px;font-weight:700;margin-top:10px;color:#17634a}
+body.dark-mode .plan-benefits{color:#d1e1ef}
+body.dark-mode .trip-checkout-action{background:#153047;border-color:#31516b}
+body.dark-mode .trip-checkout-action p{color:#d0e2ef}
+body.dark-mode .checkout-dialog{background:#142b3f;color:#f1f7ff}
+body.dark-mode .checkout-close{background:#2d4c66;color:#fff}
+body.dark-mode .checkout-line{border-color:#345269}
+body.dark-mode .checkout-line small,body.dark-mode .checkout-method-note,body.dark-mode .checkout-empty{color:#c3d5e6}
+body.dark-mode .checkout-total{background:#233f59}
+body.dark-mode .checkout-total strong{color:#8bc2ff}
+body.dark-mode .checkout-methods{border-color:#47637b}
+@media(max-width:600px){.checkout-dialog{padding:24px 18px}.trip-checkout-action .btn{width:100%}}
