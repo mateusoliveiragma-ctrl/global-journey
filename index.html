@@ -120,20 +120,20 @@
       <div class="airfind-price"><small>CHIP AIRFIND</small><strong>R$ 59,90</strong><span>pagamento único · chip físico</span></div>
       <div class="airfind-plans" id="airfind-plans" aria-label="Planos mensais do AirFind">
         <article class="airfind-plan-card" data-plan="Essencial" data-price="9.90" tabindex="0" role="button" aria-pressed="false">
-          <span>ESSENCIAL · MENSAL</span><strong>R$ 9,90</strong><small>Rastreamento básico por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
+          <span>ESSENCIAL · MENSAL</span><strong>R$ 9,90</strong><small>Localização ilustrativa e consulta manual · 30 dias</small><ul class="plan-benefits"><li>Consulta básica de localização</li><li>Atualização manual</li><li>Ideal para viagens ocasionais</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
         <article class="airfind-plan-card featured" data-plan="Plus" data-price="14.90" tabindex="0" role="button" aria-pressed="false">
-          <em>MAIS COMPLETO</em><span>PLUS · MENSAL</span><strong>R$ 14,90</strong><small>Mais atualizações durante a viagem</small><button type="button" class="plan-select">Selecionar plano</button>
+          <em>MAIS COMPLETO</em><span>PLUS · MENSAL</span><strong>R$ 14,90</strong><small>Mais praticidade durante a viagem · 30 dias</small><ul class="plan-benefits"><li>Tudo do Essencial</li><li>Atualizações demonstrativas mais frequentes</li><li>Histórico ilustrativo de trajetos</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
         <article class="airfind-plan-card" data-plan="Premium" data-price="19.90" tabindex="0" role="button" aria-pressed="false">
-          <span>PREMIUM · MENSAL</span><strong>R$ 19,90</strong><small>Rastreamento completo por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
+          <span>PREMIUM · MENSAL</span><strong>R$ 19,90</strong><small>Experiência mais completa · 30 dias</small><ul class="plan-benefits"><li>Tudo do Plus</li><li>Alertas ilustrativos de movimentação</li><li>Painel detalhado de acompanhamento</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
       </div>
       <div class="airfind-selected" id="airfind-selected" aria-live="polite">
         <div><small>PLANO SELECIONADO</small><strong>Nenhum plano selecionado</strong></div>
         <span>Escolha uma opção acima para ver o valor mensal.</span>
       </div>
-      <small class="price-note">Valores demonstrativos para o protótipo do site. Não incluem custos de envio.</small>
+      <button type="button" class="btn checkout-open" id="airfind-checkout" disabled>Ir para pagamento</button><small class="price-note">Recursos e valores dos planos são demonstrativos, sem rastreamento real. Valores demonstrativos para o protótipo do site. Não incluem custos de envio.</small>
     </div>
   </div>
 </section>
@@ -178,6 +178,7 @@
       </div>
       <p id="hotel-choice-status" class="hotel-choice-status" role="status"></p>
     </div>
+    <div class="trip-checkout-action"><button class="btn checkout-open" id="trip-checkout" type="button">Ir para pagamento</button><p>Confira a estimativa completa de passagens, hospedagem opcional e AirFind antes de escolher a forma de pagamento.</p></div>
   </section>
   <div id="journey-details" hidden>
   <div class="trip-columns">
@@ -300,5 +301,6 @@
   <div class="copyright">© 2026 Global Journey. Projeto em demonstração, sem serviços comerciais ativos.</div>
 </footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script><script src="script.js"></script><script src="auth-demo.js"></script>
+<div class="checkout-overlay" id="checkout-overlay" hidden><section class="checkout-dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title"><button class="checkout-close" type="button" id="checkout-close" aria-label="Fechar pagamento">×</button><span class="eyebrow">GLOBAL JOURNEY · SIMULAÇÃO</span><h2 id="checkout-title">Resumo para pagamento</h2><p class="checkout-warning">Simulação de pagamento: nenhuma cobrança, reserva ou transação será realizada. Não informe dados bancários reais.</p><div id="checkout-items" class="checkout-items"></div><div class="checkout-total"><span>Total estimado</span><strong id="checkout-total">R$ 0,00</strong></div><fieldset class="checkout-methods"><legend>Escolha a forma de pagamento</legend><label><input type="radio" name="checkout-method" value="Pix" checked> Pix</label><label><input type="radio" name="checkout-method" value="Cartão de crédito"> Cartão de crédito</label><label><input type="radio" name="checkout-method" value="Cartão de débito"> Cartão de débito</label></fieldset><p id="checkout-method-note" class="checkout-method-note">Pix demonstrativo — não será gerado código de pagamento.</p><button type="button" class="btn" id="checkout-confirm">Simular pagamento</button><p id="checkout-feedback" role="status"></p></section></div>
 </body>
 </html>
