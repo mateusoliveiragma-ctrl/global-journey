@@ -24,22 +24,22 @@
     <a href="#destinos" data-route="home">Destinos</a>
     
   </nav>
-  <div class="header-auth-actions"><button class="btn btn-small header-account" id="account-btn" type="button">Entrar</button><button class="btn btn-small outline" id="register-btn" type="button">Registre-se</button></div>
+  <div class="header-auth-actions"><a class="btn btn-small outline pitch-header-action" href="#rastreamento" data-route="bagagem">Ver AirFind</a><a class="btn btn-small pitch-header-action" href="#minha-viagem" data-route="viagem">Montar viagem</a></div>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo noturno" title="Modo noturno">🌙</button>
 </header>
 
 <main>
 <section class="hero">
   <div class="hero-copy reveal">
-    <span class="eyebrow">TECNOLOGIA PARA SUA JORNADA</span>
+    <span class="eyebrow">PROTÓTIPO INTERATIVO · APRESENTAÇÃO DO PROJETO</span>
     <h1>Explore o mundo.<br><span>Viaje com confiança.</span></h1>
     <p>Uma nova experiência de viagem que une tecnologia, praticidade e segurança para deixar cada momento da sua jornada mais tranquilo.</p>
-    <div class="actions"><a class="btn" href="#rastreamento">Rastrear minha bagagem</a><a class="btn outline" href="#como-funciona">Como funciona</a></div>
+    <div class="actions"><a class="btn" href="#minha-viagem" data-route="viagem">Explorar a experiência ✈</a><a class="btn outline" href="#rastreamento" data-route="bagagem">Ver AirFind</a></div><div class="pitch-note"><span class="pitch-dot"></span> Demonstração visual do conceito · sem compras ou rastreamento real</div>
     <div class="stats"><div><b>24/7</b><small>Acompanhamento</small></div><div><b>🌎</b><small>Destinos pelo mundo</small></div><div><b>📍</b><small>Rastreamento inteligente</small></div></div>
   </div>
   <div class="hero-image reveal">
     <div class="hero-photo"></div>
-    <div class="tracking-float"><span class="online">● ONLINE</span><b>Bagagem localizada</b><small>Última atualização: agora</small><div class="progress"><i></i></div></div>
+    <div class="tracking-float"><span class="online">● SIMULAÇÃO</span><b>Bagagem ilustrativa</b><small>Localização demonstrativa</small><div class="progress"><i></i></div></div>
     <div class="route-line"></div>
   </div>
 </section>
@@ -61,14 +61,13 @@
   <div class="bag-photo reveal"><div class="chip-label">AirFind</div></div>
   <div class="diff-copy reveal">
     <span class="eyebrow">NOSSO DIFERENCIAL</span><h2>Sua mala.<br><span>Sempre por perto.</span></h2>
-    <p>Com o chip inteligente integrado à mala, você pode acompanhar sua localização em tempo real e ter mais controle sobre sua bagagem durante a viagem.</p>
+    <p>Conheça o conceito AirFind: uma proposta de chip inteligente para acompanhar a bagagem. Nesta apresentação, a posição e os indicadores são simulados.</p>
     <div class="benefits">
-      <div><b>📍</b><span><strong>Localização em tempo real</strong><small>Acompanhe onde sua bagagem está.</small></span></div>
+      <div><b>📍</b><span><strong>Visualização de localização</strong><small>Explore o mapa demonstrativo da bagagem.</small></span></div>
       <div><b>🛡️</b><span><strong>Mais segurança</strong><small>Tenha mais controle sobre seus pertences.</small></span></div>
       <div><b>📱</b><span><strong>Experiência simples</strong><small>Consulte informações de forma rápida e intuitiva.</small></span></div>
     </div>
   </div>
-  </div><!-- /journey-details -->
 </section>
 
 <section class="section how" id="como-funciona">
@@ -76,7 +75,7 @@
   <div class="steps">
     <article class="step reveal"><span>01</span><h3>Prepare sua mala</h3><p>O chip inteligente é integrado à sua bagagem.</p></article>
     <article class="step reveal"><span>02</span><h3>Comece sua viagem</h3><p>Viaje normalmente enquanto a tecnologia acompanha sua mala.</p></article>
-    <article class="step reveal"><span>03</span><h3>Acompanhe em tempo real</h3><p>Consulte a localização da sua bagagem durante sua jornada.</p></article>
+    <article class="step reveal"><span>03</span><h3>Visualize o acompanhamento</h3><p>Veja como o painel de localização poderá funcionar.</p></article>
   </div>
 </section>
 
@@ -84,7 +83,7 @@
   <div class="heading reveal"><span class="eyebrow">SOLUÇÕES</span><h2>Tecnologia que acompanha seu caminho.</h2></div>
   <div class="four-grid">
     <article class="solution-card reveal"><span>🗺️</span><h3>Planejamento de viagem</h3><p>Organize destinos e informações importantes.</p><a href="#como-funciona">Saiba mais →</a></article>
-    <article class="solution-card reveal"><span>📡</span><h3>Rastreamento de bagagem</h3><p>Acompanhe sua mala por meio do chip inteligente.</p><a href="#rastreamento">Rastrear agora →</a></article>
+    <article class="solution-card reveal"><span>📡</span><h3>Rastreamento de bagagem</h3><p>Explore a proposta de rastreamento por meio do chip inteligente.</p><a href="#rastreamento">Rastrear agora →</a></article>
     <article class="solution-card reveal"><span>🛡️</span><h3>Segurança</h3><p>Tenha mais controle durante sua jornada.</p><a href="#seguranca">Ver segurança →</a></article>
     <article class="solution-card reveal"><span>💡</span><h3>Experiência inteligente</h3><p>Tecnologia criada para facilitar a experiência do viajante.</p><a href="#diferencial">Conhecer tecnologia →</a></article>
   </div>
@@ -255,7 +254,7 @@
 <section class="cta" id="contato"><div class="reveal"><span class="eyebrow">GLOBAL JOURNEY</span><h2>Seu próximo destino<br>começa aqui.</h2><p>Descubra uma nova forma de viajar, com mais informação, tecnologia e tranquilidade.</p><a class="btn light" href="#minha-viagem" data-route="viagem">Começar minha jornada ✈</a></div></section>
 </main>
 
-<div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-label="Minha conta">
+<div class="modal" id="login-modal" hidden role="dialog" aria-modal="true" aria-label="Minha conta">
   <div class="modal-card">
     <button class="modal-close" id="close-modal" aria-label="Fechar">×</button>
     <span class="eyebrow">MINHA CONTA</span>
@@ -287,6 +286,6 @@
   <div class="social"><a href="#">◎</a><a href="#">in</a><a href="#">f</a></div>
   <div class="copyright">© 2026 Global Journey. Todos os direitos reservados.</div>
 </footer>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="supabase-config.js"></script><script src="script.js"></script><script src="auth.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="script.js"></script>
 </body>
 </html>
