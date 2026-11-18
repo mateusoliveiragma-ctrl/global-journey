@@ -24,7 +24,7 @@
     <a href="#destinos" data-route="home">Destinos</a>
     
   </nav>
-  <div class="header-auth-actions"><a class="btn btn-small outline pitch-header-action" href="#rastreamento" data-route="bagagem">Ver AirFind</a><a class="btn btn-small pitch-header-action" href="#minha-viagem" data-route="viagem">Montar viagem</a></div>
+  <div class="header-auth-actions"><button class="btn btn-small header-account" id="account-btn" type="button">Entrar</button><button class="btn btn-small outline" id="register-btn" type="button">Registre-se</button></div>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo noturno" title="Modo noturno">🌙</button>
 </header>
 
@@ -214,9 +214,14 @@
     <div class="account-data-card"><span class="profile-icon">✈️</span><small>EMPRESA MAIS INDICADA</small><strong id="recommended-company">Escolha uma viagem</strong><span id="recommended-reason">A indicação aparece de acordo com o destino.</span></div>
     <div class="account-data-card"><span class="profile-icon">📊</span><small>EMPRESA MAIS UTILIZADA</small><strong id="most-used-company">Ainda não há histórico</strong><span id="company-usage">Escolha uma empresa para criar seu histórico.</span></div>
   </div>
-  <div class="company-history reveal"><div><span class="eyebrow">PREFERÊNCIAS</span><h3>Empresas utilizadas</h3><p>Seu histórico fica salvo neste dispositivo.</p></div><div id="company-history-list" class="company-history-list"></div></div>
+  <div class="account-chip-demo reveal">
+    <div class="account-chip-icon">📍</div>
+    <div><span class="eyebrow">MEU AIRFIND · DEMONSTRAÇÃO</span><h3>Minha bagagem ilustrativa</h3><p>Chip de exemplo GJ-2026-001 · Em trânsito · Aeroporto de Lisboa · Bateria 92%</p><small>Os dados são fictícios. Nenhum chip físico está associado a este perfil.</small></div>
+    <button class="btn btn-small" id="account-view-bag" type="button">Ver mapa ilustrativo</button>
+  </div>
+  <div class="company-history reveal"><div><span class="eyebrow">PREFERÊNCIAS</span><h3>Empresas utilizadas</h3><p>Seu histórico demonstrativo fica salvo neste dispositivo.</p></div><div id="company-history-list" class="company-history-list"></div></div>
   <div class="account-trips reveal">
-    <div class="panel-title"><div><span class="eyebrow">MINHAS VIAGENS</span><h3>Próximas e anteriores</h3></div><span class="panel-note">Planejamento e histórico</span></div>
+    <div class="panel-title"><div><span class="eyebrow">MINHAS VIAGENS</span><h3>Próximas e anteriores</h3></div><span class="panel-note">Viagens planejadas neste navegador · demonstração</span></div>
     <div class="trip-history-tabs"><button class="trip-tab active" data-trip-tab="future">Próximas</button><button class="trip-tab" data-trip-tab="past">Passadas</button></div>
     <div id="future-trips" class="saved-trips"></div>
     <div id="past-trips" class="saved-trips hidden"></div>
@@ -254,19 +259,19 @@
 <section class="cta" id="contato"><div class="reveal"><span class="eyebrow">GLOBAL JOURNEY</span><h2>Seu próximo destino<br>começa aqui.</h2><p>Descubra uma nova forma de viajar, com mais informação, tecnologia e tranquilidade.</p><a class="btn light" href="#minha-viagem" data-route="viagem">Começar minha jornada ✈</a></div></section>
 </main>
 
-<div class="modal" id="login-modal" hidden role="dialog" aria-modal="true" aria-label="Minha conta">
+<div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-label="Minha conta">
   <div class="modal-card">
     <button class="modal-close" id="close-modal" aria-label="Fechar">×</button>
     <span class="eyebrow">MINHA CONTA</span>
     <h2>Acesse sua jornada</h2>
-    <p>Entre com sua conta ou cadastre-se gratuitamente.</p>
+    <p>Crie um perfil ilustrativo para conhecer sua área de viajante.</p><p class="demo-auth-disclaimer">Modo demonstração: o perfil fica apenas neste navegador. Não é uma conta real e não exige senha.</p>
     <form id="login-form">
       <label id="login-name-row" hidden>Nome<input id="login-name" type="text" placeholder="Seu nome" autocomplete="name"></label>
       <label>E-mail<input id="login-email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
-      <label>Senha<input id="login-password" type="password" minlength="8" autocomplete="current-password" placeholder="••••••••" required></label>
+      
       <button class="btn" id="auth-submit" type="submit">Entrar na conta</button>
     </form>
-    <small id="login-status" class="login-status" role="status" aria-live="polite"></small><button type="button" id="reset-password" class="auth-link">Esqueci minha senha</button>
+    <small id="login-status" class="login-status" role="status" aria-live="polite"></small>
   </div>
 </div>
 
@@ -286,6 +291,6 @@
   <div class="social"><a href="#">◎</a><a href="#">in</a><a href="#">f</a></div>
   <div class="copyright">© 2026 Global Journey. Todos os direitos reservados.</div>
 </footer>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="script.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="script.js"></script><script src="auth-demo.js"></script>
 </body>
 </html>
