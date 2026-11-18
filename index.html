@@ -129,7 +129,7 @@
           <span>PREMIUM · MENSAL</span><strong>R$ 19,90</strong><small>Experiência mais completa · 30 dias</small><ul class="plan-benefits"><li>Tudo do Plus</li><li>Alertas ilustrativos de movimentação</li><li>Painel detalhado de acompanhamento</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
       </div>
-      <div class="airfind-selected" id="airfind-selected" aria-live="polite">
+      <div class="airfind-billing"><strong>Período da assinatura</strong><label><input type="radio" name="airfind-billing" value="monthly" checked> Mensal</label><label><input type="radio" name="airfind-billing" value="annual"> Anual · 12 meses pelo preço de 10 (valor demonstrativo)</label></div><div class="airfind-selected" id="airfind-selected" aria-live="polite">
         <div><small>PLANO SELECIONADO</small><strong>Nenhum plano selecionado</strong></div>
         <span>Escolha uma opção acima para ver o valor mensal.</span>
       </div>
@@ -178,7 +178,6 @@
       </div>
       <p id="hotel-choice-status" class="hotel-choice-status" role="status"></p>
     </div>
-    <div class="trip-checkout-action"><button class="btn checkout-open" id="trip-checkout" type="button">Ir para pagamento</button><p>Confira a estimativa completa de passagens, hospedagem opcional e AirFind antes de escolher a forma de pagamento.</p></div>
   </section>
   <div id="journey-details" hidden>
   <div class="trip-columns">
@@ -211,6 +210,7 @@
     <small class="transport-disclaimer">As opções exibidas são atalhos para os serviços. Tarifas, disponibilidade e localização dos veículos são definidas pelos aplicativos.</small>
   </div>
   </div><!-- /journey-details -->
+  <div class="trip-checkout-action" id="trip-checkout-footer" hidden><div><h3>Pronto para continuar?</h3><p>Revise o valor total da viagem e escolha sua forma de pagamento na próxima página.</p></div><button class="btn" id="trip-checkout" type="button">Ir para pagamento</button></div>
 </section>
 
 <section class="section account-section app-page" data-page="conta" id="minha-conta">
