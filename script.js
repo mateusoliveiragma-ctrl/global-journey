@@ -328,6 +328,8 @@ function setHotelChoice(show) {
   if (!journeyPlanned) return;
   if (hotelPanel) hotelPanel.hidden = !show;
   if (!show) clearHotelSelection();
+  const chosen = document.querySelector('.hotel-button.selected');
+  if (!show && chosen) chosen.classList.remove('selected');
   if (hotelChoiceStatus) hotelChoiceStatus.textContent = show
     ? 'Escolha um hotel sugerido abaixo, ou continue sem selecionar.'
     : 'Sem hospedagem selecionada. Seu roteiro continua normalmente.';
@@ -361,8 +363,10 @@ function renderTrip(destination) {
       button.addEventListener('click', () => {
         hotelList.querySelectorAll('.hotel-button').forEach(b => b.classList.remove('selected'));
         button.classList.add('selected');
-        button.textContent = '✓ Selecionado';
+        button.textContent = 'Selecionado';
         refreshSelectedHotelTotal();
+        const saved = localStorage.getItem('gj_trip');
+        if (saved) { try { const trip=JSON.parse(saved); saveTripToHistory({...trip, hotel:button.dataset.hotel}); } catch (_) {} }
       });
     });
   }
@@ -423,7 +427,7 @@ function refreshSelectedHotelTotal() {
   const nights = getTripNights();
   const flightTotal = data.flightPrice * travelersCount;
   if (!selected) {
-    renderTripSummary({mode:'initial', destination, flightTotal, travelerCount:travelersCount});
+    renderTripSummary({mode:journeyPlanned?'trip':'initial', destination, flightTotal, travelerCount:travelersCount});
     return;
   }
   const hotelTotal = Number(selected.dataset.price) * nights;
@@ -452,8 +456,11 @@ tripDestination?.addEventListener('change', () => {
 planTrip?.addEventListener('click', () => {
   const destination = tripDestination?.value || 'Paris';
   const travelers = tripTravelers?.value || '1 viajante';
-  if (!tripStart?.value || !tripEnd?.value || tripEnd.value <= tripStart.value) {
-    alert('Selecione datas válidas: a volta precisa ser depois da ida.');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const departure = new Date(`${tripStart?.value}T12:00:00`);
+  if (!tripStart?.value || !tripEnd?.value || tripEnd.value <= tripStart.value || departure < today) {
+    alert('Selecione datas futuras válidas: a volta precisa ser depois da ida.');
+    tripStart?.focus();
     return;
   }
   renderTrip(destination);
@@ -568,11 +575,13 @@ function showRoute(route = 'home', targetId = '') {
   history.replaceState({route:valid}, '', valid === 'home' ? '#inicio' : `#${valid}`);
   document.querySelectorAll('.nav a[data-route]').forEach(a => { const active = a.dataset.route === valid && (valid !== 'home' || a.getAttribute('href') === '#' + (targetId || 'inicio')); a.classList.toggle('nav-active', active); if(active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   if (valid === 'bagagem') { requestAnimationFrame(ensureBagMap); setTimeout(ensureBagMap, 180); setTimeout(ensureBagMap, 600); }
+  if (valid === 'conta') renderSavedTrips();
 }
 
 function routeFromHash(){
   const hash = location.hash.replace('#','');
-  if (['bagagem','minha-viagem','viagem'].includes(hash)) return hash === 'minha-viagem' ? 'viagem' : 'bagagem';
+  if (hash === 'bagagem' || hash === 'rastreamento') return 'bagagem';
+  if (hash === 'minha-viagem' || hash === 'viagem') return 'viagem';
   if (hash === 'minha-conta' || hash === 'conta') return 'conta';
   return 'home';
 }
@@ -622,15 +631,27 @@ function renderSavedTrips(){
   const future = document.querySelector('#future-trips');
   const past = document.querySelector('#past-trips');
   if (!future || !past) return;
-  const trips = getTripHistory();
-  const current = localStorage.getItem('gj_trip');
-  if (current) { try { const t=JSON.parse(current); saveTripToHistory({...t, status:'planejada'}); } catch(_){} }
   const all = getTripHistory();
-  const makeCard = (trip, isPast) => `<article class="saved-trip"><div><strong>${trip.destination}</strong><small>${formatDate(trip.start)} → ${formatDate(trip.end)} · ${trip.travelers || '1 viajante'}${trip.hotel ? ` · ${trip.hotel}` : ''}</small></div><div class="saved-trip-actions">${isPast ? '<button type="button" data-trip-action="review">⭐ Avaliar</button><button type="button" data-trip-action="complaint">⚠ Reclamar</button>' : '<button type="button" data-trip-action="open">Ver viagem</button>'}</div></article>`;
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const makeCard = (trip, isPast) => `<article class="saved-trip"><div><strong>${escapeHTML(trip.destination)}</strong><small>${escapeHTML(formatDate(trip.start))} → ${escapeHTML(formatDate(trip.end))} · ${escapeHTML(trip.travelers || '1 viajante')}${trip.hotel ? ` · ${escapeHTML(trip.hotel)}` : ''}</small><span class="trip-demo-note">Planejamento ilustrativo · não é reserva</span></div><div class="saved-trip-actions">${isPast ? '<button type="button" data-trip-action="review">Avaliar</button><button type="button" data-trip-action="complaint">Relatar problema</button>' : '<button type="button" data-trip-action="open">Ver viagem</button>'}</div></article>`;
   future.innerHTML = all.filter(t=>!tripIsPast(t)).map(t=>makeCard(t,false)).join('') || '<div class="saved-trip"><div><strong>Nenhuma viagem futura</strong><small>Monte uma viagem para ela aparecer aqui.</small></div></div>';
   past.innerHTML = all.filter(tripIsPast).map(t=>makeCard(t,true)).join('') || '<div class="saved-trip"><div><strong>Nenhuma viagem passada</strong><small>Suas viagens concluídas aparecerão aqui.</small></div></div>';
   [future,past].forEach(box=>box.querySelectorAll('[data-trip-action]').forEach(btn=>btn.addEventListener('click',()=>{
-    if(btn.dataset.tripAction==='open') showRoute('viagem');
+    if(btn.dataset.tripAction==='open') {
+      const card = btn.closest('.saved-trip');
+      const index = Array.from(box.querySelectorAll('.saved-trip')).indexOf(card);
+      const list = all.filter(t => tripIsPast(t) === (box === past));
+      const trip = list[index];
+      if(trip && tripData[trip.destination]) {
+        tripDestination.value = trip.destination;
+        tripStart.value = trip.start || '';
+        tripEnd.value = trip.end || '';
+        tripTravelers.value = trip.travelers || '1 viajante';
+        tripDestination.dispatchEvent(new Event('change'));
+        showRoute('viagem');
+        if(tripStart.value && tripEnd.value && tripEnd.value > tripStart.value) planTrip?.click();
+      } else showRoute('viagem');
+    }
     if(btn.dataset.tripAction==='review') alert('Área de avaliação: deixe sua nota e comentário sobre a viagem.');
     if(btn.dataset.tripAction==='complaint') alert('Área de reclamação: registre o que aconteceu para análise.');
   })));
@@ -644,7 +665,6 @@ document.querySelectorAll('.trip-tab').forEach(tab=>tab.addEventListener('click'
 }));
 
 // Registrar a viagem quando o usuário clicar em montar.
-const originalPlanTrip = planTrip;
 planTrip?.addEventListener('click', () => {
   setTimeout(() => {
     const saved = localStorage.getItem('gj_trip');
