@@ -152,7 +152,7 @@
 /* Localizador ilustrado da bagagem */
 .dash-map{background-color:#e7f2f4;background-image:radial-gradient(circle at 20% 25%,rgba(255,255,255,.95) 0 18px,transparent 19px),radial-gradient(circle at 78% 68%,rgba(255,255,255,.9) 0 25px,transparent 26px),linear-gradient(18deg,transparent 44%,#c5dadd 45%,#c5dadd 47%,transparent 48%),linear-gradient(105deg,transparent 46%,#c5dadd 47%,#c5dadd 49%,transparent 50%),linear-gradient(155deg,transparent 50%,#d1e2e4 51%,#d1e2e4 53%,transparent 54%);}
 .dash-map:before{content:"";position:absolute;inset:12% 16%;border:2px dashed rgba(7,95,200,.28);border-radius:48% 52% 45% 55%;transform:rotate(-8deg);}
-.dash-map:after{content:"✈";position:absolute;right:18%;top:18%;font-size:28px;color:#075fc8;transform:rotate(18deg);opacity:.8;}
+.dash-map:after{content:"";position:absolute;right:18%;top:18%;font-size:28px;color:#075fc8;transform:rotate(18deg);opacity:.8;}
 .dash-map .pin{z-index:2;width:54px;height:54px;display:grid;place-items:center;background:#075fc8;color:#fff;border:7px solid rgba(255,255,255,.88);border-radius:50% 50% 50% 0;box-shadow:0 12px 28px rgba(7,95,200,.3);transform:rotate(-45deg);}
 .dash-map .pin::first-letter{display:block;}
 .dash-map .pin{font-size:22px;}
@@ -455,3 +455,14 @@ body.dark-mode .pitch-note{background:#14364a;color:#d5ecfa;border-color:#2d566c
 body.dark-mode .account-chip-demo{background:#14344b;border-color:#2d586c}
 body.dark-mode .demo-auth-disclaimer{background:#17354b;color:#d4e8f6;border-color:#315a72}
 @media(max-width:760px){.account-chip-demo{flex-direction:column;align-items:flex-start}.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:96px;min-width:96px;min-height:38px}}
+
+/* Refinamento visual: pictogramas vetoriais discretos, preservando a estrutura */
+.icon svg,.solution-card>span svg,.account-avatar svg,.profile-icon svg,.account-chip-icon svg{width:25px;height:25px;stroke-width:1.8;vertical-align:middle}
+.stats b svg{width:24px;height:24px;stroke-width:1.9}
+.tracking-benefits b svg,.features b svg{width:20px;height:20px;stroke-width:1.9}
+.map-header-badge svg,.map-label svg{width:14px;height:14px;vertical-align:middle}
+.theme-toggle svg{width:19px;height:19px;stroke-width:1.9}
+.menu-toggle svg{width:22px;height:22px;stroke-width:2}
+.account-chip-icon svg{width:34px;height:34px;stroke-width:1.7}
+.account-data-card .profile-icon svg{width:24px;height:24px}
+.solution-card>span svg{width:29px;height:29px}
