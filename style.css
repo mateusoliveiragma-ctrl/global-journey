@@ -781,3 +781,12 @@ body.dark-mode .checkout-total{background:#233f59}
 body.dark-mode .checkout-total strong{color:#8bc2ff}
 body.dark-mode .checkout-methods{border-color:#47637b}
 @media(max-width:600px){.checkout-dialog{padding:24px 18px}.trip-checkout-action .btn{width:100%}}
+
+.trip-checkout-action[hidden]{display:none!important}
+.trip-checkout-action{justify-content:space-between;margin:28px 0 0}
+.trip-checkout-action h3{font-size:21px;margin-bottom:6px}
+.trip-checkout-action .btn{white-space:nowrap}
+.airfind-billing{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:15px 0;padding:14px;border:1px solid #d1e2f0;border-radius:12px;background:#f0f7fd;font-size:13px}
+.airfind-billing label{display:flex;align-items:center;gap:6px;cursor:pointer}
+body.dark-mode .airfind-billing{background:#193a51;border-color:#355d78;color:#f2f7ff}
+@media(max-width:650px){.trip-checkout-action .btn{width:100%}}
