@@ -106,7 +106,7 @@ function ensureBagMap() {
   const el = document.getElementById('real-map');
   if (!el || !el.getClientRects().length || !el.clientWidth || !el.clientHeight) return;
   if (!window.L) {
-    el.textContent = 'Não foi possível carregar o mapa. Verifique sua conexão e atualize a página.';
+    el.textContent = 'Mapa indisponível nesta conexão. A localização ilustrativa permanece visível nos dados ao lado. Atualize a página para tentar novamente.';
     el.classList.add('map-unavailable');
     return;
   }
@@ -114,10 +114,21 @@ function ensureBagMap() {
     el.textContent = '';
     el.classList.remove('map-unavailable');
     realMap = L.map(el, {scrollWheelZoom:false}).setView(demoCoordinates[currentDemoIndex], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom:19
     }).addTo(realMap);
+    let tileErrors = 0;
+    tiles.on('tileerror', () => {
+      if (++tileErrors < 5 || document.getElementById('map-network-warning')) return;
+      const warning = document.createElement('div');
+      warning.id = 'map-network-warning';
+      warning.className = 'map-network-warning';
+      warning.setAttribute('role','status');
+      warning.textContent = 'O mapa não carregou completamente. Confira sua conexão e tente atualizar a página. A posição do AirFind continua sendo ilustrativa.';
+      el.parentElement?.appendChild(warning);
+    });
+    tiles.on('load', () => { tileErrors = 0; document.getElementById('map-network-warning')?.remove(); });
     demoMarker = L.marker(demoCoordinates[currentDemoIndex]).addTo(realMap);
     updateBagMap(currentDemoLocation, currentDemoIndex);
   }
@@ -576,6 +587,7 @@ function showRoute(route = 'home', targetId = '') {
   document.querySelectorAll('.nav a[data-route]').forEach(a => { const active = a.dataset.route === valid && (valid !== 'home' || a.getAttribute('href') === '#' + (targetId || 'inicio')); a.classList.toggle('nav-active', active); if(active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   if (valid === 'bagagem') { requestAnimationFrame(ensureBagMap); setTimeout(ensureBagMap, 180); setTimeout(ensureBagMap, 600); }
   if (valid === 'conta') renderSavedTrips();
+  if (valid === 'viagem') { document.querySelectorAll('.journey-checklist input').forEach(input => { input.checked = false; }); }
 }
 
 function routeFromHash(){
