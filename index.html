@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 </head>
 <body>
 <header class="header" id="inicio">
   <a class="brand" href="#inicio"><img src="logo.png" alt="Global Journey"></a>
-  <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+  <button class="menu-toggle" aria-label="Abrir menu"><i data-lucide="menu" aria-hidden="true"></i></button>
   <nav class="nav">
     <a href="#inicio" data-route="home">Início</a>
     <a href="#diferencial" data-route="home">Tecnologia</a>
@@ -22,10 +22,10 @@
     <a href="#minha-viagem" data-route="viagem">Minha viagem</a>
     <a href="#seguranca" data-route="home">Segurança</a>
     <a href="#destinos" data-route="home">Destinos</a>
-    <a href="#minha-conta" data-route="conta" id="nav-account">Minha conta</a>
+    
   </nav>
-  <button class="btn btn-small header-account" id="account-btn">Minha conta</button>
-  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo noturno" title="Modo noturno">🌙</button>
+  <div class="header-auth-actions"><button class="btn btn-small header-account" id="account-btn" type="button">Entrar</button><button class="btn btn-small outline" id="register-btn" type="button">Registre-se</button></div>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar modo noturno" title="Modo noturno"><i data-lucide="moon" aria-hidden="true"></i></button>
 </header>
 
 <main>
@@ -34,14 +34,20 @@
     <span class="eyebrow">TECNOLOGIA PARA SUA JORNADA</span>
     <h1>Explore o mundo.<br><span>Viaje com confiança.</span></h1>
     <p>Uma nova experiência de viagem que une tecnologia, praticidade e segurança para deixar cada momento da sua jornada mais tranquilo.</p>
-    <div class="actions"><a class="btn" href="#rastreamento">Rastrear minha bagagem</a><a class="btn outline" href="#como-funciona">Como funciona</a></div>
-    <div class="stats"><div><b>24/7</b><small>Acompanhamento</small></div><div><b>🌎</b><small>Destinos pelo mundo</small></div><div><b>📍</b><small>Rastreamento inteligente</small></div></div>
+    <div class="actions"><a class="btn" href="#rastreamento" data-route="bagagem"><i data-lucide="luggage" aria-hidden="true"></i> Rastrear minha bagagem</a><a class="btn outline" href="#como-funciona" data-route="home"><i data-lucide="info" aria-hidden="true"></i> Como funciona</a></div><div class="pitch-note"><span class="pitch-dot"></span> Demonstração visual do conceito · sem compras ou rastreamento real</div>
+    <div class="stats"><div><b>24/7</b><small>Acompanhamento</small></div><div><b><i data-lucide="globe-2" aria-hidden="true"></i></b><small>Destinos pelo mundo</small></div><div><b><i data-lucide="map-pin" aria-hidden="true"></i></b><small>Rastreamento inteligente</small></div></div>
   </div>
   <div class="hero-image reveal">
     <div class="hero-photo"></div>
-    <div class="tracking-float"><span class="online">● ONLINE</span><b>Bagagem localizada</b><small>Última atualização: agora</small><div class="progress"><i></i></div></div>
+    <div class="tracking-float"><div class="tracking-copy"><span class="online">DEMONSTRAÇÃO</span><b>AirFind</b><small>Acompanhe a localização ilustrativa da sua bagagem.</small></div><span class="tracking-icon"><i data-lucide="luggage" aria-hidden="true"></i></span></div>
     <div class="route-line"></div>
   </div>
+</section>
+<section class="pitch-feature-strip" aria-label="Diferenciais da Global Journey">
+  <a class="pitch-feature" href="#minha-viagem" data-route="viagem"><span class="pitch-feature-icon"><i data-lucide="plane" aria-hidden="true"></i></span><div><h3>Planejamento completo</h3><p>Organize sua viagem, rotas e hospedagem em um só lugar.</p></div></a>
+  <a class="pitch-feature" href="#rastreamento" data-route="bagagem"><span class="pitch-feature-icon"><i data-lucide="cpu" aria-hidden="true"></i></span><div><h3>AirFind <small>Demonstração</small></h3><p>Explore a proposta de acompanhamento da bagagem.</p></div></a>
+  <a class="pitch-feature" href="#seguranca" data-route="home"><span class="pitch-feature-icon"><i data-lucide="shield-check" aria-hidden="true"></i></span><div><h3>Mais segurança</h3><p>Viaje com tecnologia e informações integradas.</p></div></a>
+  <a class="pitch-feature" href="#solucoes" data-route="home"><span class="pitch-feature-icon"><i data-lucide="map-pin" aria-hidden="true"></i></span><div><h3>Suporte na jornada</h3><p>Informações e orientações para cada etapa.</p></div></a>
 </section>
 
 <section class="image-strip">
@@ -51,9 +57,9 @@
 <section class="section why reveal">
   <div class="heading"><span class="eyebrow">POR QUE GLOBAL JOURNEY?</span><h2>Uma viagem melhor começa antes de você embarcar.</h2><p>Mais informação, tecnologia e tranquilidade para acompanhar cada etapa da sua jornada.</p></div>
   <div class="three-grid">
-    <article><div class="icon">🗺️</div><h3>Planejamento</h3><p>Organize melhor sua viagem e tenha informações importantes sempre à mão.</p></article>
-    <article><div class="icon">⚡</div><h3>Tecnologia</h3><p>Recursos inteligentes pensados para tornar a experiência do viajante mais simples.</p></article>
-    <article><div class="icon">🛡️</div><h3>Segurança</h3><p>Mais controle sobre seus pertences durante os momentos que realmente importam.</p></article>
+    <article><div class="icon"><i data-lucide="map" aria-hidden="true"></i></div><h3>Planejamento</h3><p>Organize melhor sua viagem e tenha informações importantes sempre à mão.</p></article>
+    <article><div class="icon"><i data-lucide="zap" aria-hidden="true"></i></div><h3>Tecnologia</h3><p>Recursos inteligentes pensados para tornar a experiência do viajante mais simples.</p></article>
+    <article><div class="icon"><i data-lucide="shield-check" aria-hidden="true"></i></div><h3>Segurança</h3><p>Mais controle sobre seus pertences durante os momentos que realmente importam.</p></article>
   </div>
 </section>
 
@@ -61,11 +67,11 @@
   <div class="bag-photo reveal"><div class="chip-label">AirFind</div></div>
   <div class="diff-copy reveal">
     <span class="eyebrow">NOSSO DIFERENCIAL</span><h2>Sua mala.<br><span>Sempre por perto.</span></h2>
-    <p>Com o chip inteligente integrado à mala, você pode acompanhar sua localização em tempo real e ter mais controle sobre sua bagagem durante a viagem.</p>
+    <p>Conheça o conceito AirFind: uma proposta de chip inteligente para acompanhar a bagagem. Nesta apresentação, a posição e os indicadores são simulados.</p>
     <div class="benefits">
-      <div><b>📍</b><span><strong>Localização em tempo real</strong><small>Acompanhe onde sua bagagem está.</small></span></div>
-      <div><b>🛡️</b><span><strong>Mais segurança</strong><small>Tenha mais controle sobre seus pertences.</small></span></div>
-      <div><b>📱</b><span><strong>Experiência simples</strong><small>Consulte informações de forma rápida e intuitiva.</small></span></div>
+      <div><b><i data-lucide="map-pin" aria-hidden="true"></i></b><span><strong>Visualização de localização</strong><small>Explore o mapa demonstrativo da bagagem.</small></span></div>
+      <div><b><i data-lucide="shield-check" aria-hidden="true"></i></b><span><strong>Mais segurança</strong><small>Tenha mais controle sobre seus pertences.</small></span></div>
+      <div><b><i data-lucide="smartphone" aria-hidden="true"></i></b><span><strong>Experiência simples</strong><small>Consulte informações de forma rápida e intuitiva.</small></span></div>
     </div>
   </div>
 </section>
@@ -75,17 +81,17 @@
   <div class="steps">
     <article class="step reveal"><span>01</span><h3>Prepare sua mala</h3><p>O chip inteligente é integrado à sua bagagem.</p></article>
     <article class="step reveal"><span>02</span><h3>Comece sua viagem</h3><p>Viaje normalmente enquanto a tecnologia acompanha sua mala.</p></article>
-    <article class="step reveal"><span>03</span><h3>Acompanhe em tempo real</h3><p>Consulte a localização da sua bagagem durante sua jornada.</p></article>
+    <article class="step reveal"><span>03</span><h3>Visualize o acompanhamento</h3><p>Veja como o painel de localização poderá funcionar.</p></article>
   </div>
 </section>
 
 <section class="section solutions" id="solucoes">
   <div class="heading reveal"><span class="eyebrow">SOLUÇÕES</span><h2>Tecnologia que acompanha seu caminho.</h2></div>
   <div class="four-grid">
-    <article class="solution-card reveal"><span>🗺️</span><h3>Planejamento de viagem</h3><p>Organize destinos e informações importantes.</p><a href="#como-funciona">Saiba mais →</a></article>
-    <article class="solution-card reveal"><span>📡</span><h3>Rastreamento de bagagem</h3><p>Acompanhe sua mala por meio do chip inteligente.</p><a href="#rastreamento">Rastrear agora →</a></article>
-    <article class="solution-card reveal"><span>🛡️</span><h3>Segurança</h3><p>Tenha mais controle durante sua jornada.</p><a href="#seguranca">Ver segurança →</a></article>
-    <article class="solution-card reveal"><span>💡</span><h3>Experiência inteligente</h3><p>Tecnologia criada para facilitar a experiência do viajante.</p><a href="#diferencial">Conhecer tecnologia →</a></article>
+    <article class="solution-card reveal"><span><i data-lucide="map" aria-hidden="true"></i></span><h3>Planejamento de viagem</h3><p>Organize destinos e informações importantes.</p><a href="#como-funciona">Saiba mais →</a></article>
+    <article class="solution-card reveal"><span><i data-lucide="radio-tower" aria-hidden="true"></i></span><h3>Rastreamento de bagagem</h3><p>Explore a proposta de rastreamento por meio do chip inteligente.</p><a href="#rastreamento">Rastrear agora →</a></article>
+    <article class="solution-card reveal"><span><i data-lucide="shield-check" aria-hidden="true"></i></span><h3>Segurança</h3><p>Tenha mais controle durante sua jornada.</p><a href="#seguranca">Ver segurança →</a></article>
+    <article class="solution-card reveal"><span><i data-lucide="lightbulb" aria-hidden="true"></i></span><h3>Experiência inteligente</h3><p>Tecnologia criada para facilitar a experiência do viajante.</p><a href="#diferencial">Conhecer tecnologia →</a></article>
   </div>
 </section>
 
@@ -95,44 +101,10 @@
     <div class="dash-main">
       <div class="dash-head"><div><small>MINHA BAGAGEM</small><h3>Mala Global Journey</h3><span class="bag-id">ID: GJ-2026-001</span></div><b class="online-status">● ONLINE</b></div>
       <div class="dash-grid">
-        <div class="dash-map" aria-label="Mapa ilustrativo da localização atual do chip AirFind da bagagem">
-          <div class="map-header-badge"><span>📡 AIRFIND</span><strong>LOCALIZAÇÃO DO CHIP</strong></div>
-          <svg class="map-illustration" viewBox="0 0 900 520" role="img" aria-labelledby="map-title map-desc" preserveAspectRatio="xMidYMid slice">
-            <title id="map-title">Mapa ilustrativo da localização do AirFind</title>
-            <desc id="map-desc">Rota da bagagem entre aeroportos com marcador azul indicando a última localização do chip AirFind.</desc>
-            <rect x="0" y="0" width="900" height="520" rx="24" fill="#dff2f4"/>
-            <path d="M40 120 C190 50 300 160 410 95 S650 35 850 145" fill="none" stroke="#c2e2e5" stroke-width="36" stroke-linecap="round"/>
-            <path d="M70 420 C200 300 290 430 410 355 S650 255 860 360" fill="none" stroke="#c7e5e8" stroke-width="42" stroke-linecap="round"/>
-            <path d="M120 40 C250 175 250 290 150 475" fill="none" stroke="#c8e7ea" stroke-width="26" stroke-linecap="round"/>
-            <path d="M710 30 C610 145 610 265 760 500" fill="none" stroke="#c1e1e5" stroke-width="24" stroke-linecap="round"/>
-            <path d="M138 386 C258 315 345 210 455 255 S655 350 772 174" fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round"/>
-            <path d="M138 386 C258 315 345 210 455 255 S655 350 772 174" fill="none" stroke="#075fc8" stroke-width="5" stroke-dasharray="12 11" stroke-linecap="round"/>
-            <g class="map-node">
-              <circle cx="138" cy="386" r="18" fill="#fff" stroke="#075fc8" stroke-width="5"/><circle cx="138" cy="386" r="7" fill="#075fc8"/>
-              <text x="138" y="425" text-anchor="middle">ORIGEM</text>
-            </g>
-            <g class="map-airport" id="map-node-lisboa">
-              <circle cx="455" cy="255" r="16" fill="#fff" stroke="#6d9caf" stroke-width="4"/><circle cx="455" cy="255" r="6" fill="#6d9caf"/>
-              <text x="455" y="292" text-anchor="middle">LISBOA</text>
-            </g>
-            <g class="map-airport" id="map-node-madrid">
-              <circle cx="595" cy="318" r="16" fill="#fff" stroke="#6d9caf" stroke-width="4"/><circle cx="595" cy="318" r="6" fill="#6d9caf"/>
-              <text x="595" y="355" text-anchor="middle">MADRID</text>
-            </g>
-            <g class="map-airport" id="map-node-paris">
-              <circle cx="772" cy="174" r="16" fill="#fff" stroke="#6d9caf" stroke-width="4"/><circle cx="772" cy="174" r="6" fill="#6d9caf"/>
-              <text x="772" y="211" text-anchor="middle">PARIS</text>
-            </g>
-            <g id="map-chip-marker" class="map-chip-marker">
-              <circle cx="455" cy="255" r="38" fill="#075fc8" opacity=".17"/>
-              <circle cx="455" cy="255" r="24" fill="#075fc8" stroke="#fff" stroke-width="7"/>
-              <path d="M455 245 L463 259 L455 266 L447 259 Z" fill="#fff"/>
-              <text x="455" y="213" text-anchor="middle" id="map-marker-caption">AIRFIND</text>
-            </g>
-            <text x="62" y="72" class="map-watermark">MAPA DE RASTREAMENTO</text>
-            <text x="838" y="475" text-anchor="end" class="map-live">● RASTREIO ILUSTRATIVO · ONLINE</text>
-          </svg>
-          <div class="map-label"><small>CHIP AIRFIND</small><strong id="map-location-name">Aeroporto de Lisboa</strong><span id="map-location-meta">📍 Última localização registrada · agora</span></div>
+        <div class="dash-map" aria-label="Mapa geográfico real com localização demonstrativa do chip AirFind">
+          <div class="map-header-badge"><span><i data-lucide="radio-tower" aria-hidden="true"></i> AIRFIND</span><strong>LOCALIZAÇÃO DO CHIP</strong></div>
+          <div id="real-map" role="region" aria-label="Mapa geográfico real com localização demonstrativa do AirFind"></div><span class="map-demo-notice">Mapa real · localização e bateria do chip simuladas</span>
+          <div class="map-label"><small>CHIP AIRFIND</small><strong id="map-location-name">Aeroporto de Lisboa</strong><span id="map-location-meta"><i data-lucide="map-pin" aria-hidden="true"></i> Última localização registrada · agora</span></div>
         </div>
         <div class="dash-info"><div><small>STATUS</small><strong id="bag-status">Em trânsito</strong></div><div><small>LOCALIZAÇÃO</small><strong id="bag-location">Aeroporto de Lisboa</strong></div><div><small>ATUALIZAÇÃO</small><strong id="bag-updated">Agora</strong></div><div><small>BATERIA DO CHIP</small><strong id="bag-battery">92%</strong></div><div><small>CONEXÃO</small><strong id="bag-connection">Estável</strong></div><button class="refresh-bag" id="refresh-bag">Atualizar localização</button></div>
       </div>
@@ -145,23 +117,23 @@
       <span class="eyebrow">AIRFIND · CHIP INTELIGENTE</span>
       <h2>Mais controle para sua bagagem.</h2>
       <p>O AirFind acompanha sua mala e mostra a localização pelo celular. O chip é vendido separadamente e os planos ativam o rastreamento durante a viagem.</p>
-      <div class="airfind-price"><small>CHIP AIRFIND</small><strong>R$ 149,90</strong><span>pagamento único · chip físico</span></div>
+      <div class="airfind-price"><small>CHIP AIRFIND</small><strong>R$ 59,90</strong><span>pagamento único · chip físico</span></div>
       <div class="airfind-plans" id="airfind-plans" aria-label="Planos mensais do AirFind">
-        <article class="airfind-plan-card" data-plan="Essencial" data-price="19.90" tabindex="0" role="button" aria-pressed="false">
-          <span>ESSENCIAL · MENSAL</span><strong>R$ 19,90</strong><small>Rastreamento básico por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
+        <article class="airfind-plan-card" data-plan="Essencial" data-price="9.90" tabindex="0" role="button" aria-pressed="false">
+          <span>ESSENCIAL · MENSAL</span><strong>R$ 9,90</strong><small>Localização ilustrativa e consulta manual · 30 dias</small><ul class="plan-benefits"><li>Consulta básica de localização</li><li>Atualização manual</li><li>Ideal para viagens ocasionais</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
-        <article class="airfind-plan-card featured" data-plan="Plus" data-price="29.90" tabindex="0" role="button" aria-pressed="false">
-          <em>MAIS COMPLETO</em><span>PLUS · MENSAL</span><strong>R$ 29,90</strong><small>Mais atualizações durante a viagem</small><button type="button" class="plan-select">Selecionar plano</button>
+        <article class="airfind-plan-card featured" data-plan="Plus" data-price="14.90" tabindex="0" role="button" aria-pressed="false">
+          <em>MAIS COMPLETO</em><span>PLUS · MENSAL</span><strong>R$ 14,90</strong><small>Mais praticidade durante a viagem · 30 dias</small><ul class="plan-benefits"><li>Tudo do Essencial</li><li>Atualizações demonstrativas mais frequentes</li><li>Histórico ilustrativo de trajetos</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
-        <article class="airfind-plan-card" data-plan="Premium" data-price="39.90" tabindex="0" role="button" aria-pressed="false">
-          <span>PREMIUM · MENSAL</span><strong>R$ 39,90</strong><small>Rastreamento completo por 30 dias</small><button type="button" class="plan-select">Selecionar plano</button>
+        <article class="airfind-plan-card" data-plan="Premium" data-price="19.90" tabindex="0" role="button" aria-pressed="false">
+          <span>PREMIUM · MENSAL</span><strong>R$ 19,90</strong><small>Experiência mais completa · 30 dias</small><ul class="plan-benefits"><li>Tudo do Plus</li><li>Alertas ilustrativos de movimentação</li><li>Painel detalhado de acompanhamento</li></ul><button type="button" class="plan-select">Selecionar plano</button>
         </article>
       </div>
-      <div class="airfind-selected" id="airfind-selected" aria-live="polite">
+      <div class="airfind-billing"><strong>Período da assinatura</strong><label><input type="radio" name="airfind-billing" value="monthly" checked> Mensal</label><label><input type="radio" name="airfind-billing" value="annual"> Anual · 12 meses pelo preço de 10 (valor demonstrativo)</label></div><div class="airfind-selected" id="airfind-selected" aria-live="polite">
         <div><small>PLANO SELECIONADO</small><strong>Nenhum plano selecionado</strong></div>
         <span>Escolha uma opção acima para ver o valor mensal.</span>
       </div>
-      <small class="price-note">Valores demonstrativos para o protótipo do site. Não incluem custos de envio.</small>
+      <button type="button" class="btn checkout-open" id="airfind-checkout" disabled>Ir para pagamento</button><small class="price-note">Recursos e valores dos planos são demonstrativos, sem rastreamento real. Valores demonstrativos para o protótipo do site. Não incluem custos de envio.</small>
     </div>
   </div>
 </section>
@@ -179,14 +151,37 @@
       <button class="btn" id="plan-trip" type="button">Montar minha viagem</button>
     </div>
     <div class="trip-summary" id="trip-summary"><small>ESTIMATIVA INICIAL</small><strong>Paris</strong><span>Passagem ida e volta estimada: <b>R$ 4.890 por viajante</b>. Selecione as datas e um hotel para calcular o total.</span></div>
-<div class="recommended-company-box" id="trip-company-box">
+<div class="recommended-company-box" id="trip-company-box" hidden>
   <div><span class="eyebrow">COMPANHIA PARA SUA VIAGEM</span><h3 id="trip-company-name">Air France</h3><p id="trip-company-reason">Sugestão demonstrativa baseada no destino selecionado.</p></div>
   <button type="button" class="btn btn-small" id="select-company">Selecionar empresa</button>
 </div>
   </div>
 
+  <section class="journey-result" id="journey-result" hidden aria-live="polite">
+    <div class="journey-result-header">
+      <div><span class="eyebrow">SEU ROTEIRO GLOBAL JOURNEY</span><h3 id="journey-title">Sua jornada personalizada</h3><p id="journey-dates">Escolha sua viagem para ver o roteiro.</p></div>
+      <span class="journey-demo-tag">Planejamento demonstrativo · sem reservas</span>
+    </div>
+    <div class="journey-progress" aria-label="Etapas da sua jornada"><span>1 · Planejar</span><span>2 · Hospedagem opcional</span><span>3 · Transporte</span><span>4 · AirFind</span></div>
+    <div class="journey-steps">
+      <article><span>01</span><div><strong>Antes de embarcar</strong><p>Confira documentos, bagagem, horário e terminal diretamente com a companhia aérea.</p></div></article>
+      <article><span>02</span><div><strong>Embarque e voo</strong><p>Veja abaixo as etapas de aeroporto e a companhia brasileira sugerida para pesquisar passagens.</p></div></article>
+      <article><span>03</span><div><strong>Chegada e transporte</strong><p>Consulte Uber ou 99, conforme a disponibilidade no destino.</p></div></article>
+      <article><span>04</span><div><strong>Bagagem com AirFind</strong><p>Conheça o chip opcional de R$ 59,90 e os planos de rastreamento demonstrativo.</p><a class="journey-chip-link" href="#bagagem" data-route="bagagem" id="journey-airfind-link">Conhecer AirFind →</a></div></article>
+    </div>
+    <div class="journey-checklist" aria-label="Checklist da viagem"><h3>Checklist antes de viajar</h3><label><input type="checkbox"> Conferir documentação e requisitos do destino</label><label><input type="checkbox"> Confirmar horários, terminal e bagagem com a companhia</label><label><input type="checkbox"> Organizar deslocamento até o aeroporto</label><label><input type="checkbox"> Escolher se deseja hospedagem e AirFind</label><small>Checklist demonstrativo: suas marcações permanecem nesta página.</small></div>
+    <div class="journey-hotel-choice">
+      <div><span class="eyebrow">HOSPEDAGEM OPCIONAL</span><h3>Deseja incluir hospedagem?</h3><p>Você pode comparar hotéis sugeridos ou seguir sem hotel. Os valores são estimativas ilustrativas, não ofertas disponíveis para reserva.</p></div>
+      <div class="journey-hotel-actions">
+        <button class="btn btn-small" id="show-hotels" type="button">Ver hotéis sugeridos</button>
+        <button class="btn btn-small outline" id="skip-hotels" type="button">Continuar sem hotel</button>
+      </div>
+      <p id="hotel-choice-status" class="hotel-choice-status" role="status"></p>
+    </div>
+  </section>
+  <div id="journey-details" hidden>
   <div class="trip-columns">
-    <div class="trip-panel reveal">
+    <div class="trip-panel reveal" id="hotel-panel" hidden>
       <div class="panel-title"><div><span class="eyebrow">HOSPEDAGEM</span><h3>Hotéis sugeridos</h3></div><span class="panel-note">Opções para demonstração</span></div>
       <div class="hotel-list" id="hotel-list"></div>
     </div>
@@ -214,25 +209,33 @@
     </div>
     <small class="transport-disclaimer">As opções exibidas são atalhos para os serviços. Tarifas, disponibilidade e localização dos veículos são definidas pelos aplicativos.</small>
   </div>
+  </div><!-- /journey-details -->
+  <div class="trip-checkout-action" id="trip-checkout-footer" hidden><div><h3>Pronto para continuar?</h3><p>Revise o valor total da viagem e escolha sua forma de pagamento na próxima página.</p></div><button class="btn" id="trip-checkout" type="button">Ir para pagamento</button></div>
 </section>
 
 <section class="section account-section app-page" data-page="conta" id="minha-conta">
   <div class="heading reveal"><span class="eyebrow">MINHA CONTA</span><h2>Seus dados em um só lugar.</h2><p>Consulte seu perfil, preferências e histórico de empresas utilizadas nas viagens.</p></div>
   <div class="account-overview reveal">
-    <div class="account-welcome"><div class="account-avatar">👤</div><div><span class="eyebrow">MINHA CONTA</span><h3 id="account-name-card">Viajante</h3><p id="account-email-card">Faça login para visualizar seus dados.</p></div><button class="btn btn-small" id="account-section-btn" type="button">Entrar</button></div>
+    <div class="account-welcome"><div class="account-avatar"><i data-lucide="user-round" aria-hidden="true"></i></div><div><span class="eyebrow">MINHA CONTA</span><h3 id="account-name-card">Viajante</h3><p id="account-email-card">Faça login para visualizar seus dados.</p></div><button class="btn btn-small" id="account-section-btn" type="button">Entrar</button></div>
   </div>
   <div class="account-dashboard reveal">
-    <div class="account-data-card"><span class="profile-icon">👤</span><small>NOME</small><strong id="profile-name">Viajante</strong><small>E-MAIL</small><span id="profile-email">Faça login para visualizar</span></div>
-    <div class="account-data-card"><span class="profile-icon">✈️</span><small>EMPRESA MAIS INDICADA</small><strong id="recommended-company">Escolha uma viagem</strong><span id="recommended-reason">A indicação aparece de acordo com o destino.</span></div>
-    <div class="account-data-card"><span class="profile-icon">📊</span><small>EMPRESA MAIS UTILIZADA</small><strong id="most-used-company">Ainda não há histórico</strong><span id="company-usage">Escolha uma empresa para criar seu histórico.</span></div>
+    <div class="account-data-card"><span class="profile-icon"><i data-lucide="user-round" aria-hidden="true"></i></span><small>NOME</small><strong id="profile-name">Viajante</strong><small>E-MAIL</small><span id="profile-email">Faça login para visualizar</span></div>
+    <div class="account-data-card"><span class="profile-icon"><i data-lucide="plane" aria-hidden="true"></i></span><small>EMPRESA MAIS INDICADA</small><strong id="recommended-company">Escolha uma viagem</strong><span id="recommended-reason">A indicação aparece de acordo com o destino.</span></div>
+    <div class="account-data-card"><span class="profile-icon"><i data-lucide="chart-column" aria-hidden="true"></i></span><small>EMPRESA MAIS UTILIZADA</small><strong id="most-used-company">Ainda não há histórico</strong><span id="company-usage">Escolha uma empresa para criar seu histórico.</span></div>
   </div>
-  <div class="company-history reveal"><div><span class="eyebrow">PREFERÊNCIAS</span><h3>Empresas utilizadas</h3><p>Seu histórico fica salvo neste dispositivo.</p></div><div id="company-history-list" class="company-history-list"></div></div>
+  <div class="account-chip-demo reveal">
+    <div class="account-chip-icon"><i data-lucide="map-pin" aria-hidden="true"></i></div>
+    <div><span class="eyebrow">MEU AIRFIND · DEMONSTRAÇÃO</span><h3>Minha bagagem ilustrativa</h3><p>Chip de exemplo GJ-2026-001 · Em trânsito · Aeroporto de Lisboa · Bateria 92%</p><small>Os dados são fictícios. Nenhum chip físico está associado a este perfil.</small></div>
+    <button class="btn btn-small" id="account-view-bag" type="button">Ver mapa ilustrativo</button>
+  </div>
+  <div class="company-history reveal"><div><span class="eyebrow">PREFERÊNCIAS</span><h3>Empresas utilizadas</h3><p>Seu histórico demonstrativo fica salvo neste dispositivo.</p></div><div id="company-history-list" class="company-history-list"></div></div>
   <div class="account-trips reveal">
-    <div class="panel-title"><div><span class="eyebrow">MINHAS VIAGENS</span><h3>Próximas e anteriores</h3></div><span class="panel-note">Planejamento e histórico</span></div>
+    <div class="panel-title"><div><span class="eyebrow">MINHAS VIAGENS</span><h3>Próximas e anteriores</h3></div><span class="panel-note">Viagens planejadas neste navegador · demonstração</span></div>
     <div class="trip-history-tabs"><button class="trip-tab active" data-trip-tab="future">Próximas</button><button class="trip-tab" data-trip-tab="past">Passadas</button></div>
     <div id="future-trips" class="saved-trips"></div>
     <div id="past-trips" class="saved-trips hidden"></div>
   </div>
+  <div class="account-signout" id="account-signout" hidden><div><strong>Encerrar sessão</strong><p>Saia do seu perfil demonstrativo neste navegador.</p></div><button class="btn outline" type="button" id="account-signout-btn"><i data-lucide="log-out" aria-hidden="true"></i> Sair da conta</button></div>
 </section>
 
 <section class="section destinations" id="destinos">
@@ -263,7 +266,7 @@
   </div>
 </section>
 
-<section class="cta" id="contato"><div class="reveal"><span class="eyebrow">GLOBAL JOURNEY</span><h2>Seu próximo destino<br>começa aqui.</h2><p>Descubra uma nova forma de viajar, com mais informação, tecnologia e tranquilidade.</p><a class="btn light" href="#minha-viagem" data-route="viagem">Começar minha jornada ✈</a></div></section>
+<section class="cta" id="contato"><div class="reveal"><span class="eyebrow">GLOBAL JOURNEY</span><h2>Seu próximo destino<br>começa aqui.</h2><p>Descubra uma nova forma de viajar, com mais informação, tecnologia e tranquilidade.</p><a class="btn light" href="#minha-viagem" data-route="viagem">Começar minha jornada</a></div></section>
 </main>
 
 <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-label="Minha conta">
@@ -271,14 +274,15 @@
     <button class="modal-close" id="close-modal" aria-label="Fechar">×</button>
     <span class="eyebrow">MINHA CONTA</span>
     <h2>Acesse sua jornada</h2>
-    <p>Use uma conta de demonstração para explorar o Global Journey durante a apresentação.</p>
+    <p>Crie um perfil ilustrativo para conhecer sua área de viajante.</p><p class="demo-auth-disclaimer">Modo demonstração: a senha é verificada somente neste navegador. Não é uma conta online segura. Use uma senha exclusiva, diferente das suas senhas reais.</p>
     <form id="login-form">
-      <label>Nome<input id="login-name" type="text" placeholder="Seu nome" required></label>
-      <label>E-mail<input id="login-email" type="email" placeholder="voce@email.com" required></label>
-      <label>Senha<input id="login-password" type="password" placeholder="••••••••" required></label>
-      <button class="btn" type="submit">Entrar na conta</button>
+      <label id="login-name-row" hidden>Nome<input id="login-name" type="text" placeholder="Seu nome" autocomplete="name"></label>
+      <label>E-mail<input id="login-email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+      <label>Senha<input id="login-password" type="password" placeholder="Digite sua senha" autocomplete="current-password" minlength="8" required></label>
+      
+      <button class="btn" id="auth-submit" type="submit">Entrar na conta</button>
     </form>
-    <small id="login-status" class="login-status"></small><small class="email-note">Ao entrar, o Global Journey envia uma mensagem de boas-vindas para o e-mail informado quando o envio estiver configurado.</small>
+    <small id="login-status" class="login-status" role="status" aria-live="polite"></small>
   </div>
 </div>
 
@@ -294,10 +298,11 @@
 
 <footer class="footer">
   <div><a class="footer-brand" href="#inicio" aria-label="Voltar ao início"><img src="logo.png" alt="Global Journey"></a><p>Conectando você ao mundo com tecnologia.</p></div>
-  <div class="footer-links"><a href="#diferencial">Sobre nós</a><a href="#solucoes">Soluções</a><a href="#seguranca">Segurança</a><a href="#contato">Contato</a><a href="#">Termos de uso</a><a href="#">Política de privacidade</a></div>
-  <div class="social"><a href="#">◎</a><a href="#">in</a><a href="#">f</a></div>
-  <div class="copyright">© 2026 Global Journey. Todos os direitos reservados.</div>
+  <div class="footer-links"><a href="#diferencial">Sobre nós</a><a href="#solucoes">Soluções</a><a href="#seguranca">Segurança</a><a href="#contato">Contato</a><a href="#transparencia">Transparência do protótipo</a></div>
+  <div class="footer-prototype" id="transparencia"><strong>Protótipo de apresentação</strong><p>Preços, hotéis, voos, rotas e dados do AirFind são ilustrativos. Não realizamos reservas, pagamentos ou rastreamento real nesta versão. O perfil demonstrativo e as viagens são armazenados somente neste navegador; evite inserir informações sensíveis.</p></div>
+  <div class="copyright">© 2026 Global Journey. Projeto em demonstração, sem serviços comerciais ativos.</div>
 </footer>
-<script src="script.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script><script src="script.js"></script><script src="auth-demo.js"></script>
+<div class="checkout-overlay" id="checkout-overlay" hidden><section class="checkout-dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title"><button class="checkout-close" type="button" id="checkout-close" aria-label="Fechar pagamento">×</button><span class="eyebrow">GLOBAL JOURNEY · SIMULAÇÃO</span><h2 id="checkout-title">Resumo para pagamento</h2><p class="checkout-warning">Simulação de pagamento: nenhuma cobrança, reserva ou transação será realizada. Não informe dados bancários reais.</p><div id="checkout-items" class="checkout-items"></div><div class="checkout-total"><span>Total estimado</span><strong id="checkout-total">R$ 0,00</strong></div><fieldset class="checkout-methods"><legend>Escolha a forma de pagamento</legend><label><input type="radio" name="checkout-method" value="Pix" checked> Pix</label><label><input type="radio" name="checkout-method" value="Cartão de crédito"> Cartão de crédito</label><label><input type="radio" name="checkout-method" value="Cartão de débito"> Cartão de débito</label></fieldset><p id="checkout-method-note" class="checkout-method-note">Pix demonstrativo — não será gerado código de pagamento.</p><button type="button" class="btn" id="checkout-confirm">Simular pagamento</button><p id="checkout-feedback" role="status"></p></section></div>
 </body>
 </html>

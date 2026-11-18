@@ -1,0 +1,60 @@
+/* Identidade visual Global Journey na página de pagamento */
+body{background:#f7fafc!important}
+.pay-site-header{height:92px;padding:0 5%;gap:24px}
+.pay-site-header .brand{margin-right:auto}
+.pay-nav{display:flex;align-items:center;gap:28px}
+.pay-nav a{font-size:12px;font-weight:700;color:#536979;transition:color .2s}
+.pay-nav a:hover{color:#075fc8}
+.pay-header-actions{display:flex;align-items:center;gap:15px}
+.pay-header-actions .outline{white-space:nowrap}
+.pay-site-header .theme-toggle{display:grid;place-items:center;flex-shrink:0}
+.pay-shell{max-width:1160px;margin:0 auto;padding:62px 5% 100px}
+.pay-intro{text-align:center;max-width:740px;margin:0 auto 32px}
+.pay-intro .eyebrow{margin-bottom:12px}
+.pay-intro h1{font-size:clamp(34px,4.6vw,52px);letter-spacing:-2px;line-height:1.1;margin:0 0 16px}
+.pay-intro h1 span{color:#075fc8}
+.pay-intro p{color:#6b8190;font-size:15px}
+.pay-steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;margin:30px auto 0}
+.pay-steps span{padding:9px 13px;border:1px solid #dbe7f0;border-radius:999px;background:#fff;color:#6d8192;font-size:11px;font-weight:800}
+.pay-steps .done{color:#167b61;background:#eaf9f3;border-color:#c9ebdd}
+.pay-steps .active{background:#e7f3ff;border-color:#b7d9fb;color:#075fc8}
+.pay-grid{grid-template-columns:1.07fr .93fr;gap:24px;margin-top:24px;align-items:start}
+.pay-panel{border:1px solid #dbe8ee;border-radius:20px;padding:30px;background:#fff;box-shadow:0 20px 45px #12384b0c}
+.pay-panel h2{font-size:22px;letter-spacing:-.5px}
+.pay-option{border-radius:13px;transition:.2s}
+.pay-option:hover{border-color:#8cb9e8}
+.pay-option input{accent-color:#075fc8}
+.pay-warning{max-width:100%;border-radius:13px}
+.pay-total{background:#e7f3ff}
+.pay-site-footer{margin-top:0}
+body.dark-mode{background:#0a1d2c!important}
+body.dark-mode .pay-site-header{background:#10283b!important;border-color:#33516a!important}
+body.dark-mode .pay-nav a{color:#c8d8e6}
+body.dark-mode .pay-nav a:hover{color:#8dc4ff}
+body.dark-mode .pay-intro h1{color:#f0f7ff}
+body.dark-mode .pay-intro h1 span{color:#83bfff}
+body.dark-mode .pay-intro p{color:#c2d5e3}
+body.dark-mode .pay-steps span{background:#18354b;border-color:#385971;color:#c4d6e5}
+body.dark-mode .pay-steps .done{background:#173e36;color:#b5ebd6}
+body.dark-mode .pay-steps .active{background:#1c4266;color:#a9d4ff}
+body.dark-mode .pay-panel{background:#142b3f!important;border-color:#33516a!important;color:#eff7ff!important}
+body.dark-mode .pay-option{color:#eff7ff}
+body.dark-mode .pay-option:has(input:checked){background:#203f59!important}
+body.dark-mode .pay-warning{background:#493a25;color:#ffe5b6;border-color:#856638}
+body.dark-mode .pay-installments select{background:#18384f;color:#f0f7ff;border-color:#496b83}
+body.dark-mode .pay-status{color:#8fe5bf}
+@media(max-width:760px){.pay-site-header{height:auto;min-height:78px;padding:8px 5%;flex-wrap:wrap}.pay-site-header .brand,.pay-site-header .brand img{width:62px;height:62px;flex-basis:62px}.pay-nav{order:3;width:100%;justify-content:center;gap:20px;padding:5px 0 12px}.pay-header-actions{gap:8px}.pay-header-actions .btn{padding:9px 12px;font-size:10px}.pay-shell{padding:38px 5% 70px}.pay-grid{grid-template-columns:1fr}.pay-panel{padding:22px}.pay-steps{gap:7px}.pay-steps span{font-size:10px;padding:8px 10px}}
+
+/* Navbar do checkout: mesma distribuição e dimensões da navbar principal. */
+.pay-site-header{height:84px!important;min-height:84px!important;display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:20px!important;padding:0 4.5%!important}
+.pay-site-header .brand{width:78px!important;height:78px!important;flex:0 0 78px!important;margin:0!important;order:0}
+.pay-site-header .brand img{width:78px!important;height:78px!important;object-fit:contain}
+.pay-site-header .pay-auth-actions{display:flex!important;align-items:center!important;gap:10px!important;order:1;flex-shrink:0;margin:0!important}
+.pay-site-header .pay-auth-actions a{display:inline-flex!important;align-items:center;justify-content:center;min-width:105px;height:42px;padding:10px 14px!important;font-size:12px!important;border-radius:10px!important;box-sizing:border-box}
+.pay-site-header .pay-nav{display:flex!important;order:2;margin-left:auto!important;gap:20px!important;align-items:center!important;justify-content:flex-end!important;width:auto!important;padding:0!important;flex-wrap:nowrap!important}
+.pay-site-header .pay-nav a{font-size:11px!important;font-weight:700!important;white-space:nowrap!important;color:#263e54}
+.pay-site-header .pay-nav a:hover{color:#075fc8!important}
+.pay-site-header #pay-theme-toggle{order:3;flex:0 0 42px!important;width:42px!important;height:42px!important;margin:0!important}
+body.dark-mode .pay-site-header .pay-nav a{color:#c8d8e6!important}
+@media(max-width:1120px){.pay-site-header{gap:12px!important;padding:0 3%!important}.pay-site-header .pay-nav{gap:11px!important}.pay-site-header .pay-nav a{font-size:10px!important}.pay-site-header .pay-auth-actions a{min-width:88px}}
+@media(max-width:850px){.pay-site-header{height:auto!important;min-height:84px!important;flex-wrap:wrap!important;padding:8px 4%!important}.pay-site-header .brand{width:64px!important;height:64px!important;flex-basis:64px!important}.pay-site-header .brand img{width:64px!important;height:64px!important}.pay-site-header .pay-nav{order:4;width:100%!important;justify-content:center!important;flex-wrap:wrap!important;gap:12px!important;padding:8px 0!important;margin:0!important}.pay-site-header .pay-auth-actions{margin-left:auto!important}.pay-site-header .pay-auth-actions a{min-width:85px;height:38px}.pay-site-header #pay-theme-toggle{order:3}}

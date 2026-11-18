@@ -152,7 +152,7 @@
 /* Localizador ilustrado da bagagem */
 .dash-map{background-color:#e7f2f4;background-image:radial-gradient(circle at 20% 25%,rgba(255,255,255,.95) 0 18px,transparent 19px),radial-gradient(circle at 78% 68%,rgba(255,255,255,.9) 0 25px,transparent 26px),linear-gradient(18deg,transparent 44%,#c5dadd 45%,#c5dadd 47%,transparent 48%),linear-gradient(105deg,transparent 46%,#c5dadd 47%,#c5dadd 49%,transparent 50%),linear-gradient(155deg,transparent 50%,#d1e2e4 51%,#d1e2e4 53%,transparent 54%);}
 .dash-map:before{content:"";position:absolute;inset:12% 16%;border:2px dashed rgba(7,95,200,.28);border-radius:48% 52% 45% 55%;transform:rotate(-8deg);}
-.dash-map:after{content:"✈";position:absolute;right:18%;top:18%;font-size:28px;color:#075fc8;transform:rotate(18deg);opacity:.8;}
+.dash-map:after{content:"";position:absolute;right:18%;top:18%;font-size:28px;color:#075fc8;transform:rotate(18deg);opacity:.8;}
 .dash-map .pin{z-index:2;width:54px;height:54px;display:grid;place-items:center;background:#075fc8;color:#fff;border:7px solid rgba(255,255,255,.88);border-radius:50% 50% 50% 0;box-shadow:0 12px 28px rgba(7,95,200,.3);transform:rotate(-45deg);}
 .dash-map .pin::first-letter{display:block;}
 .dash-map .pin{font-size:22px;}
@@ -373,3 +373,438 @@ body.dark-mode .airfind-selected strong{color:#fff}
 body.dark-mode .airfind-selected>span{color:#9fb3bf}
 @media(max-width:900px){.airfind-plans{grid-template-columns:1fr!important}.airfind-selected{align-items:flex-start;flex-direction:column}.airfind-selected>span{text-align:left}.trip-summary .flight-price-highlight{align-items:flex-start;flex-direction:column}.trip-summary .flight-price-highlight span{white-space:normal}}
 @media(max-width:600px){.dest-price{min-width:150px!important}.dest-price b{font-size:18px!important}}
+
+/* Revisão Global Journey: navegação ativa, autenticação e mapa real */
+.nav a.nav-active{color:#075fc8;border-bottom:3px solid #075fc8;padding-bottom:7px}
+body.dark-mode .nav a.nav-active{color:#7ec4ff;border-color:#7ec4ff}
+[hidden]{display:none!important}
+#real-map{position:absolute;inset:0;z-index:1;width:100%;height:100%;background:#dcebf0}
+.dash-map .map-header-badge{z-index:450;pointer-events:none}
+.dash-map .map-label{z-index:450;pointer-events:none}
+.map-demo-notice{position:absolute;top:10px;right:10px;z-index:450;background:#fff;color:#12384b;padding:6px 10px;border-radius:8px;font-size:10px;font-weight:700;max-width:65%;box-shadow:0 2px 10px #0002}
+.auth-link{border:0;background:none;color:#075fc8;cursor:pointer;text-decoration:underline;padding:10px 0;font:inherit;font-size:12px}
+#login-status{display:block;min-height:18px}
+@media(max-width:900px){.header{gap:9px}.header-account,#register-btn{font-size:10px;padding:9px 10px}.map-demo-notice{max-width:80%;top:46px}}
+
+/* Entrar e Registre-se sempre lado a lado no cabeçalho */
+.header-auth-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex:0 0 auto;white-space:nowrap}
+.header-auth-actions .btn{margin:0;flex:0 0 auto}
+@media(max-width:1100px){.header{gap:12px;padding-left:3%;padding-right:3%}.nav{gap:12px}.header-auth-actions{gap:7px}}
+@media(max-width:700px){.header-auth-actions{gap:5px}.header-auth-actions .btn{font-size:10px;padding:9px 8px}}
+
+/* Ações de autenticação com dimensões iguais em todos os tamanhos */
+.header-auth-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.header-auth-actions .btn{width:112px;min-width:112px;height:42px;min-height:42px;padding:0 8px;font-size:12px;line-height:1.2;text-align:center;white-space:nowrap;box-sizing:border-box}
+@media(max-width:700px){.header-auth-actions .btn{width:90px;min-width:90px;height:38px;min-height:38px;padding:0 4px;font-size:10px}}
+
+/* Bagagem: dashboard sem barra lateral; evita coluna fantasma de 210px no desktop */
+#rastreamento .dashboard{display:block!important;width:100%;max-width:1100px}
+#rastreamento .dash-main{display:block!important;width:100%!important;min-width:0!important}
+#rastreamento .dash-grid{display:grid!important;grid-template-columns:minmax(0,1fr) 220px!important;gap:20px!important;width:100%!important;align-items:stretch}
+#rastreamento .dash-map{display:block!important;position:relative!important;width:100%!important;min-width:0!important;height:360px!important;min-height:360px!important;overflow:hidden!important}
+#rastreamento #real-map{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:360px!important;z-index:1!important}
+#rastreamento .dash-info{min-width:0!important;width:100%!important}
+#rastreamento .map-header-badge,#rastreamento .map-label{z-index:500!important}
+#rastreamento .map-demo-notice{z-index:500!important}
+#rastreamento .leaflet-container{background:#dcebf0}
+#rastreamento .map-unavailable{display:flex!important;align-items:center;justify-content:center;text-align:center;padding:25px;font-size:14px;color:#17445b}
+@media(max-width:760px){
+  #rastreamento .dash-grid{grid-template-columns:minmax(0,1fr)!important}
+  #rastreamento .dash-map,#rastreamento #real-map{height:300px!important;min-height:300px!important}
+  #rastreamento .dash-info{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:430px){#rastreamento .dash-info{grid-template-columns:minmax(0,1fr)!important}}
+
+/* Jornada em etapas: exibida apenas depois de montar a viagem */
+.journey-result{margin:26px 0 20px;padding:26px;background:#fff;border:1px solid #dbe8ee;border-radius:22px;box-shadow:0 15px 35px #0b36550a;scroll-margin-top:110px}
+.journey-result-header{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px}
+.journey-result-header h3,.journey-hotel-choice h3{font-size:24px;line-height:1.2;margin-bottom:8px}
+.journey-result-header p,.journey-hotel-choice p{font-size:13px;color:#637788}
+.journey-demo-tag{font-size:10px;color:#476b7f;background:#eaf4fb;border-radius:999px;padding:8px 12px;white-space:nowrap}
+.journey-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.journey-steps article{display:flex;gap:14px;padding:18px;background:#f5f9fc;border:1px solid #e1edf4;border-radius:14px}
+.journey-steps article>span{flex:0 0 34px;height:34px;display:grid;place-items:center;background:#075fc8;color:#fff;border-radius:10px;font-size:11px;font-weight:800}
+.journey-steps strong{font-size:14px}.journey-steps p{font-size:12px;color:#627d8d;margin-top:5px}
+.journey-chip-link{display:inline-block;color:#075fc8;font-weight:800;font-size:12px;margin-top:9px}
+.journey-hotel-choice{padding:20px;border-radius:16px;background:#eef8f4;border:1px solid #d4ebe1}
+.journey-hotel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.hotel-choice-status{min-height:18px;margin-top:12px;font-size:12px;color:#315c56}
+#journey-details{margin-top:20px}
+#journey-details .trip-columns{margin-top:18px}
+#hotel-panel{scroll-margin-top:115px}
+body.dark-mode .journey-result{background:#102b3d;border-color:#315269}
+body.dark-mode .journey-steps article{background:#18394e;border-color:#315269}
+body.dark-mode .journey-hotel-choice{background:#173d36;border-color:#396a58}
+@media(max-width:760px){.journey-result{padding:18px}.journey-result-header{flex-direction:column}.journey-steps{grid-template-columns:1fr}.journey-demo-tag{white-space:normal}}
+
+/* Modo pitch: interface navegável sem login ou coleta de credenciais */
+.pitch-note{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:9px 13px;background:#eaf4ff;color:#285576;border:1px solid #cde5f7;border-radius:999px;font-size:11px;font-weight:700;max-width:100%}
+.pitch-dot{display:inline-block;width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#0b78d0}
+.header-auth-actions .pitch-header-action{width:128px;min-width:128px;min-height:42px;text-align:center;white-space:nowrap}
+#login-modal[hidden]{display:none!important}
+body.dark-mode .pitch-note{background:#14364a;color:#d5ecfa;border-color:#2d566c}
+@media(max-width:760px){.pitch-note{font-size:10px;border-radius:12px}.header-auth-actions .pitch-header-action{width:96px;min-width:96px;min-height:38px;padding:0 5px;font-size:10px}}
+
+/* Conta ilustrativa do pitch */
+.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:112px;min-width:112px;min-height:42px;text-align:center}
+.header-auth-actions #register-btn[hidden],#login-name-row[hidden]{display:none!important}
+.demo-auth-disclaimer{margin:10px 0 16px;padding:10px 12px;background:#edf6ff;border:1px solid #d4e6f5;border-radius:10px;font-size:12px;color:#285576}
+.account-chip-demo{display:flex;align-items:center;gap:18px;padding:24px;margin:22px 0;border:1px solid #cfe4ef;border-radius:18px;background:linear-gradient(110deg,#eaf6ff,#f7fcff)}
+.account-chip-icon{font-size:34px}.account-chip-demo>div:nth-child(2){flex:1;min-width:0}
+.account-chip-demo h3{font-size:21px;margin:3px 0 6px}.account-chip-demo p{font-size:13px;color:#365d74}.account-chip-demo small{font-size:11px;color:#658395}
+body.dark-mode .account-chip-demo{background:#14344b;border-color:#2d586c}
+body.dark-mode .demo-auth-disclaimer{background:#17354b;color:#d4e8f6;border-color:#315a72}
+@media(max-width:760px){.account-chip-demo{flex-direction:column;align-items:flex-start}.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:96px;min-width:96px;min-height:38px}}
+
+/* Refinamento visual: pictogramas vetoriais discretos, preservando a estrutura */
+.icon svg,.solution-card>span svg,.account-avatar svg,.profile-icon svg,.account-chip-icon svg{width:25px;height:25px;stroke-width:1.8;vertical-align:middle}
+.stats b svg{width:24px;height:24px;stroke-width:1.9}
+.tracking-benefits b svg,.features b svg{width:20px;height:20px;stroke-width:1.9}
+.map-header-badge svg,.map-label svg{width:14px;height:14px;vertical-align:middle}
+.theme-toggle svg{width:19px;height:19px;stroke-width:1.9}
+.menu-toggle svg{width:22px;height:22px;stroke-width:2}
+.account-chip-icon svg{width:34px;height:34px;stroke-width:1.7}
+.account-data-card .profile-icon svg{width:24px;height:24px}
+.solution-card>span svg{width:29px;height:29px}
+
+/* Global Journey — acabamento clean aprovado para o pitch */
+:root{--gj-blue:#075fc8;--gj-ink:#092238;--gj-line:#e0ebf7}
+body{background:#f8fbff}
+.header{height:94px;background:rgba(255,255,255,.98);border-bottom:1px solid #e4edf8;box-shadow:0 3px 22px rgba(11,51,94,.025);gap:22px}
+.header .brand,.header .brand img{width:90px;height:82px}.header .brand{flex-basis:90px}
+.header .nav{gap:clamp(12px,1.7vw,26px)}
+.header .nav a{font-size:12px;color:#1c3857;font-weight:700;white-space:nowrap}
+.header .nav a:hover,.header .nav a.active{color:#075fc8}
+.header-auth-actions{display:flex;gap:10px;align-items:center}
+.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:112px;min-width:112px;min-height:44px;border-radius:11px;font-size:12px}
+.header-auth-actions #account-btn{order:2}.header-auth-actions #register-btn{order:1}
+.btn{border-radius:11px;box-shadow:0 12px 24px rgba(7,95,200,.16);transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover{box-shadow:0 16px 28px rgba(7,95,200,.21)}
+.btn.outline{box-shadow:none;background:#fff;border:1px solid #b5d3fb}
+.hero{min-height:625px;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:clamp(30px,4vw,70px);padding:56px 5% 46px;background:radial-gradient(ellipse at 72% 48%,#e5f3ff 0%,#f4f9ff 44%,#fff 80%)}
+.hero-copy{min-width:0}
+.hero .eyebrow{font-size:11px;letter-spacing:2px;margin-bottom:24px}
+.hero h1{font-size:clamp(44px,4.5vw,76px);letter-spacing:-2.8px;line-height:1.05;color:#071f3d;margin-bottom:23px}
+.hero h1 span{color:#075fc8}
+.hero p{color:#3d5975;font-size:clamp(15px,1.15vw,18px);line-height:1.55;max-width:560px;margin-bottom:30px}
+.hero .actions{gap:12px}
+.hero .actions .btn{gap:10px;min-height:54px;padding:14px 20px;white-space:nowrap}
+.hero .actions svg{width:19px;height:19px;stroke-width:2}
+.hero-image{height:clamp(390px,35vw,535px);border-radius:30px;box-shadow:0 26px 58px rgba(21,68,123,.13)}
+.hero-photo{background:linear-gradient(90deg,rgba(5,31,67,.09),rgba(5,31,67,.02)),url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=90") center/cover}
+.hero .route-line{display:none}
+.hero .tracking-float{width:min(375px,80%);right:25px;bottom:25px;min-height:118px;padding:20px;display:flex;flex-direction:row;align-items:center;gap:16px;border-radius:21px;box-shadow:0 18px 45px rgba(7,37,78,.19)}
+.hero .tracking-copy{display:flex;flex-direction:column;flex:1;min-width:0}
+.hero .tracking-float .online{display:inline-block;align-self:flex-start;padding:4px 9px;background:#e4f0ff;border-radius:999px;color:#075fc8;font-size:9px;letter-spacing:.5px}
+.hero .tracking-float b{font-size:19px;line-height:1.3;margin:6px 0 2px;color:#092238}
+.hero .tracking-float small{font-size:11px;color:#47617c;line-height:1.45}
+.hero .tracking-icon{display:grid;place-items:center;flex:0 0 64px;width:64px;height:64px;background:#e5f1ff;border-radius:16px;color:#075fc8}
+.hero .tracking-icon svg{width:30px;height:30px;stroke-width:1.8}
+.hero .pitch-note{margin-top:18px;font-size:10px}
+.hero .stats{display:none}
+.pitch-feature-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:18px 4% 50px;background:linear-gradient(#f1f8ff,#f8fbff)}
+.pitch-feature{display:flex;gap:15px;align-items:flex-start;min-width:0;background:#fff;border:1px solid #e2edfa;border-radius:22px;padding:27px 22px;box-shadow:0 10px 26px rgba(17,74,139,.06);transition:transform .2s,box-shadow .2s}
+.pitch-feature:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(17,74,139,.11)}
+.pitch-feature-icon{flex:0 0 44px;color:#075fc8}
+.pitch-feature-icon svg{width:37px;height:37px;stroke-width:1.8}
+.pitch-feature h3{font-size:15px;line-height:1.35;color:#0a2546;margin:3px 0 10px;font-weight:800}
+.pitch-feature h3 small{display:inline-block;margin-left:4px;padding:3px 7px;border-radius:999px;background:#e5f0ff;color:#075fc8;font-size:9px;vertical-align:middle}
+.pitch-feature p{font-size:12px;line-height:1.55;color:#47617c}
+.image-strip{height:135px}
+.section .three-grid article,.section .solution-card{border-color:#e2ecf8;border-radius:20px;box-shadow:0 6px 20px rgba(16,65,113,.035)}
+body.dark-mode .pitch-feature-strip{background:#102b3d}
+body.dark-mode .pitch-feature{background:#17384d;border-color:#34566a}
+body.dark-mode .pitch-feature h3{color:#e9f5ff}
+body.dark-mode .pitch-feature p{color:#b6c9d7}
+body.dark-mode .hero{background:radial-gradient(ellipse at 70% 40%,#153b58,#0b263a 80%)}
+body.dark-mode .hero h1{color:#fff}
+body.dark-mode .hero p{color:#c2d3df}
+body.dark-mode .hero .tracking-float{background:#f9fcff}
+@media(max-width:1200px){.header{gap:13px;padding:0 3%}.header .nav{gap:11px}.header .nav a{font-size:11px}.hero{gap:30px}.pitch-feature{padding:20px 15px;gap:9px}.pitch-feature h3{font-size:13px}}
+@media(max-width:980px){.hero{grid-template-columns:1fr 1fr;gap:22px;padding:48px 4%}.hero h1{font-size:clamp(38px,4.7vw,55px)}.hero .actions .btn{font-size:11px;padding:11px 12px}.pitch-feature-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.header .nav a{font-size:10px}}
+@media(max-width:760px){.header{height:auto;min-height:75px}.header .brand,.header .brand img{width:73px;height:70px}.header .brand{flex-basis:73px}.hero{grid-template-columns:1fr;padding:52px 6% 32px;min-height:0}.hero h1{font-size:clamp(42px,10vw,62px)}.hero-image{height:380px}.hero .tracking-float{width:min(320px,88%);right:14px;bottom:14px;padding:14px;min-height:96px}.hero .tracking-icon{flex-basis:52px;width:52px;height:52px}.hero .tracking-icon svg{width:25px;height:25px}.pitch-feature-strip{padding:18px 5% 36px;gap:12px}.pitch-feature{padding:18px 14px}.pitch-feature-icon{flex-basis:30px}.pitch-feature-icon svg{width:28px;height:28px}.image-strip{height:100px}}
+@media(max-width:460px){.hero .actions .btn{width:100%;justify-content:center}.pitch-feature-strip{grid-template-columns:1fr}.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:87px;min-width:87px;font-size:10px}}
+
+
+/* Proporções compactas solicitadas: mesma composição clean, sem hero ampliado */
+@media(min-width:981px){
+.header{height:84px;padding-left:4%;padding-right:4%}
+.header .brand,.header .brand img{width:82px;height:73px}
+.header .brand{flex-basis:82px}
+.header .nav{gap:clamp(11px,1.35vw,22px)}
+.header .nav a{font-size:clamp(11px,.73vw,13px)}
+.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:105px;min-width:105px;min-height:40px;font-size:12px}
+.hero{min-height:0;padding:40px 5% 38px;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:clamp(26px,3.4vw,58px)}
+.hero .eyebrow{font-size:10px;margin-bottom:20px}
+.hero h1{font-size:clamp(45px,3.65vw,65px);line-height:1.08;letter-spacing:-2px;margin-bottom:20px}
+.hero p{font-size:clamp(14px,.98vw,17px);line-height:1.5;margin-bottom:25px}
+.hero .actions .btn{min-height:47px;font-size:clamp(11px,.8vw,13px);padding:11px 16px}
+.hero-image{height:clamp(360px,28vw,470px)}
+.hero .tracking-float{width:min(335px,80%);min-height:100px;padding:15px;bottom:18px;right:18px}
+.hero .tracking-float b{font-size:18px}
+.hero .tracking-float small{font-size:11px}
+.hero .tracking-icon{width:54px;height:54px;flex-basis:54px}
+.hero .tracking-icon svg{width:26px;height:26px}
+.pitch-feature-strip{padding:16px 4% 36px;gap:14px}
+.pitch-feature{min-height:112px;padding:18px 15px;gap:12px;border-radius:18px}
+.pitch-feature-icon{flex-basis:33px}
+.pitch-feature-icon svg{width:30px;height:30px}
+.pitch-feature h3{font-size:clamp(12px,.88vw,15px);margin:2px 0 7px}
+.pitch-feature p{font-size:clamp(10px,.72vw,12px);line-height:1.5}
+.image-strip{height:110px}
+}
+
+/* Referência final: hero editorial com imagem inclinada e proporções compactas */
+@media(min-width:981px){
+.hero{background:radial-gradient(ellipse at 77% 45%,#e4f1ff 0%,#f6faff 45%,#fff 86%);grid-template-columns:minmax(0,.83fr) minmax(0,1.25fr);gap:clamp(34px,3.6vw,64px);padding:35px 5% 38px}
+.hero-copy{position:relative;z-index:2}
+.hero h1{max-width:610px;font-size:clamp(47px,3.85vw,66px);line-height:1.07}
+.hero h1 span{display:block;max-width:510px}
+.hero-image{height:clamp(360px,27vw,470px);border-radius:34px;transform:skewX(-5deg);margin-left:18px;overflow:hidden;box-shadow:0 20px 52px rgba(22,82,153,.11)}
+.hero-photo{inset:-7% -10%;transform:skewX(5deg) scale(1.04);background:linear-gradient(90deg,rgba(5,54,104,.05),rgba(5,54,104,0)),url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=90") center/cover}
+.hero .tracking-float{transform:skewX(5deg);width:min(360px,78%);bottom:21px;right:24px;background:#fff;border-radius:20px}
+.hero .tracking-float .online{font-size:10px}
+.hero .tracking-float b{font-size:20px}
+.hero .tracking-float small{font-size:12px}
+.hero .tracking-icon{background:#e8f2ff;color:#075fc8}
+.hero .pitch-note{margin-top:16px}
+.pitch-feature-strip{background:linear-gradient(#edf6ff,#f6faff);padding-top:20px}
+.pitch-feature{border:1px solid #d8e8fc;box-shadow:0 10px 28px rgba(24,88,159,.07);background:#fff;border-radius:20px}
+.pitch-feature h3{font-weight:800;color:#082444}
+.pitch-feature p{color:#4e6682}
+}
+@media(min-width:981px) and (max-width:1250px){.hero h1{font-size:clamp(43px,4.2vw,53px)}.hero-image{margin-left:10px}}
+@media(max-width:980px){.hero-image{border-radius:27px}.hero h1 span{display:block}.pitch-feature{border-color:#d8e8fc}}
+
+/* Jornada completa e transparência do protótipo */
+.journey-progress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:20px 0}
+.journey-progress span{background:#eef6ff;color:#075fc8;border:1px solid #d6e8fa;border-radius:12px;padding:13px 10px;font-weight:800;font-size:12px;text-align:center}
+.journey-checklist{margin:20px 0;padding:22px;border:1px solid #dce9f6;background:#f7fbff;border-radius:18px;display:grid;gap:12px}
+.journey-checklist h3{font-size:19px;color:#092d50;margin:0 0 4px}
+.journey-checklist label{display:flex;gap:12px;align-items:center;font-size:14px;color:#284763;cursor:pointer}
+.journey-checklist input{accent-color:#075fc8;width:18px;height:18px;flex:none}
+.journey-checklist small,.trip-demo-note{font-size:11px;color:#61798e}
+.trip-demo-note{display:block;margin-top:7px}
+.footer-prototype{max-width:650px;margin:20px auto 10px;font-size:12px;line-height:1.6;color:#a9c0d4;text-align:center}
+.footer-prototype strong{display:block;color:#fff;margin-bottom:6px}
+.footer-prototype p{margin:0}
+body.dark-mode .journey-progress span,body.dark-mode .journey-checklist{background:#132c41;border-color:#28516c;color:#e3f1ff}
+body.dark-mode .journey-checklist h3,body.dark-mode .journey-checklist label{color:#e3f1ff}
+@media(max-width:760px){.journey-progress{grid-template-columns:repeat(2,minmax(0,1fr))}.journey-progress span{font-size:11px}.journey-checklist{padding:16px}.journey-checklist label{font-size:13px}}
+
+.map-network-warning{position:absolute;top:60px;left:16px;right:16px;z-index:650;background:#fff;color:#153a58;border:1px solid #d7e6f4;box-shadow:0 8px 24px #0b2c4430;border-radius:12px;padding:12px 16px;font-size:12px;line-height:1.45;pointer-events:none}
+#real-map.map-unavailable{display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#1b5276;font-weight:700;font-size:14px;background:linear-gradient(135deg,#dceef7,#f4f9fd)}
+@media(max-width:760px){.map-network-warning{top:45px;font-size:11px}}
+
+
+/* Tema escuro consistente em todas as páginas: superfícies, textos, formulários e estados. */
+body.dark-mode{
+  --gj-dark-bg:#091724;
+  --gj-dark-surface:#102638;
+  --gj-dark-elevated:#173348;
+  --gj-dark-border:#2b4b61;
+  --gj-dark-text:#ecf6ff;
+  --gj-dark-muted:#b4c9d9;
+  --gj-dark-link:#80c3ff;
+  background:var(--gj-dark-bg);color:var(--gj-dark-text);
+}
+body.dark-mode .how,
+body.dark-mode .profile-section,
+body.dark-mode .account-section,
+body.dark-mode .trip-planner{background:var(--gj-dark-bg);color:var(--gj-dark-text)}
+body.dark-mode .nav.open{background:var(--gj-dark-surface);border:1px solid var(--gj-dark-border)}
+body.dark-mode :is(
+  .trip-selector,.trip-panel,.transport-panel,.hotel-card,.transport-card,
+  .profile-card,.recommended-company-box,.modal-card,.account-data-card,
+  .account-trips,.saved-trip,.journey-result,.journey-steps article,
+  .journey-hotel-choice,.journey-checklist,.airfind-product,.airfind-plan-card,
+  .airfind-selected,.three-grid article,.solution-card,.security-list>div,
+  .pitch-feature,.account-chip-demo,.demo-auth-disclaimer
+){
+  background:var(--gj-dark-surface)!important;
+  border-color:var(--gj-dark-border)!important;
+  color:var(--gj-dark-text);
+  box-shadow:0 12px 32px rgba(0,0,0,.12);
+}
+body.dark-mode :is(
+  .hotel-card,.transport-card,.saved-trip,.journey-steps article,
+  .journey-checklist,.airfind-plan-card,.trip-tab,.company-history-item
+){background:var(--gj-dark-elevated)!important}
+body.dark-mode :is(
+  .panel-title h3,.hotel-content strong,.transport-card strong,
+  .profile-card strong,.profile-card span:not(.profile-icon),
+  .recommended-company-box h3,.journey-result h3,.journey-steps strong,
+  .journey-hotel-choice h3,.journey-checklist h3,.account-data-card strong,
+  .account-trips h3,.airfind-copy h2,.airfind-plan-card strong,
+  .account-chip-demo h3,.modal-card h2,.modal-card label,.step h3,
+  .gallery-text h2,.security-list strong,.dash-head h3,.trip-form label
+){color:var(--gj-dark-text)!important}
+body.dark-mode :is(
+  .panel-note,.hotel-content p,.transport-card p,.transport-disclaimer,
+  .airport-tip,.route-step small,.profile-card small,.recommended-company-box p,
+  .journey-result-header p,.journey-steps p,.journey-hotel-choice p,
+  .hotel-choice-status,.trip-demo-note,.journey-checklist small,
+  .account-chip-demo p,.account-chip-demo small,.airfind-copy>p,
+  .airfind-plans small,.price-note,.modal-card p,.security-list small,
+  .gallery-text p,.email-note,.saved-trip small,.trip-form label
+){color:var(--gj-dark-muted)!important}
+body.dark-mode :is(
+  .hotel-content small,.hotel-price,.journey-chip-link,
+  .solution-card a,.auth-link,.airfind-plans span
+){color:var(--gj-dark-link)!important}
+body.dark-mode :is(.airport-tip,.journey-demo-tag,.hotel-number,.route-step>span,
+  .step>span,.icon,.profile-icon,.account-chip-icon,.modal-close,
+  .map-header-badge,.map-demo-notice,.map-network-warning
+){background:var(--gj-dark-elevated);color:var(--gj-dark-text);border-color:var(--gj-dark-border)}
+body.dark-mode .map-header-badge strong{color:var(--gj-dark-text)}
+body.dark-mode .map-header-badge span{color:var(--gj-dark-link)}
+body.dark-mode .route-step:not(:last-child):before{background:var(--gj-dark-border)}
+body.dark-mode :is(.hotel-button,.saved-trip-actions button,.plan-select,.trip-tab,
+  .btn.outline,.header-auth-actions .outline){
+  background:var(--gj-dark-elevated)!important;
+  color:var(--gj-dark-link)!important;
+  border-color:#456b87!important;
+}
+body.dark-mode :is(.hotel-button.selected,.trip-tab.active,.airfind-plan-card.selected .plan-select){
+  background:#0957ad!important;color:#fff!important;border-color:#3e9bfa!important;
+}
+body.dark-mode :is(.modal-card input,.trip-form input,.trip-form select,
+  input:not([type="checkbox"]),select,textarea){
+  background:#0d2233;color:var(--gj-dark-text);border-color:#45637b;
+  color-scheme:dark;
+}
+body.dark-mode :is(input,select,textarea)::placeholder{color:#9fb8cb}
+body.dark-mode :is(input,select,textarea,button,a):focus-visible{
+  outline:2px solid #80c3ff;outline-offset:3px;
+}
+body.dark-mode :is(.btn:not(.outline),.transport-card .btn,.refresh-bag){
+  color:#fff;
+}
+body.dark-mode .tracking-float{background:var(--gj-dark-surface)!important;color:var(--gj-dark-text)}
+body.dark-mode .tracking-float small{color:var(--gj-dark-muted)}
+body.dark-mode .airfind-price,.dark-mode .trip-summary{background:linear-gradient(145deg,#102d45,#17486d);color:#fff}
+body.dark-mode .footer-prototype{color:var(--gj-dark-muted)}
+body.dark-mode .footer-prototype strong{color:var(--gj-dark-text)}
+@media(max-width:760px){body.dark-mode .nav.open{border-left:0;border-right:0}}
+
+
+/* Cartão AirFind alinhado: elimina inclinações herdadas do hero no desktop. */
+@media(min-width:981px){
+  .hero-image{transform:none; margin-left:18px;}
+  .hero-photo{inset:0;transform:none;}
+  .hero .tracking-float{transform:none;right:24px;bottom:21px;}
+}
+
+/* Contraste do título AirFind no cartão da imagem principal. */
+body.dark-mode .hero .tracking-float b{color:#f2f8ff!important;opacity:1}
+body.dark-mode .hero .tracking-float .online{color:#075fc8}
+
+/* Hero inspirado na referência aprovada: imagem inclinada, cartão reto e leitura nítida. */
+@media(min-width:981px){
+  .hero{background:radial-gradient(ellipse at 79% 40%,#e1efff 0%,#f5faff 53%,#fff 88%);padding:35px 5% 38px}
+  .hero-image{transform:none!important;margin-left:18px;clip-path:polygon(5.5% 0,100% 0,100% 100%,0 100%);border-radius:34px}
+  .hero-photo{inset:0;transform:none!important;background:linear-gradient(90deg,rgba(5,54,104,.08),rgba(5,54,104,0)),url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=90") center/cover}
+  .hero .tracking-float{transform:none!important;right:22px;bottom:22px;width:min(360px,76%);background:#fff;border-radius:20px}
+  .hero .tracking-float b{color:#092238!important;opacity:1}
+  .hero .tracking-float small{color:#47617c}
+  .pitch-feature-strip{background:linear-gradient(#edf6ff,#f6faff)}
+  .pitch-feature{background:#fff;border:1px solid #d8e8fc;box-shadow:0 10px 28px rgba(24,88,159,.07)}
+}
+body:not(.dark-mode) .hero .tracking-float{background:#fff}
+body:not(.dark-mode) .hero .tracking-float b{color:#092238!important}
+@media(max-width:980px){body:not(.dark-mode) .hero .tracking-float b{color:#092238!important}}
+
+/* Referência: cantos arredondados inclusive no topo esquerdo da foto.
+   A moldura inclina, mas foto e cartão AirFind permanecem retos. */
+@media(min-width:981px){
+  .hero-image{
+    clip-path:none!important;
+    transform:skewX(-5deg)!important;
+    transform-origin:center;
+    border-radius:34px!important;
+    overflow:hidden!important;
+    margin-left:24px;
+  }
+  .hero-photo{
+    inset:-7% -9%!important;
+    transform:skewX(5deg) scale(1.04)!important;
+    background-position:center center!important;
+  }
+  .hero .tracking-float{
+    transform:skewX(5deg)!important;
+    right:25px;
+    bottom:25px;
+  }
+}
+
+/* Foto do avião novamente reta, sem inclinação nas laterais. */
+@media(min-width:981px){
+  .hero-image{clip-path:none!important;transform:none!important;margin-left:18px;border-radius:28px!important}
+  .hero-photo{inset:0!important;transform:none!important}
+  .hero .tracking-float{transform:none!important}
+}
+
+/* Checkout demonstrativo e comparativo dos planos */
+.plan-benefits{list-style:disc;padding-left:18px;margin:10px 0 14px;font-size:12px;line-height:1.65;color:#426078}
+.airfind-copy #airfind-checkout{margin:15px 0 8px;width:100%;max-width:340px}
+.checkout-open:disabled{opacity:.5;cursor:not-allowed}
+.trip-checkout-action{margin-top:22px;padding:22px;border:1px solid #cfe2f3;border-radius:18px;background:#eef6ff;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.trip-checkout-action p{font-size:13px;color:#496780;flex:1;min-width:200px}
+.checkout-overlay[hidden]{display:none!important}
+.checkout-overlay{position:fixed;inset:0;background:rgba(4,19,36,.72);z-index:99999;display:flex;justify-content:center;align-items:center;padding:18px;overflow:auto}
+body.checkout-active{overflow:hidden}
+.checkout-dialog{position:relative;width:min(100%,580px);max-height:calc(100vh - 36px);overflow:auto;background:#fff;color:#092238;border-radius:22px;padding:30px;box-shadow:0 20px 80px #0005}
+.checkout-dialog h2{font-size:26px;margin:8px 0 10px}
+.checkout-close{position:absolute;top:14px;right:17px;border:0;background:#eaf2fa;border-radius:50%;font-size:27px;width:38px;height:38px;cursor:pointer;color:#092238}
+.checkout-warning{font-size:13px;color:#7b4d1b;background:#fff4df;border:1px solid #f2d6a0;padding:12px;border-radius:12px;margin-bottom:16px}
+.checkout-items{display:grid;gap:10px}
+.checkout-line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #e2eaf2}
+.checkout-line strong{display:block;font-size:14px}
+.checkout-line small{display:block;color:#627b8f;font-size:12px}
+.checkout-line b{white-space:nowrap}
+.checkout-total{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px 0;padding:16px;background:#eaf4ff;border-radius:12px}
+.checkout-total strong{font-size:24px;color:#075fc8}
+.checkout-methods{border:1px solid #dce6ef;border-radius:14px;padding:14px;display:grid;gap:10px}
+.checkout-methods legend{font-weight:800;padding:0 6px}
+.checkout-methods label{display:flex;gap:9px;align-items:center;cursor:pointer}
+.checkout-method-note,.checkout-empty{font-size:12px;color:#526d83;margin:10px 0}
+#checkout-confirm{width:100%;margin-top:12px}
+#checkout-feedback{font-size:13px;font-weight:700;margin-top:10px;color:#17634a}
+body.dark-mode .plan-benefits{color:#d1e1ef}
+body.dark-mode .trip-checkout-action{background:#153047;border-color:#31516b}
+body.dark-mode .trip-checkout-action p{color:#d0e2ef}
+body.dark-mode .checkout-dialog{background:#142b3f;color:#f1f7ff}
+body.dark-mode .checkout-close{background:#2d4c66;color:#fff}
+body.dark-mode .checkout-line{border-color:#345269}
+body.dark-mode .checkout-line small,body.dark-mode .checkout-method-note,body.dark-mode .checkout-empty{color:#c3d5e6}
+body.dark-mode .checkout-total{background:#233f59}
+body.dark-mode .checkout-total strong{color:#8bc2ff}
+body.dark-mode .checkout-methods{border-color:#47637b}
+@media(max-width:600px){.checkout-dialog{padding:24px 18px}.trip-checkout-action .btn{width:100%}}
+
+.trip-checkout-action[hidden]{display:none!important}
+.trip-checkout-action{justify-content:space-between;margin:28px 0 0}
+.trip-checkout-action h3{font-size:21px;margin-bottom:6px}
+.trip-checkout-action .btn{white-space:nowrap}
+.airfind-billing{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:15px 0;padding:14px;border:1px solid #d1e2f0;border-radius:12px;background:#f0f7fd;font-size:13px}
+.airfind-billing label{display:flex;align-items:center;gap:6px;cursor:pointer}
+body.dark-mode .airfind-billing{background:#193a51;border-color:#355d78;color:#f2f7ff}
+@media(max-width:650px){.trip-checkout-action .btn{width:100%}}
+
+/* Período AirFind: opções em linhas separadas e alinhadas. */
+.airfind-billing{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:9px!important}
+.airfind-billing>strong{display:block;margin-bottom:2px}
+.airfind-billing>label{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;width:100%;margin:0!important;line-height:1.45}
+.airfind-billing>label input[type="radio"]{margin:0!important;flex:0 0 auto}
+
+/* Ação de saída ao final de Minha conta */
+.account-signout[hidden]{display:none!important}
+.account-signout{margin-top:26px;padding:24px 28px;border:1px solid #dce8ef;background:#fff;border-radius:18px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.account-signout strong{display:block;font-size:16px;color:#092238}
+.account-signout p{font-size:13px;color:#687e90;margin-top:5px}
+.account-signout .btn{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;cursor:pointer}
+.account-signout .btn svg{width:17px;height:17px}
+body.dark-mode .account-signout{background:#142b3f;border-color:#35536c}
+body.dark-mode .account-signout strong{color:#f1f7ff}
+body.dark-mode .account-signout p{color:#c3d5e4}
+@media(max-width:600px){.account-signout{flex-direction:column;align-items:stretch;padding:20px}.account-signout .btn{width:100%}}

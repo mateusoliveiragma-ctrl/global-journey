@@ -47,7 +47,8 @@ function applyTheme(theme) {
   const dark = theme === 'dark';
   document.body.classList.toggle('dark-mode', dark);
   if (themeToggle) {
-    themeToggle.textContent = dark ? '☀️' : '🌙';
+    themeToggle.innerHTML = dark ? '<i data-lucide="sun" aria-hidden="true"></i>' : '<i data-lucide="moon" aria-hidden="true"></i>';
+    window.lucide?.createIcons();
     themeToggle.setAttribute('aria-label', dark ? 'Ativar modo claro' : 'Ativar modo noturno');
     themeToggle.title = dark ? 'Modo claro' : 'Modo noturno';
   }
@@ -68,7 +69,7 @@ function goHome(e) {
 document.querySelector('.brand')?.addEventListener('click', goHome);
 document.querySelector('.nav a[href="#inicio"]')?.addEventListener('click', goHome);
 document.querySelector('.footer-brand')?.addEventListener('click', goHome);
-accountSectionBtn?.addEventListener('click', () => showModal(loginModal));
+// Botão de conta controlado exclusivamente por auth.js.
 
 document.querySelectorAll('.reveal').forEach(el => {
   if (!('IntersectionObserver' in window)) { el.classList.add('visible'); return; }
@@ -81,51 +82,61 @@ document.querySelectorAll('.reveal').forEach(e => observer.observe(e));
 function showModal(modal) { modal?.classList.add('show'); document.body.classList.add('modal-open'); }
 function hideModal(modal) { modal?.classList.remove('show'); if (!document.querySelector('.modal.show')) document.body.classList.remove('modal-open'); }
 
-accountBtn?.addEventListener('click', () => {
-  const saved = localStorage.getItem('gj_user');
-  if (saved) {
-    const user = JSON.parse(saved);
-    if (userName) userName.textContent = user.name;
-    accountPanel?.classList.add('logged');
-  }
-  showModal(loginModal);
-});
-closeModal?.addEventListener('click', () => hideModal(loginModal));
-loginModal?.addEventListener('click', e => { if (e.target === loginModal) hideModal(loginModal); });
+closeModal?.addEventListener("click", () => hideModal(loginModal));
+loginModal?.addEventListener("click", e => { if(e.target === loginModal) hideModal(loginModal); });
 
-loginForm?.addEventListener('submit', e => {
-  e.preventDefault();
-  const name = document.querySelector('#login-name').value.trim() || 'Viajante';
-  const email = document.querySelector('#login-email').value.trim();
-  if (!email) return;
-  const user = { name, email, lastLogin: new Date().toISOString() };
-  localStorage.setItem('gj_user', JSON.stringify(user));
-  if (userName) userName.textContent = name;
-  if (accountPanel) accountPanel.classList.add('logged');
-  updateProfile(user);
-  loginStatus.textContent = `Olá, ${name}! Sua conta de demonstração está ativa.`;
-  sendWelcomeEmail(user);
-  setTimeout(() => hideModal(loginModal), 900);
-});
+// A autenticação real é gerenciada em auth.js.
 
-logoutBtn?.addEventListener('click', () => {
-  localStorage.removeItem('gj_user');
-  accountPanel?.classList.remove('logged');
-  if (accountNameCard) accountNameCard.textContent = 'Viajante';
-  if (accountEmailCard) accountEmailCard.textContent = 'Faça login para visualizar seus dados.';
-  loginStatus.textContent = 'Você saiu da conta.';
-});
-
+const demoCoordinates = [[38.7742,-9.1342],[40.4936,-3.5668],[49.0097,2.5479]];
+let realMap, demoMarker;
+let currentDemoLocation = 'Aeroporto de Lisboa';
+let currentDemoIndex = 0;
 function updateBagMap(location, stateIndex) {
+  currentDemoLocation = location;
+  currentDemoIndex = stateIndex;
   if (mapLocationName) mapLocationName.textContent = location;
-  if (mapLocationMeta) mapLocationMeta.textContent = '📍 Última localização registrada · agora';
-  if (mapChipMarker) {
-    const transforms = ['translate(0 0)', 'translate(140 63)', 'translate(317 -81)'];
-    mapChipMarker.setAttribute('transform', transforms[stateIndex] || transforms[0]);
+  if (mapLocationMeta) mapLocationMeta.textContent = 'Localização simulada · não é rastreamento real';
+  const coordinates = demoCoordinates[stateIndex] || demoCoordinates[0];
+  if (realMap && demoMarker) {
+    demoMarker.setLatLng(coordinates).bindPopup('AirFind — localização demonstrativa: ' + location);
+    realMap.setView(coordinates, 10);
   }
 }
-
+function ensureBagMap() {
+  const el = document.getElementById('real-map');
+  if (!el || !el.getClientRects().length || !el.clientWidth || !el.clientHeight) return;
+  if (!window.L) {
+    el.textContent = 'Mapa indisponível nesta conexão. A localização ilustrativa permanece visível nos dados ao lado. Atualize a página para tentar novamente.';
+    el.classList.add('map-unavailable');
+    return;
+  }
+  if (!realMap) {
+    el.textContent = '';
+    el.classList.remove('map-unavailable');
+    realMap = L.map(el, {scrollWheelZoom:false}).setView(demoCoordinates[currentDemoIndex], 10);
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom:19
+    }).addTo(realMap);
+    let tileErrors = 0;
+    tiles.on('tileerror', () => {
+      if (++tileErrors < 5 || document.getElementById('map-network-warning')) return;
+      const warning = document.createElement('div');
+      warning.id = 'map-network-warning';
+      warning.className = 'map-network-warning';
+      warning.setAttribute('role','status');
+      warning.textContent = 'O mapa não carregou completamente. Confira sua conexão e tente atualizar a página. A posição do AirFind continua sendo ilustrativa.';
+      el.parentElement?.appendChild(warning);
+    });
+    tiles.on('load', () => { tileErrors = 0; document.getElementById('map-network-warning')?.remove(); });
+    demoMarker = L.marker(demoCoordinates[currentDemoIndex]).addTo(realMap);
+    updateBagMap(currentDemoLocation, currentDemoIndex);
+  }
+  realMap.invalidateSize({pan:false});
+}
 updateBagMap('Aeroporto de Lisboa', 0);
+window.addEventListener('resize', () => { if (realMap) realMap.invalidateSize({pan:false}); });
+
 
 refreshBag?.addEventListener('click', () => {
   const states = [
@@ -141,7 +152,7 @@ refreshBag?.addEventListener('click', () => {
   if (bagUpdated) bagUpdated.textContent = state[2];
   if (bagBattery) bagBattery.textContent = state[3];
   if (bagConnection) bagConnection.textContent = state[4];
-  refreshBag.textContent = '✓ Atualizado';
+  refreshBag.textContent = '✓ Simulação atualizada';
   setTimeout(() => refreshBag.textContent = 'Atualizar localização', 1500);
 });
 
@@ -152,12 +163,12 @@ notificationBox?.addEventListener('click', () => {
 
 
 const companyByDestination = {
-  Paris: { name:'Air France', reason:'Companhia francesa com ampla conectividade para Paris.' },
-  'Nova York': { name:'American Airlines', reason:'Opção demonstrativa para conexões com Nova York.' },
-  Londres: { name:'British Airways', reason:'Companhia britânica com forte presença em Londres.' },
-  Tóquio: { name:'Japan Airlines', reason:'Companhia japonesa para uma viagem com destino a Tóquio.' },
-  Dubai: { name:'Emirates', reason:'Companhia sediada em Dubai, adequada ao destino selecionado.' },
-  Roma: { name:'ITA Airways', reason:'Companhia italiana com conexão para Roma.' }
+  Paris: { name:'LATAM Airlines Brasil', reason:'Companhia brasileira para pesquisar alternativas de viagem a Paris; confira escalas e disponibilidade.' },
+  'Nova York': { name:'LATAM Airlines Brasil', reason:'Companhia brasileira para consultar opções de viagem a Nova York; rotas e conexões variam.' },
+  Londres: { name:'LATAM Airlines Brasil', reason:'Companhia brasileira para pesquisar passagens para Londres; confirme a operação da rota.' },
+  Tóquio: { name:'LATAM Airlines Brasil', reason:'Consulte itinerários internacionais com conexões ou parceiras; não há garantia de voo direto.' },
+  Dubai: { name:'GOL Linhas Aéreas', reason:'Pesquise possíveis itinerários com conexões ou parceiras; a GOL não opera necessariamente esse trecho.' },
+  Roma: { name:'Azul Linhas Aéreas', reason:'Pesquise alternativas com conexões ou parceiras; confirme rotas e disponibilidade antes de comprar.' }
 };
 
 function getCompanyHistory(){
@@ -310,6 +321,39 @@ const hotelList = document.querySelector('#hotel-list');
 const airportName = document.querySelector('#airport-name');
 const airportRoute = document.querySelector('#airport-route');
 const airportTip = document.querySelector('#airport-tip');
+const journeyResult = document.querySelector('#journey-result');
+const journeyDetails = document.querySelector('#journey-details');
+const hotelPanel = document.querySelector('#hotel-panel');
+const showHotels = document.querySelector('#show-hotels');
+const skipHotels = document.querySelector('#skip-hotels');
+const hotelChoiceStatus = document.querySelector('#hotel-choice-status');
+const tripCompanyBox = document.querySelector('#trip-company-box');
+let journeyPlanned = false;
+function clearHotelSelection() {
+  hotelList?.querySelectorAll('.hotel-button.selected').forEach(button => {
+    button.classList.remove('selected');
+    button.textContent = 'Selecionar';
+  });
+}
+function setHotelChoice(show) {
+  if (!journeyPlanned) return;
+  if (hotelPanel) hotelPanel.hidden = !show;
+  if (!show) clearHotelSelection();
+  const chosen = document.querySelector('.hotel-button.selected');
+  if (!show && chosen) chosen.classList.remove('selected');
+  if (hotelChoiceStatus) hotelChoiceStatus.textContent = show
+    ? 'Escolha um hotel sugerido abaixo, ou continue sem selecionar.'
+    : 'Sem hospedagem selecionada. Seu roteiro continua normalmente.';
+  refreshSelectedHotelTotal();
+  if (show) hotelPanel?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showHotels?.addEventListener('click', () => setHotelChoice(true));
+skipHotels?.addEventListener('click', () => setHotelChoice(false));
+document.querySelector('#journey-airfind-link')?.addEventListener('click', e => {
+  e.preventDefault();
+  showRoute('bagagem');
+  document.querySelector('.airfind-product')?.scrollIntoView({behavior:'smooth',block:'start'});
+});
 
 function renderTrip(destination) {
   const data = tripData[destination];
@@ -330,8 +374,10 @@ function renderTrip(destination) {
       button.addEventListener('click', () => {
         hotelList.querySelectorAll('.hotel-button').forEach(b => b.classList.remove('selected'));
         button.classList.add('selected');
-        button.textContent = '✓ Selecionado';
+        button.textContent = 'Selecionado';
         refreshSelectedHotelTotal();
+        const saved = localStorage.getItem('gj_trip');
+        if (saved) { try { const trip=JSON.parse(saved); saveTripToHistory({...trip, hotel:button.dataset.hotel}); } catch (_) {} }
       });
     });
   }
@@ -368,7 +414,7 @@ function renderTripSummary({mode='initial', destination='Paris', flightTotal=0, 
         <div><small>PASSAGEM · IDA E VOLTA</small><strong>${formatCurrency(flightPrice)}</strong></div>
         <span>por viajante</span>
       </div>
-      <span>Total das passagens para ${travelerCount} viajante${travelerCount === 1 ? '' : 's'}: <b>${formatCurrency(flightTotal || flightPrice * travelerCount)}</b>. Selecione um hotel para calcular o total.</span>`;
+      <span>Total das passagens para ${travelerCount} viajante${travelerCount === 1 ? '' : 's'}: <b>${formatCurrency(flightTotal || flightPrice * travelerCount)}</b>. Hospedagem opcional: veja sugestões após montar sua viagem.</span>`;
     return;
   }
   const total = flightTotal + hotelTotal;
@@ -392,7 +438,7 @@ function refreshSelectedHotelTotal() {
   const nights = getTripNights();
   const flightTotal = data.flightPrice * travelersCount;
   if (!selected) {
-    renderTripSummary({mode:'initial', destination, flightTotal, travelerCount:travelersCount});
+    renderTripSummary({mode:journeyPlanned?'trip':'initial', destination, flightTotal, travelerCount:travelersCount});
     return;
   }
   const hotelTotal = Number(selected.dataset.price) * nights;
@@ -408,6 +454,13 @@ function formatDate(value) {
 tripDestination?.addEventListener('change', () => {
   const destination = tripDestination.value;
   renderTrip(destination);
+  journeyPlanned = false;
+  if (journeyResult) journeyResult.hidden = true;
+  if (journeyDetails) journeyDetails.hidden = true;
+  if (tripCompanyBox) tripCompanyBox.hidden = true;
+  const tripCheckoutFooter = document.querySelector('#trip-checkout-footer');
+  if (tripCheckoutFooter) tripCheckoutFooter.hidden = true;
+  if (hotelPanel) hotelPanel.hidden = true;
   updateRecommendedCompany(destination);
   const data = tripData[destination];
   const travelersCount = Number((tripTravelers?.value || '1').match(/\d+/)?.[0] || 1);
@@ -416,17 +469,37 @@ tripDestination?.addEventListener('change', () => {
 planTrip?.addEventListener('click', () => {
   const destination = tripDestination?.value || 'Paris';
   const travelers = tripTravelers?.value || '1 viajante';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const departure = new Date(`${tripStart?.value}T12:00:00`);
+  if (!tripStart?.value || !tripEnd?.value || tripEnd.value <= tripStart.value || departure < today) {
+    alert('Selecione datas futuras válidas: a volta precisa ser depois da ida.');
+    tripStart?.focus();
+    return;
+  }
   renderTrip(destination);
+  journeyPlanned = true;
+  if (journeyResult) journeyResult.hidden = false;
+  if (journeyDetails) journeyDetails.hidden = false;
+  if (tripCompanyBox) tripCompanyBox.hidden = false;
+  const tripCheckoutFooter = document.querySelector('#trip-checkout-footer');
+  if (tripCheckoutFooter) tripCheckoutFooter.hidden = false;
+  if (hotelPanel) hotelPanel.hidden = true;
+  if (hotelChoiceStatus) hotelChoiceStatus.textContent = 'A hospedagem é opcional. Escolha uma das opções acima.';
+  const title = document.querySelector('#journey-title');
+  const dates = document.querySelector('#journey-dates');
+  if (title) title.textContent = 'Sua viagem para ' + destination;
+  if (dates) dates.textContent = formatDate(tripStart.value) + ' → ' + formatDate(tripEnd.value) + ' · ' + travelers;
   if (tripSummary) {
     const data = tripData[destination];
     const travelersCount = Number(travelers.match(/\d+/)?.[0] || 1);
     const flightTotal = data.flightPrice * travelersCount;
     const nights = getTripNights();
     renderTripSummary({mode:'trip', destination, flightTotal, travelerCount:travelersCount});
-    tripSummary.querySelector('span:last-child')?.insertAdjacentHTML('beforeend', ` · ${formatDate(tripStart?.value)} → ${formatDate(tripEnd?.value)} · Hotel calculado após selecionar uma opção.`);
+    tripSummary.querySelector('span:last-child')?.insertAdjacentHTML('beforeend', ` · ${formatDate(tripStart?.value)} → ${formatDate(tripEnd?.value)} · Hospedagem opcional.`);
   }
   localStorage.setItem('gj_trip', JSON.stringify({ destination, start: tripStart?.value || '', end: tripEnd?.value || '', travelers }));
   updateRecommendedCompany(destination);
+  journeyResult?.scrollIntoView({behavior:'smooth',block:'start'});
 });
 tripStart?.addEventListener('change', refreshSelectedHotelTotal);
 tripEnd?.addEventListener('change', refreshSelectedHotelTotal);
@@ -456,9 +529,18 @@ function selectAirfindPlan(card){
     if (button) button.textContent = active ? '✓ Plano selecionado' : 'Selecionar plano';
   });
   selectedAirfindPlan = { name: card.dataset.plan, price: Number(card.dataset.price) };
-  airfindSelected.innerHTML = `<div><small>PLANO SELECIONADO</small><strong>AirFind ${selectedAirfindPlan.name}</strong></div><span><b>${formatCurrency(selectedAirfindPlan.price)}/mês</b> · cobrança mensal</span>`;
+  updateAirfindBilling();
+  const checkoutButton = document.querySelector('#airfind-checkout');
+  if (checkoutButton) checkoutButton.disabled = false;
 }
 
+function updateAirfindBilling(){
+  if(!selectedAirfindPlan || !airfindSelected) return;
+  const annual = document.querySelector('input[name="airfind-billing"]:checked')?.value === 'annual';
+  const price = annual ? selectedAirfindPlan.price * 10 : selectedAirfindPlan.price;
+  airfindSelected.innerHTML = `<div><small>PLANO SELECIONADO</small><strong>AirFind ${selectedAirfindPlan.name}</strong></div><span><b>${formatCurrency(price)}</b> / ${annual ? 'ano (12 meses)' : 'mês'} · valor demonstrativo</span>`;
+}
+document.querySelectorAll('input[name="airfind-billing"]').forEach(input=>input.addEventListener('change',updateAirfindBilling));
 airfindPlans.forEach(card => {
   card.addEventListener('click', (event) => {
     if (event.target.closest('.plan-select')) event.preventDefault();
@@ -486,11 +568,8 @@ if (savedTrip) {
 renderTrip(tripDestination?.value || 'Paris');
 if (tripDestination) { const initialDestination = tripDestination.value || 'Paris'; const initialData = tripData[initialDestination]; const initialTravelers = Number((tripTravelers?.value || '1').match(/\d+/)?.[0] || 1); renderTripSummary({mode:'initial', destination:initialDestination, flightTotal:initialData.flightPrice * initialTravelers, travelerCount:initialTravelers}); }
 
-const initialUser = localStorage.getItem('gj_user');
-if (initialUser) { try { updateProfile(JSON.parse(initialUser)); } catch (_) {} } else {
-  if (accountNameCard) accountNameCard.textContent = 'Viajante';
-  if (accountEmailCard) accountEmailCard.textContent = 'Faça login para visualizar seus dados.';
-}
+if (accountNameCard) accountNameCard.textContent = 'Viajante';
+if (accountEmailCard) accountEmailCard.textContent = 'Faça login para visualizar seus dados.';
 updateRecommendedCompany(tripDestination?.value || 'Paris');
 renderCompanyProfile();
 
@@ -518,11 +597,16 @@ function showRoute(route = 'home', targetId = '') {
     window.scrollTo({top:0, behavior:'smooth'});
   }
   history.replaceState({route:valid}, '', valid === 'home' ? '#inicio' : `#${valid}`);
+  document.querySelectorAll('.nav a[data-route]').forEach(a => { const active = a.dataset.route === valid && (valid !== 'home' || a.getAttribute('href') === '#' + (targetId || 'inicio')); a.classList.toggle('nav-active', active); if(active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  if (valid === 'bagagem') { requestAnimationFrame(ensureBagMap); setTimeout(ensureBagMap, 180); setTimeout(ensureBagMap, 600); }
+  if (valid === 'conta') renderSavedTrips();
+  if (valid === 'viagem') { document.querySelectorAll('.journey-checklist input').forEach(input => { input.checked = false; }); }
 }
 
 function routeFromHash(){
   const hash = location.hash.replace('#','');
-  if (['bagagem','minha-viagem','viagem'].includes(hash)) return hash === 'minha-viagem' ? 'viagem' : 'bagagem';
+  if (hash === 'bagagem' || hash === 'rastreamento') return 'bagagem';
+  if (hash === 'minha-viagem' || hash === 'viagem') return 'viagem';
   if (hash === 'minha-conta' || hash === 'conta') return 'conta';
   return 'home';
 }
@@ -549,37 +633,7 @@ document.querySelectorAll('a[href="#rastreamento"]').forEach(a => a.addEventList
 document.querySelectorAll('a[href="#minha-viagem"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); showRoute('viagem'); }));
 document.querySelectorAll('a[href="#minha-conta"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); showRoute('conta'); }));
 
-// Ao entrar, o canto superior passa a identificar o usuário.
-function refreshHeaderAccount(){
-  const saved = localStorage.getItem('gj_user');
-  const btn = document.querySelector('#account-btn');
-  const navAccount = document.querySelector('#nav-account');
-  if (!btn) return;
-  if (saved) {
-    try {
-      const user = JSON.parse(saved);
-      btn.textContent = `Olá, ${user.name.split(' ')[0]}`;
-      btn.classList.add('logged-in');
-      navAccount.textContent = 'Minha conta';
-    } catch (_) {}
-  } else {
-    btn.textContent = 'Minha conta';
-    btn.classList.remove('logged-in');
-  }
-}
-
-accountBtn?.addEventListener('click', e => {
-  e.preventDefault();
-  if (localStorage.getItem('gj_user')) showRoute('conta');
-  else showModal(loginModal);
-});
-
-// Conta aberta pelo menu exige login; depois do login a página é exibida.
-document.querySelector('#nav-account')?.addEventListener('click', e => {
-  e.preventDefault();
-  if (localStorage.getItem('gj_user')) showRoute('conta');
-  else showModal(loginModal);
-});
+// O cabeçalho e o acesso à conta são controlados em auth.js.
 
 // Viagens: futuras e passadas, com avaliação/reclamação na versão de demonstração.
 function getTripHistory(){
@@ -602,15 +656,27 @@ function renderSavedTrips(){
   const future = document.querySelector('#future-trips');
   const past = document.querySelector('#past-trips');
   if (!future || !past) return;
-  const trips = getTripHistory();
-  const current = localStorage.getItem('gj_trip');
-  if (current) { try { const t=JSON.parse(current); saveTripToHistory({...t, status:'planejada'}); } catch(_){} }
   const all = getTripHistory();
-  const makeCard = (trip, isPast) => `<article class="saved-trip"><div><strong>${trip.destination}</strong><small>${formatDate(trip.start)} → ${formatDate(trip.end)} · ${trip.travelers || '1 viajante'}${trip.hotel ? ` · ${trip.hotel}` : ''}</small></div><div class="saved-trip-actions">${isPast ? '<button type="button" data-trip-action="review">⭐ Avaliar</button><button type="button" data-trip-action="complaint">⚠ Reclamar</button>' : '<button type="button" data-trip-action="open">Ver viagem</button>'}</div></article>`;
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const makeCard = (trip, isPast) => `<article class="saved-trip"><div><strong>${escapeHTML(trip.destination)}</strong><small>${escapeHTML(formatDate(trip.start))} → ${escapeHTML(formatDate(trip.end))} · ${escapeHTML(trip.travelers || '1 viajante')}${trip.hotel ? ` · ${escapeHTML(trip.hotel)}` : ''}</small><span class="trip-demo-note">Planejamento ilustrativo · não é reserva</span></div><div class="saved-trip-actions">${isPast ? '<button type="button" data-trip-action="review">Avaliar</button><button type="button" data-trip-action="complaint">Relatar problema</button>' : '<button type="button" data-trip-action="open">Ver viagem</button>'}</div></article>`;
   future.innerHTML = all.filter(t=>!tripIsPast(t)).map(t=>makeCard(t,false)).join('') || '<div class="saved-trip"><div><strong>Nenhuma viagem futura</strong><small>Monte uma viagem para ela aparecer aqui.</small></div></div>';
   past.innerHTML = all.filter(tripIsPast).map(t=>makeCard(t,true)).join('') || '<div class="saved-trip"><div><strong>Nenhuma viagem passada</strong><small>Suas viagens concluídas aparecerão aqui.</small></div></div>';
   [future,past].forEach(box=>box.querySelectorAll('[data-trip-action]').forEach(btn=>btn.addEventListener('click',()=>{
-    if(btn.dataset.tripAction==='open') showRoute('viagem');
+    if(btn.dataset.tripAction==='open') {
+      const card = btn.closest('.saved-trip');
+      const index = Array.from(box.querySelectorAll('.saved-trip')).indexOf(card);
+      const list = all.filter(t => tripIsPast(t) === (box === past));
+      const trip = list[index];
+      if(trip && tripData[trip.destination]) {
+        tripDestination.value = trip.destination;
+        tripStart.value = trip.start || '';
+        tripEnd.value = trip.end || '';
+        tripTravelers.value = trip.travelers || '1 viajante';
+        tripDestination.dispatchEvent(new Event('change'));
+        showRoute('viagem');
+        if(tripStart.value && tripEnd.value && tripEnd.value > tripStart.value) planTrip?.click();
+      } else showRoute('viagem');
+    }
     if(btn.dataset.tripAction==='review') alert('Área de avaliação: deixe sua nota e comentário sobre a viagem.');
     if(btn.dataset.tripAction==='complaint') alert('Área de reclamação: registre o que aconteceu para análise.');
   })));
@@ -624,11 +690,10 @@ document.querySelectorAll('.trip-tab').forEach(tab=>tab.addEventListener('click'
 }));
 
 // Registrar a viagem quando o usuário clicar em montar.
-const originalPlanTrip = planTrip;
 planTrip?.addEventListener('click', () => {
   setTimeout(() => {
     const saved = localStorage.getItem('gj_trip');
-    if (!saved) return;
+    if (!saved || !journeyPlanned) return;
     try {
       const trip = JSON.parse(saved);
       const hotel = document.querySelector('.hotel-button.selected')?.dataset.hotel || '';
@@ -637,10 +702,39 @@ planTrip?.addEventListener('click', () => {
   }, 50);
 });
 
-refreshHeaderAccount();
+
 renderSavedTrips();
 
 // A URL de cada aba pode ser compartilhada e abre diretamente na área correspondente.
 window.addEventListener('popstate', () => showRoute(routeFromHash()));
 const firstRoute = routeFromHash();
 showRoute(firstRoute);
+
+// Renderiza ícones vetoriais somente quando a biblioteca estiver disponível.
+window.lucide?.createIcons();
+
+
+/* Encaminhamento para página própria de pagamento demonstrativo. */
+(() => {
+  function proceed(mode) {
+    const items=[];
+    if(mode==='trip'){
+      if(!journeyPlanned){alert('Monte sua viagem antes de ir para o pagamento.');return;}
+      const destination=tripDestination.value;
+      const travelers=Number((tripTravelers?.value||'1').match(/\d+/)?.[0]||1);
+      const nights=getTripNights();
+      items.push({label:'Passagens de ida e volta · '+destination,detail:travelers+' viajante(s)',amount:tripData[destination].flightPrice*travelers});
+      const hotel=document.querySelector('.hotel-button.selected');
+      items.push({label:'Hospedagem',detail:hotel?hotel.dataset.hotel+' · '+nights+' noites · 1 quarto (estimativa)':'Não incluída',amount:hotel?Number(hotel.dataset.price)*nights:0});
+    }
+    if(selectedAirfindPlan){
+      const annual=document.querySelector('input[name="airfind-billing"]:checked')?.value==='annual';
+      items.push({label:'Chip físico AirFind',detail:'Uma unidade · frete não incluído',amount:59.90});
+      items.push({label:'Plano AirFind '+selectedAirfindPlan.name,detail:annual?'Assinatura anual ilustrativa · 12 meses pelo preço de 10':'Assinatura mensal ilustrativa · 1 mês',amount:Number((selectedAirfindPlan.price*(annual?10:1)).toFixed(2))});
+    }else if(mode==='airfind'){alert('Selecione um plano AirFind.');return;}
+    sessionStorage.setItem('gj_checkout',JSON.stringify({items,source:mode,createdAt:Date.now()}));
+    window.location.href='pagamento.html';
+  }
+  document.querySelector('#trip-checkout')?.addEventListener('click',()=>proceed('trip'));
+  document.querySelector('#airfind-checkout')?.addEventListener('click',()=>proceed('airfind'));
+})();
