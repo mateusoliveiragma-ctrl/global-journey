@@ -595,3 +595,94 @@ body.dark-mode .journey-checklist h3,body.dark-mode .journey-checklist label{col
 .map-network-warning{position:absolute;top:60px;left:16px;right:16px;z-index:650;background:#fff;color:#153a58;border:1px solid #d7e6f4;box-shadow:0 8px 24px #0b2c4430;border-radius:12px;padding:12px 16px;font-size:12px;line-height:1.45;pointer-events:none}
 #real-map.map-unavailable{display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#1b5276;font-weight:700;font-size:14px;background:linear-gradient(135deg,#dceef7,#f4f9fd)}
 @media(max-width:760px){.map-network-warning{top:45px;font-size:11px}}
+
+
+/* Tema escuro consistente em todas as páginas: superfícies, textos, formulários e estados. */
+body.dark-mode{
+  --gj-dark-bg:#091724;
+  --gj-dark-surface:#102638;
+  --gj-dark-elevated:#173348;
+  --gj-dark-border:#2b4b61;
+  --gj-dark-text:#ecf6ff;
+  --gj-dark-muted:#b4c9d9;
+  --gj-dark-link:#80c3ff;
+  background:var(--gj-dark-bg);color:var(--gj-dark-text);
+}
+body.dark-mode .how,
+body.dark-mode .profile-section,
+body.dark-mode .account-section,
+body.dark-mode .trip-planner{background:var(--gj-dark-bg);color:var(--gj-dark-text)}
+body.dark-mode .nav.open{background:var(--gj-dark-surface);border:1px solid var(--gj-dark-border)}
+body.dark-mode :is(
+  .trip-selector,.trip-panel,.transport-panel,.hotel-card,.transport-card,
+  .profile-card,.recommended-company-box,.modal-card,.account-data-card,
+  .account-trips,.saved-trip,.journey-result,.journey-steps article,
+  .journey-hotel-choice,.journey-checklist,.airfind-product,.airfind-plan-card,
+  .airfind-selected,.three-grid article,.solution-card,.security-list>div,
+  .pitch-feature,.account-chip-demo,.demo-auth-disclaimer
+){
+  background:var(--gj-dark-surface)!important;
+  border-color:var(--gj-dark-border)!important;
+  color:var(--gj-dark-text);
+  box-shadow:0 12px 32px rgba(0,0,0,.12);
+}
+body.dark-mode :is(
+  .hotel-card,.transport-card,.saved-trip,.journey-steps article,
+  .journey-checklist,.airfind-plan-card,.trip-tab,.company-history-item
+){background:var(--gj-dark-elevated)!important}
+body.dark-mode :is(
+  .panel-title h3,.hotel-content strong,.transport-card strong,
+  .profile-card strong,.profile-card span:not(.profile-icon),
+  .recommended-company-box h3,.journey-result h3,.journey-steps strong,
+  .journey-hotel-choice h3,.journey-checklist h3,.account-data-card strong,
+  .account-trips h3,.airfind-copy h2,.airfind-plan-card strong,
+  .account-chip-demo h3,.modal-card h2,.modal-card label,.step h3,
+  .gallery-text h2,.security-list strong,.dash-head h3,.trip-form label
+){color:var(--gj-dark-text)!important}
+body.dark-mode :is(
+  .panel-note,.hotel-content p,.transport-card p,.transport-disclaimer,
+  .airport-tip,.route-step small,.profile-card small,.recommended-company-box p,
+  .journey-result-header p,.journey-steps p,.journey-hotel-choice p,
+  .hotel-choice-status,.trip-demo-note,.journey-checklist small,
+  .account-chip-demo p,.account-chip-demo small,.airfind-copy>p,
+  .airfind-plans small,.price-note,.modal-card p,.security-list small,
+  .gallery-text p,.email-note,.saved-trip small,.trip-form label
+){color:var(--gj-dark-muted)!important}
+body.dark-mode :is(
+  .hotel-content small,.hotel-price,.journey-chip-link,
+  .solution-card a,.auth-link,.airfind-plans span
+){color:var(--gj-dark-link)!important}
+body.dark-mode :is(.airport-tip,.journey-demo-tag,.hotel-number,.route-step>span,
+  .step>span,.icon,.profile-icon,.account-chip-icon,.modal-close,
+  .map-header-badge,.map-demo-notice,.map-network-warning
+){background:var(--gj-dark-elevated);color:var(--gj-dark-text);border-color:var(--gj-dark-border)}
+body.dark-mode .map-header-badge strong{color:var(--gj-dark-text)}
+body.dark-mode .map-header-badge span{color:var(--gj-dark-link)}
+body.dark-mode .route-step:not(:last-child):before{background:var(--gj-dark-border)}
+body.dark-mode :is(.hotel-button,.saved-trip-actions button,.plan-select,.trip-tab,
+  .btn.outline,.header-auth-actions .outline){
+  background:var(--gj-dark-elevated)!important;
+  color:var(--gj-dark-link)!important;
+  border-color:#456b87!important;
+}
+body.dark-mode :is(.hotel-button.selected,.trip-tab.active,.airfind-plan-card.selected .plan-select){
+  background:#0957ad!important;color:#fff!important;border-color:#3e9bfa!important;
+}
+body.dark-mode :is(.modal-card input,.trip-form input,.trip-form select,
+  input:not([type="checkbox"]),select,textarea){
+  background:#0d2233;color:var(--gj-dark-text);border-color:#45637b;
+  color-scheme:dark;
+}
+body.dark-mode :is(input,select,textarea)::placeholder{color:#9fb8cb}
+body.dark-mode :is(input,select,textarea,button,a):focus-visible{
+  outline:2px solid #80c3ff;outline-offset:3px;
+}
+body.dark-mode :is(.btn:not(.outline),.transport-card .btn,.refresh-bag){
+  color:#fff;
+}
+body.dark-mode .tracking-float{background:var(--gj-dark-surface)!important;color:var(--gj-dark-text)}
+body.dark-mode .tracking-float small{color:var(--gj-dark-muted)}
+body.dark-mode .airfind-price,.dark-mode .trip-summary{background:linear-gradient(145deg,#102d45,#17486d);color:#fff}
+body.dark-mode .footer-prototype{color:var(--gj-dark-muted)}
+body.dark-mode .footer-prototype strong{color:var(--gj-dark-text)}
+@media(max-width:760px){body.dark-mode .nav.open{border-left:0;border-right:0}}
