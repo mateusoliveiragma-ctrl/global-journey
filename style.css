@@ -525,35 +525,31 @@ body.dark-mode .hero .tracking-float{background:#f9fcff}
 @media(max-width:760px){.header{height:auto;min-height:75px}.header .brand,.header .brand img{width:73px;height:70px}.header .brand{flex-basis:73px}.hero{grid-template-columns:1fr;padding:52px 6% 32px;min-height:0}.hero h1{font-size:clamp(42px,10vw,62px)}.hero-image{height:380px}.hero .tracking-float{width:min(320px,88%);right:14px;bottom:14px;padding:14px;min-height:96px}.hero .tracking-icon{flex-basis:52px;width:52px;height:52px}.hero .tracking-icon svg{width:25px;height:25px}.pitch-feature-strip{padding:18px 5% 36px;gap:12px}.pitch-feature{padding:18px 14px}.pitch-feature-icon{flex-basis:30px}.pitch-feature-icon svg{width:28px;height:28px}.image-strip{height:100px}}
 @media(max-width:460px){.hero .actions .btn{width:100%;justify-content:center}.pitch-feature-strip{grid-template-columns:1fr}.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:87px;min-width:87px;font-size:10px}}
 
-/* Ajuste de escala visual para aproximar o pitch da referência em desktop */
-@media(min-width:1250px){
-.header{padding-left:4%;padding-right:4%;gap:clamp(18px,2vw,34px)}
-.header .brand,.header .brand img{width:110px;height:86px}.header .brand{flex-basis:110px}
-.header .nav{gap:clamp(16px,1.6vw,30px)}
-.header .nav a{font-size:clamp(12px,.94vw,15px)}
-.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:148px;min-width:148px;min-height:53px;font-size:14px}
-.hero{min-height:660px;padding:38px 4% 38px;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);gap:clamp(28px,3.2vw,65px)}
-.hero h1{font-size:clamp(60px,4.6vw,84px);letter-spacing:-3px}
-.hero p{font-size:clamp(18px,1.22vw,21px)}
-.hero .eyebrow{font-size:12px}
-.hero-image{height:clamp(500px,35vw,610px)}
-.hero .actions .btn{min-height:60px;font-size:15px;padding:15px 23px}
-.hero .tracking-float{width:430px;min-height:142px;padding:23px}
-.hero .tracking-float b{font-size:24px}.hero .tracking-float small{font-size:14px}
-.hero .tracking-icon{flex-basis:77px;width:77px;height:77px}
-.hero .tracking-icon svg{width:38px;height:38px}
-.pitch-feature-strip{gap:20px;padding:22px 3% 56px}
-.pitch-feature{min-height:170px;padding:29px 24px;gap:17px;align-items:flex-start}
-.pitch-feature-icon{flex-basis:50px}
-.pitch-feature-icon svg{width:44px;height:44px}
-.pitch-feature h3{font-size:clamp(16px,1.15vw,20px);margin:4px 0 14px}
-.pitch-feature p{font-size:clamp(14px,1vw,17px);line-height:1.55}
-.pitch-feature h3 small{font-size:11px;padding:4px 8px}
-}
-@media(min-width:1250px) and (max-width:1500px){
-.header .nav{gap:12px}.header .nav a{font-size:12px}
-.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:116px;min-width:116px}
-.hero h1{font-size:clamp(55px,4.5vw,70px)}
-.hero .actions .btn{font-size:12px}
-.pitch-feature{padding:22px 17px;gap:10px}.pitch-feature-icon{flex-basis:36px}.pitch-feature-icon svg{width:34px;height:34px}
+
+/* Proporções compactas solicitadas: mesma composição clean, sem hero ampliado */
+@media(min-width:981px){
+.header{height:84px;padding-left:4%;padding-right:4%}
+.header .brand,.header .brand img{width:82px;height:73px}
+.header .brand{flex-basis:82px}
+.header .nav{gap:clamp(11px,1.35vw,22px)}
+.header .nav a{font-size:clamp(11px,.73vw,13px)}
+.header-auth-actions #account-btn,.header-auth-actions #register-btn{width:105px;min-width:105px;min-height:40px;font-size:12px}
+.hero{min-height:0;padding:40px 5% 38px;grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:clamp(26px,3.4vw,58px)}
+.hero .eyebrow{font-size:10px;margin-bottom:20px}
+.hero h1{font-size:clamp(45px,3.65vw,65px);line-height:1.08;letter-spacing:-2px;margin-bottom:20px}
+.hero p{font-size:clamp(14px,.98vw,17px);line-height:1.5;margin-bottom:25px}
+.hero .actions .btn{min-height:47px;font-size:clamp(11px,.8vw,13px);padding:11px 16px}
+.hero-image{height:clamp(360px,28vw,470px)}
+.hero .tracking-float{width:min(335px,80%);min-height:100px;padding:15px;bottom:18px;right:18px}
+.hero .tracking-float b{font-size:18px}
+.hero .tracking-float small{font-size:11px}
+.hero .tracking-icon{width:54px;height:54px;flex-basis:54px}
+.hero .tracking-icon svg{width:26px;height:26px}
+.pitch-feature-strip{padding:16px 4% 36px;gap:14px}
+.pitch-feature{min-height:112px;padding:18px 15px;gap:12px;border-radius:18px}
+.pitch-feature-icon{flex-basis:33px}
+.pitch-feature-icon svg{width:30px;height:30px}
+.pitch-feature h3{font-size:clamp(12px,.88vw,15px);margin:2px 0 7px}
+.pitch-feature p{font-size:clamp(10px,.72vw,12px);line-height:1.5}
+.image-strip{height:110px}
 }
