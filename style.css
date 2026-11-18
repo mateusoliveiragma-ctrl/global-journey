@@ -575,3 +575,19 @@ body.dark-mode .hero .tracking-float{background:#f9fcff}
 }
 @media(min-width:981px) and (max-width:1250px){.hero h1{font-size:clamp(43px,4.2vw,53px)}.hero-image{margin-left:10px}}
 @media(max-width:980px){.hero-image{border-radius:27px}.hero h1 span{display:block}.pitch-feature{border-color:#d8e8fc}}
+
+/* Jornada completa e transparência do protótipo */
+.journey-progress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:20px 0}
+.journey-progress span{background:#eef6ff;color:#075fc8;border:1px solid #d6e8fa;border-radius:12px;padding:13px 10px;font-weight:800;font-size:12px;text-align:center}
+.journey-checklist{margin:20px 0;padding:22px;border:1px solid #dce9f6;background:#f7fbff;border-radius:18px;display:grid;gap:12px}
+.journey-checklist h3{font-size:19px;color:#092d50;margin:0 0 4px}
+.journey-checklist label{display:flex;gap:12px;align-items:center;font-size:14px;color:#284763;cursor:pointer}
+.journey-checklist input{accent-color:#075fc8;width:18px;height:18px;flex:none}
+.journey-checklist small,.trip-demo-note{font-size:11px;color:#61798e}
+.trip-demo-note{display:block;margin-top:7px}
+.footer-prototype{max-width:650px;margin:20px auto 10px;font-size:12px;line-height:1.6;color:#a9c0d4;text-align:center}
+.footer-prototype strong{display:block;color:#fff;margin-bottom:6px}
+.footer-prototype p{margin:0}
+body.dark-mode .journey-progress span,body.dark-mode .journey-checklist{background:#132c41;border-color:#28516c;color:#e3f1ff}
+body.dark-mode .journey-checklist h3,body.dark-mode .journey-checklist label{color:#e3f1ff}
+@media(max-width:760px){.journey-progress{grid-template-columns:repeat(2,minmax(0,1fr))}.journey-progress span{font-size:11px}.journey-checklist{padding:16px}.journey-checklist label{font-size:13px}}
