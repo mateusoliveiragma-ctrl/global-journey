@@ -694,3 +694,7 @@ body.dark-mode .footer-prototype strong{color:var(--gj-dark-text)}
   .hero-photo{inset:0;transform:none;}
   .hero .tracking-float{transform:none;right:24px;bottom:21px;}
 }
+
+/* Contraste do título AirFind no cartão da imagem principal. */
+body.dark-mode .hero .tracking-float b{color:#f2f8ff!important;opacity:1}
+body.dark-mode .hero .tracking-float .online{color:#075fc8}
