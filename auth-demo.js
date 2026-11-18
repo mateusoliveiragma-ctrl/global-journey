@@ -12,6 +12,8 @@
   const emailInput = document.querySelector('#login-email');
   const submit = document.querySelector('#auth-submit');
   const logout = document.querySelector('#account-section-btn');
+  const bottomLogout = document.querySelector('#account-signout-btn');
+  const bottomLogoutBox = document.querySelector('#account-signout');
   let mode = 'register';
   function readProfile() {
     try { const v = JSON.parse(localStorage.getItem(KEY)); return v && typeof v.name === 'string' && typeof v.email === 'string' ? v : null; }
@@ -23,6 +25,7 @@
     if(account) account.textContent = profile ? 'Minha conta' : 'Entrar';
     if(register) register.hidden = !!profile;
     if(logout) logout.textContent = profile ? 'Sair da conta' : 'Entrar';
+    if(bottomLogoutBox) bottomLogoutBox.hidden = !profile;
     document.querySelector('#account-panel')?.classList.toggle('logged',!!profile);
     const name = profile?.name || 'Viajante';
     const email = profile?.email || 'Entre no perfil demonstrativo para visualizar seus dados.';
@@ -44,10 +47,12 @@
   }
   account?.addEventListener('click',()=>activeProfile() ? showRoute('conta') : open('login'));
   register?.addEventListener('click',()=>open('register'));
+  function signOut(){sessionStorage.removeItem(ACTIVE);render();showRoute('home');}
   logout?.addEventListener('click',()=>{
     if(!activeProfile()) {open('login');return;}
-    sessionStorage.removeItem(ACTIVE);render();showRoute('home');
+    signOut();
   });
+  bottomLogout?.addEventListener('click',()=>{if(activeProfile()) signOut();});
   form?.addEventListener('submit',e=>{
     e.preventDefault();
     const email = emailInput?.value.trim().toLowerCase();
