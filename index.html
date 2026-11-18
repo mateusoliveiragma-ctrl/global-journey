@@ -274,10 +274,11 @@
     <button class="modal-close" id="close-modal" aria-label="Fechar">×</button>
     <span class="eyebrow">MINHA CONTA</span>
     <h2>Acesse sua jornada</h2>
-    <p>Crie um perfil ilustrativo para conhecer sua área de viajante.</p><p class="demo-auth-disclaimer">Modo demonstração: o perfil fica apenas neste navegador. Não é uma conta real e não exige senha.</p>
+    <p>Crie um perfil ilustrativo para conhecer sua área de viajante.</p><p class="demo-auth-disclaimer">Modo demonstração: a senha é verificada somente neste navegador. Não é uma conta online segura. Use uma senha exclusiva, diferente das suas senhas reais.</p>
     <form id="login-form">
       <label id="login-name-row" hidden>Nome<input id="login-name" type="text" placeholder="Seu nome" autocomplete="name"></label>
       <label>E-mail<input id="login-email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+      <label>Senha<input id="login-password" type="password" placeholder="Digite sua senha" autocomplete="current-password" minlength="8" required></label>
       
       <button class="btn" id="auth-submit" type="submit">Entrar na conta</button>
     </form>
