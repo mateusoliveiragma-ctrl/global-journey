@@ -686,3 +686,11 @@ body.dark-mode .airfind-price,.dark-mode .trip-summary{background:linear-gradien
 body.dark-mode .footer-prototype{color:var(--gj-dark-muted)}
 body.dark-mode .footer-prototype strong{color:var(--gj-dark-text)}
 @media(max-width:760px){body.dark-mode .nav.open{border-left:0;border-right:0}}
+
+
+/* Cartão AirFind alinhado: elimina inclinações herdadas do hero no desktop. */
+@media(min-width:981px){
+  .hero-image{transform:none; margin-left:18px;}
+  .hero-photo{inset:0;transform:none;}
+  .hero .tracking-float{transform:none;right:24px;bottom:21px;}
+}
