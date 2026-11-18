@@ -47,7 +47,8 @@ function applyTheme(theme) {
   const dark = theme === 'dark';
   document.body.classList.toggle('dark-mode', dark);
   if (themeToggle) {
-    themeToggle.textContent = dark ? '☀️' : '🌙';
+    themeToggle.innerHTML = dark ? '<i data-lucide="sun" aria-hidden="true"></i>' : '<i data-lucide="moon" aria-hidden="true"></i>';
+    window.lucide?.createIcons();
     themeToggle.setAttribute('aria-label', dark ? 'Ativar modo claro' : 'Ativar modo noturno');
     themeToggle.title = dark ? 'Modo claro' : 'Modo noturno';
   }
@@ -94,7 +95,7 @@ function updateBagMap(location, stateIndex) {
   currentDemoLocation = location;
   currentDemoIndex = stateIndex;
   if (mapLocationName) mapLocationName.textContent = location;
-  if (mapLocationMeta) mapLocationMeta.textContent = '📍 Localização simulada · não é rastreamento real';
+  if (mapLocationMeta) mapLocationMeta.textContent = 'Localização simulada · não é rastreamento real';
   const coordinates = demoCoordinates[stateIndex] || demoCoordinates[0];
   if (realMap && demoMarker) {
     demoMarker.setLatLng(coordinates).bindPopup('AirFind — localização demonstrativa: ' + location);
@@ -663,3 +664,6 @@ renderSavedTrips();
 window.addEventListener('popstate', () => showRoute(routeFromHash()));
 const firstRoute = routeFromHash();
 showRoute(firstRoute);
+
+// Renderiza ícones vetoriais somente quando a biblioteca estiver disponível.
+window.lucide?.createIcons();
